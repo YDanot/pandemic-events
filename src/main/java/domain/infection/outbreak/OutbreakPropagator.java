@@ -2,8 +2,7 @@ package domain.infection.outbreak;
 
 import domain.game.TurnId;
 import domain.board.CityName;
-import domain.events.InfectionEvent;
-import domain.events.OutbreakEvent;
+import domain.infection.InfectionEvent;
 import domain.infection.Disease;
 import infra.World;
 
@@ -15,6 +14,6 @@ public class OutbreakPropagator implements OutbreakListener{
     }
 
     private void infect(CityName c, Disease disease, TurnId turnId) {
-        World.eventBus.publish(new InfectionEvent(disease, World.network.get(c), turnId));
+        World.eventBus.publish(new InfectionEvent(disease, c, turnId));
     }
 }

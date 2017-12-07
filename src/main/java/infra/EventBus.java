@@ -1,8 +1,8 @@
 package infra;
 
 
-import domain.events.InfectionEvent;
-import domain.events.OutbreakEvent;
+import domain.infection.InfectionEvent;
+import domain.infection.outbreak.OutbreakEvent;
 import domain.infection.InfectionListener;
 import domain.infection.outbreak.OutbreakListener;
 

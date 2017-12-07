@@ -1,21 +1,19 @@
-package pandemic.feature;
+package domain.infection;
+
+import org.assertj.core.api.Assertions;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domain.infection.Disease;
-import domain.game.TurnId;
-import org.assertj.core.api.Assertions;
 import domain.board.CityName;
-import domain.infection.InfectionLevel;
-import domain.events.InfectionEvent;
+import domain.game.TurnId;
 import infra.World;
 
 public class InfectionSteps {
 
     @When("^(.*) is infected by (Blue|Black|Red|Yellow)$")
     public void cityIsInfected(CityName cityName, Disease disease) throws Throwable {
-        World.eventBus.publish(new InfectionEvent(disease, World.network.get(cityName), new TurnId()));
+        World.eventBus.publish(new InfectionEvent(disease, cityName, new TurnId()));
     }
 
     @Then("^(Blue|Black|Red|Yellow) infection level of (.*) should (?:be|stay at) (\\d+)$")

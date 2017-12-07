@@ -1,18 +1,18 @@
-package domain.events;
+package domain.infection;
 
 import domain.board.CityName;
 import domain.game.TurnId;
-import domain.infection.Disease;
 
-public class OutbreakEvent {
+public class InfectionEvent {
 
     public final CityName cityName;
-    public final TurnId turnId ;
     public final Disease disease;
+    public final TurnId turnId;
 
-    public OutbreakEvent(CityName cityName, Disease disease, TurnId turnId) {
+    public InfectionEvent(Disease disease, CityName cityName, TurnId turnId) {
         this.cityName = cityName;
         this.disease = disease;
         this.turnId = turnId;
     }
+
 }

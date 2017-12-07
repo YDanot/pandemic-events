@@ -2,9 +2,7 @@ package domain.infection.outbreak;
 
 import domain.game.TurnId;
 import domain.board.CityName;
-import domain.events.InfectionEvent;
-import domain.events.OutbreakEvent;
-import domain.infection.City;
+import domain.infection.InfectionEvent;
 import domain.infection.Disease;
 import domain.infection.InfectionListener;
 import infra.World;
@@ -13,13 +11,13 @@ public class OutbreakDetector implements InfectionListener {
 
     @Override
     public void onInfection(InfectionEvent infectionEvent) {
-        if (shouldOutbreak(infectionEvent.disease, infectionEvent.city, infectionEvent.turnId)){
-            outbreak(infectionEvent.disease, infectionEvent.city.name(), infectionEvent.turnId);
+        if (shouldOutbreak(infectionEvent.disease, infectionEvent.cityName, infectionEvent.turnId)){
+            outbreak(infectionEvent.disease, infectionEvent.cityName, infectionEvent.turnId);
         }
     }
 
-    private boolean shouldOutbreak(Disease disease, City city, TurnId turnId) {
-        return city.outbreakInfectionLevelReached(disease) && !alreadyOutbrokenInTurn(disease, city.name(), turnId);
+    private boolean shouldOutbreak(Disease disease, CityName cityName, TurnId turnId) {
+        return World.network.get(cityName).outbreakInfectionLevelReached(disease) && !alreadyOutbrokenInTurn(disease, cityName, turnId);
     }
 
     private boolean alreadyOutbrokenInTurn(Disease disease, CityName cityName, TurnId turnId) {

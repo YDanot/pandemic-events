@@ -1,4 +1,4 @@
-package pandemic.feature;
+package domain.infection.outbreak;
 
 import org.assertj.core.api.Assertions;
 

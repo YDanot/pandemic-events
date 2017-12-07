@@ -1,5 +1,5 @@
 
-package pandemic.feature;
+package domain.board;
 
 import static domain.board.CityName.ALGER;
 import static domain.board.CityName.ESSEN;
@@ -13,14 +13,12 @@ import static domain.infection.InfectionLevel.from;
 import java.util.List;
 import java.util.stream.Stream;
 
-import domain.infection.Disease;
 import org.assertj.core.api.Assertions;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import domain.board.CityName;
-import domain.board.Network;
+import domain.infection.Disease;
 import domain.infection.InfectionLevel;
 import infra.World;
 
