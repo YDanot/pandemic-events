@@ -1,4 +1,4 @@
-package domain;
+package domain.infection;
 
 import domain.events.InfectionEvent;
 

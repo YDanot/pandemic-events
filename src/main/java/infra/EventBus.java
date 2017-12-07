@@ -3,8 +3,8 @@ package infra;
 
 import domain.events.InfectionEvent;
 import domain.events.OutbreakEvent;
-import domain.InfectionListener;
-import domain.OutbreakListener;
+import domain.infection.InfectionListener;
+import domain.infection.outbreak.OutbreakListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +17,11 @@ public class EventBus {
     private final List<OutbreakEvent> outbreakEvents = new ArrayList<>();
     private final List<OutbreakListener> outbreakListeners = new ArrayList<>();
 
-    public void listenOutbreak(OutbreakListener listener){
+    void listenOutbreak(OutbreakListener listener){
         outbreakListeners.add(listener);
     }
 
-    public void listenInfection(InfectionListener listener){
+    void listenInfection(InfectionListener listener){
         infectionListeners.add(listener);
     }
 

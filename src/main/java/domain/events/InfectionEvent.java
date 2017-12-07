@@ -1,22 +1,21 @@
 package domain.events;
 
+import static domain.infection.Disease.BLUE;
 
-import domain.City;
-import domain.CityName;
-import domain.Disease;
-import domain.InfectionLevel;
-
-import static domain.Disease.BLUE;
+import domain.infection.City;
+import domain.infection.Disease;
+import domain.game.TurnId;
 
 public class InfectionEvent {
 
-    public final CityName cityName;
+    public final City city;
     public final Disease disease;
-    public final InfectionLevel originalLevel;
+    public final TurnId turnId;
 
-    public InfectionEvent(City city) {
-        this.cityName = city.name();
-        this.originalLevel = city.level();
+    public InfectionEvent(City city, TurnId turnId) {
+        this.city = city;
         this.disease = BLUE;
+        this.turnId = turnId;
     }
+
 }

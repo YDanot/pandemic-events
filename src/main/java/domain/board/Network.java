@@ -1,4 +1,6 @@
-package domain;
+package domain.board;
+
+import domain.infection.City;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +12,7 @@ import java.util.stream.Stream;
 public class Network {
 
     private final List<Link> links = new ArrayList<>();
-    private final Map<CityName,City> cityMap = new HashMap<>();
+    private final Map<CityName, City> cityMap = new HashMap<>();
 
     public void addLink(CityName cityName1, CityName cityName2){
         links.add(new Link(cityName1, cityName2));

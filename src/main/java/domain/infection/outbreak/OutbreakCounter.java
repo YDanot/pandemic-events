@@ -1,8 +1,7 @@
-package domain;
+package domain.infection.outbreak;
 
 
 import domain.events.OutbreakEvent;
-import domain.OutbreakListener;
 
 public class OutbreakCounter implements OutbreakListener{
 

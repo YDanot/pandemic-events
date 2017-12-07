@@ -1,5 +1,6 @@
-package domain;
+package domain.infection;
 
+import domain.board.CityName;
 
 public class City {
 
@@ -21,8 +22,13 @@ public class City {
 		}
 	}
 
-	public InfectionLevel level() {
+	public InfectionLevel infectionLevel() {
 		return blueLevel;
 	}
+
+	public boolean outbreakInfectionLevelReached() {
+		return blueLevel.outbreakLevelReached();
+	}
+
 
 }

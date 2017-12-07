@@ -1,12 +1,12 @@
-package domain;
+package domain.infection;
 
 public class InfectionLevel {
 
-    private static final int MAX = 3;
+    private static final int OUTBREAK_LEVEL = 3;
 
     private final int value;
 
-    public InfectionLevel(int value) {
+    private InfectionLevel(int value) {
         this.value = value;
     }
 
@@ -14,8 +14,8 @@ public class InfectionLevel {
         return new InfectionLevel(level);
     }
 
-    public InfectionLevel increase() {
-        if (value < MAX)
+    InfectionLevel increase() {
+        if (value < OUTBREAK_LEVEL)
             return from(value+1);
 
         return this;
@@ -37,7 +37,11 @@ public class InfectionLevel {
         return value;
     }
 
-    public boolean maxReached() {
-        return MAX == value;
+    boolean outbreakLevelReached() {
+        return OUTBREAK_LEVEL == value;
+    }
+
+    @Override public String toString() {
+        return String.valueOf(value);
     }
 }
