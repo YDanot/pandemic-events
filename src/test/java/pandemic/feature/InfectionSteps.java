@@ -20,36 +20,14 @@ public class InfectionSteps {
 
     @Then("^(Blue|Black|Red|Yellow) infection level of (.*) should (?:be|stay at) (\\d+)$")
     public void infectionLevelOfParisShouldBe(Disease disease, CityName cityName, int infectionLevel) throws Throwable {
-
-        Assertions.assertThat(getInfectionLevel(cityName, disease)).isEqualTo(InfectionLevel.from(disease, infectionLevel));
-    }
-
-    private InfectionLevel getInfectionLevel(CityName cityName, Disease disease) {
-        switch(disease){
-        case BLUE:
-            return World.network.get(cityName).blueInfectionLevel();
-        case BLACK:
-            return World.network.get(cityName).blackInfectionLevel();
-        }
-
-        return null;
+        Assertions.assertThat(World.network.get(cityName).infectionLevelFor(disease)).isEqualTo(InfectionLevel.from(infectionLevel));
     }
 
     @And("^(.*) has already been infected by (Blue|Black|Red|Yellow) (\\d+) times$")
     public void cityHasAlreadyBeenInfectedTimes(CityName cityName, Disease disease, int infectionTimes) throws Throwable {
         for (int i = 0; i < infectionTimes; i++) {
-            infect(cityName, disease);
+            World.network.get(cityName).infect(disease);
         }
     }
 
-    private void infect(CityName cityName, Disease disease) {
-        switch(disease){
-        case BLUE:
-            World.network.get(cityName).blueInfection();
-            break;
-        case BLACK:
-            World.network.get(cityName).blackInfection();
-            break;
-        }
-    }
 }

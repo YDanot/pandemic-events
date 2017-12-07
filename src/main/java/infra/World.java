@@ -1,5 +1,6 @@
 package infra;
 
+import domain.infection.CityInfector;
 import domain.infection.Disease;
 import domain.board.Network;
 import domain.infection.outbreak.OutbreakCounter;
@@ -26,7 +27,7 @@ public class World {
         eventBus = new EventBus();
         network = new Network();
         outbreakCounter = new OutbreakCounter();
-        eventBus.listenInfection(Disease.BLUE);
+        eventBus.listenInfection(new CityInfector());
         eventBus.listenInfection(new OutbreakDetector());
         eventBus.listenOutbreak(new OutbreakPropagator());
         eventBus.listenOutbreak(outbreakCounter);

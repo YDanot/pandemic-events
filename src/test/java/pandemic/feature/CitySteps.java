@@ -52,11 +52,11 @@ public class CitySteps {
 			List<CityInfectionLevel> expectedCityInfectionLevels) throws Throwable {
 
 		expectedCityInfectionLevels.forEach(cityInfectionLevel -> Assertions
-				.assertThat(World.network.get(cityInfectionLevel.cityName).blueInfectionLevel())
+				.assertThat(World.network.get(cityInfectionLevel.cityName).infectionLevelFor(Disease.BLUE))
 				.as(cityInfectionLevel.cityName + " blueInfectionLevel").isEqualTo(cityInfectionLevel.getBlueLevel()));
 
 		expectedCityInfectionLevels.forEach(cityInfectionLevel -> Assertions
-				.assertThat(World.network.get(cityInfectionLevel.cityName).blackInfectionLevel())
+				.assertThat(World.network.get(cityInfectionLevel.cityName).infectionLevelFor(Disease.BLACK))
 				.as(cityInfectionLevel.cityName + " blackInfectionLevel").isEqualTo(cityInfectionLevel.getBlackLevel()));
 	}
 
@@ -79,11 +79,11 @@ public class CitySteps {
 		}
 
 		private InfectionLevel getBlueLevel() {
-			return from(Disease.BLUE, blueLevel);
+			return from(blueLevel);
 		}
 
 		private InfectionLevel getBlackLevel() {
-			return from(Disease.BLACK, blackLevel);
+			return from(blackLevel);
 		}
 	}
 

@@ -19,21 +19,7 @@ public class OutbreakDetector implements InfectionListener {
     }
 
     private boolean shouldOutbreak(Disease disease, City city, TurnId turnId) {
-        return diseaseOutbreakInfectionLevelReached(disease, city) && !alreadyOutbrokenInTurn(disease, city.name(), turnId);
-    }
-
-    private boolean diseaseOutbreakInfectionLevelReached(Disease disease, City city) {
-        boolean diseaseOutbreakInfectionLevelReached = false;
-        switch(disease){
-
-        case BLUE:
-            diseaseOutbreakInfectionLevelReached = city.blueOutbreakInfectionLevelReached();
-            break;
-        case BLACK:
-            diseaseOutbreakInfectionLevelReached = city.blackOutbreakInfectionLevelReached();
-            break;
-        }
-        return diseaseOutbreakInfectionLevelReached;
+        return city.outbreakInfectionLevelReached(disease) && !alreadyOutbrokenInTurn(disease, city.name(), turnId);
     }
 
     private boolean alreadyOutbrokenInTurn(Disease disease, CityName cityName, TurnId turnId) {

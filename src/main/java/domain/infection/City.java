@@ -1,44 +1,36 @@
 package domain.infection;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import domain.board.CityName;
 
 public class City {
 
+	private Map<Disease, InfectionLevel> infections = new HashMap<>();
 	private final CityName cityName;
-	private InfectionLevel blackLevel;
-	private InfectionLevel blueLevel;
 
 	public City(CityName cityName) {
 		this.cityName = cityName;
-		this.blueLevel = InfectionLevel.from(Disease.BLUE, 0);
-		this.blackLevel = InfectionLevel.from(Disease.BLACK, 0);
+		for (Disease disease : Disease.values()) {
+			infections.put(disease, InfectionLevel.from(0));
+		}
 	}
 
 	public CityName name() {
 		return cityName;
 	}
 
-	public void blackInfection(){
-		blackLevel = blackLevel.increase();
+	public void infect(Disease disease){
+		infections.put(disease, infectionLevelFor(disease).increase());
 	}
 
-	public void blueInfection(){
-		blueLevel = blueLevel.increase();
+	public InfectionLevel infectionLevelFor(Disease disease) {
+		return infections.get(disease);
 	}
 
-	public InfectionLevel blueInfectionLevel() {
-		return blueLevel;
+	public boolean outbreakInfectionLevelReached(Disease disease) {
+		return infectionLevelFor(disease).outbreakLevelReached();
 	}
 
-	public boolean blueOutbreakInfectionLevelReached() {
-		return blueLevel.outbreakLevelReached();
-	}
-
-	public boolean blackOutbreakInfectionLevelReached() {
-		return blackLevel.outbreakLevelReached();
-	}
-
-	public InfectionLevel blackInfectionLevel() {
-		return this.blackLevel;
-	}
 }
