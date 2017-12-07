@@ -1,4 +1,4 @@
-package pandemic.feature;
+package run;
 
 import cucumber.api.java.Before;
 import infra.World;
