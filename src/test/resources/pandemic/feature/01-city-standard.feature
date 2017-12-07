@@ -2,17 +2,20 @@ Feature: Standard Definition
 
   Scenario: Occident network definition
 
-#   (LONDON)___(ESSEN)
-#     | \       / |
-#     |  \     /  |
-#     |   \   /   |
-#     |  (PARIS)  |
-#     |   / | \   |
-#     |  /  |  \  |
-#     | /   |   \ |
-#  (MADRID) | (MILAN)
-#        \  |
-#        (ALGER)
+#   (LONDON)------------------(ESSEN)
+#     | \                     /  |
+#     |    \                /    |
+#     |       \           /      |
+#     |          (PARIS)         |
+#     |       /    |     \       |
+#     |    /       |        \    |
+#     | /          |           \ |
+#  (MADRID)        |          (MILAN)
+#      \           |
+#         \        |
+#            \     |
+#               \  |
+#               (ALGER)
 
     Given the occident initial sub-network
     Then the cities should have the following infection levels:
