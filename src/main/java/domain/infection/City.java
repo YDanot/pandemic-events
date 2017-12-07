@@ -5,30 +5,40 @@ import domain.board.CityName;
 public class City {
 
 	private final CityName cityName;
+	private InfectionLevel blackLevel;
 	private InfectionLevel blueLevel;
 
 	public City(CityName cityName) {
 		this.cityName = cityName;
-		this.blueLevel = InfectionLevel.from(0);
+		this.blueLevel = InfectionLevel.from(Disease.BLUE, 0);
+		this.blackLevel = InfectionLevel.from(Disease.BLACK, 0);
 	}
 
 	public CityName name() {
 		return cityName;
 	}
 
-	public void infect(Disease disease){
-		if (Disease.BLUE.equals(disease)) {
-			blueLevel = blueLevel.increase();
-		}
+	public void blackInfection(){
+		blackLevel = blackLevel.increase();
 	}
 
-	public InfectionLevel infectionLevel() {
+	public void blueInfection(){
+		blueLevel = blueLevel.increase();
+	}
+
+	public InfectionLevel blueInfectionLevel() {
 		return blueLevel;
 	}
 
-	public boolean outbreakInfectionLevelReached() {
+	public boolean blueOutbreakInfectionLevelReached() {
 		return blueLevel.outbreakLevelReached();
 	}
 
+	public boolean blackOutbreakInfectionLevelReached() {
+		return blackLevel.outbreakLevelReached();
+	}
 
+	public InfectionLevel blackInfectionLevel() {
+		return this.blackLevel;
+	}
 }

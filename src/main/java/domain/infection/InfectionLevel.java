@@ -4,19 +4,23 @@ public class InfectionLevel {
 
     private static final int OUTBREAK_LEVEL = 3;
 
+    private final Disease disease;
+
     private final int value;
 
-    private InfectionLevel(int value) {
+    private InfectionLevel(Disease disease, int value) {
+        this.disease = disease;
         this.value = value;
     }
 
-    public static InfectionLevel from(int level) {
-        return new InfectionLevel(level);
+
+    public static InfectionLevel from(Disease disease, int level) {
+        return new InfectionLevel(disease, level);
     }
 
     InfectionLevel increase() {
         if (value < OUTBREAK_LEVEL)
-            return from(value+1);
+            return from(disease, value+1);
 
         return this;
     }

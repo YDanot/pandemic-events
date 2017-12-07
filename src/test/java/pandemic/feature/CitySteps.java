@@ -13,6 +13,7 @@ import static domain.infection.InfectionLevel.from;
 import java.util.List;
 import java.util.stream.Stream;
 
+import domain.infection.Disease;
 import org.assertj.core.api.Assertions;
 
 import cucumber.api.java.en.And;
@@ -49,9 +50,14 @@ public class CitySteps {
 	@Then("^the cities should have the following infection levels:$")
 	public void the_cities_should_have_the_following_infection_levels(
 			List<CityInfectionLevel> expectedCityInfectionLevels) throws Throwable {
+
 		expectedCityInfectionLevels.forEach(cityInfectionLevel -> Assertions
-				.assertThat(World.network.get(cityInfectionLevel.cityName).infectionLevel())
-				.as(cityInfectionLevel.cityName + " infectionLevel").isEqualTo(cityInfectionLevel.getLevel()));
+				.assertThat(World.network.get(cityInfectionLevel.cityName).blueInfectionLevel())
+				.as(cityInfectionLevel.cityName + " blueInfectionLevel").isEqualTo(cityInfectionLevel.getBlueLevel()));
+
+		expectedCityInfectionLevels.forEach(cityInfectionLevel -> Assertions
+				.assertThat(World.network.get(cityInfectionLevel.cityName).blackInfectionLevel())
+				.as(cityInfectionLevel.cityName + " blackInfectionLevel").isEqualTo(cityInfectionLevel.getBlackLevel()));
 	}
 
 	@And("^(.*) should be linked to ([^\"]*).$")
@@ -63,15 +69,21 @@ public class CitySteps {
 
 		final CityName cityName;
 
-		final int level;
+		final int blueLevel;
+		final int blackLevel;
 
-		public CityInfectionLevel(CityName cityName, int level) {
+		public CityInfectionLevel(CityName cityName, int blueLevel, int blackLevel) {
 			this.cityName = cityName;
-			this.level = level;
+			this.blueLevel = blueLevel;
+			this.blackLevel = blackLevel;
 		}
 
-		private InfectionLevel getLevel() {
-			return from(level);
+		private InfectionLevel getBlueLevel() {
+			return from(Disease.BLUE, blueLevel);
+		}
+
+		private InfectionLevel getBlackLevel() {
+			return from(Disease.BLACK, blackLevel);
 		}
 	}
 

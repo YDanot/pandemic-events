@@ -13,20 +13,43 @@ import infra.World;
 
 public class InfectionSteps {
 
-    @When("^(.*) is infected$")
-    public void cityIsInfected(CityName cityName) throws Throwable {
-        World.eventBus.publish(new InfectionEvent(World.network.get(cityName), new TurnId()));
+    @When("^(.*) is infected by (Blue|Black|Red|Yellow)$")
+    public void cityIsInfected(CityName cityName, Disease disease) throws Throwable {
+        World.eventBus.publish(new InfectionEvent(disease, World.network.get(cityName), new TurnId()));
     }
 
-    @Then("^infection level of (.*) should (?:be|stay at) (\\d+)$")
-    public void infectionLevelOfParisShouldBe(CityName cityName, int infectionLevel) throws Throwable {
-        Assertions.assertThat(World.network.get(cityName).infectionLevel()).isEqualTo(InfectionLevel.from(infectionLevel));
+    @Then("^(Blue|Black|Red|Yellow) infection level of (.*) should (?:be|stay at) (\\d+)$")
+    public void infectionLevelOfParisShouldBe(Disease disease, CityName cityName, int infectionLevel) throws Throwable {
+
+        Assertions.assertThat(getInfectionLevel(cityName, disease)).isEqualTo(InfectionLevel.from(disease, infectionLevel));
     }
 
-    @And("^(.*) has already been infected (\\d+) times$")
-    public void cityHasAlreadyBeenInfectedTimes(CityName cityName, int infectionTimes) throws Throwable {
+    private InfectionLevel getInfectionLevel(CityName cityName, Disease disease) {
+        switch(disease){
+        case BLUE:
+            return World.network.get(cityName).blueInfectionLevel();
+        case BLACK:
+            return World.network.get(cityName).blackInfectionLevel();
+        }
+
+        return null;
+    }
+
+    @And("^(.*) has already been infected by (Blue|Black|Red|Yellow) (\\d+) times$")
+    public void cityHasAlreadyBeenInfectedTimes(CityName cityName, Disease disease, int infectionTimes) throws Throwable {
         for (int i = 0; i < infectionTimes; i++) {
-            World.network.get(cityName).infect(Disease.BLUE);
+            infect(cityName, disease);
+        }
+    }
+
+    private void infect(CityName cityName, Disease disease) {
+        switch(disease){
+        case BLUE:
+            World.network.get(cityName).blueInfection();
+            break;
+        case BLACK:
+            World.network.get(cityName).blackInfection();
+            break;
         }
     }
 }

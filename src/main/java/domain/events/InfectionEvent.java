@@ -1,10 +1,8 @@
 package domain.events;
 
-import static domain.infection.Disease.BLUE;
-
+import domain.game.TurnId;
 import domain.infection.City;
 import domain.infection.Disease;
-import domain.game.TurnId;
 
 public class InfectionEvent {
 
@@ -12,9 +10,9 @@ public class InfectionEvent {
     public final Disease disease;
     public final TurnId turnId;
 
-    public InfectionEvent(City city, TurnId turnId) {
+    public InfectionEvent(Disease disease, City city, TurnId turnId) {
         this.city = city;
-        this.disease = BLUE;
+        this.disease = disease;
         this.turnId = turnId;
     }
 
