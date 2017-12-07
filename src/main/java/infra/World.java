@@ -1,27 +1,18 @@
 package infra;
 
-import domain.infection.CityInfector;
-import domain.infection.Disease;
 import domain.board.Network;
+import domain.infection.CityInfector;
 import domain.infection.outbreak.OutbreakCounter;
 import domain.infection.outbreak.OutbreakDetector;
 import domain.infection.outbreak.OutbreakPropagator;
 import domain.infection.outbreak.OutbrokenCityFinder;
-import domain.infection.outbreak.OutbrokenCityMarker;
 
 public class World {
 
     public static EventBus eventBus;
     public static Network network;
     public static OutbreakCounter outbreakCounter;
-    public static OutbrokenCityFinder outbrokenCityFinder;
-    public static OutbrokenCityMarker outbrokenCityMarker;
-
-    static {
-        InMemoryOutbrokenCityDao inMemoryOutbrokenCityDao = new InMemoryOutbrokenCityDao();
-        outbrokenCityFinder = inMemoryOutbrokenCityDao;
-        outbrokenCityMarker = inMemoryOutbrokenCityDao;
-    }
+    public static OutbrokenCityFinder outbrokenCityFinder = new EventSourcingOutbrokenCityDao();
 
     public static void create() {
         eventBus = new EventBus();

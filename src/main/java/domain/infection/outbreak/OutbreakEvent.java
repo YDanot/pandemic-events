@@ -6,9 +6,9 @@ import domain.infection.Disease;
 
 public class OutbreakEvent {
 
-    final CityName cityName;
-    final TurnId turnId ;
-    final Disease disease;
+    public final CityName cityName;
+    public final TurnId turnId ;
+    public final Disease disease;
 
     OutbreakEvent(CityName cityName, Disease disease, TurnId turnId) {
         this.cityName = cityName;

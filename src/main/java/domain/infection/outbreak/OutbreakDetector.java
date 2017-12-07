@@ -25,7 +25,6 @@ public class OutbreakDetector implements InfectionListener {
     }
 
     private void outbreak(Disease disease, CityName cityName, TurnId turnId) {
-        World.outbrokenCityMarker.mark(turnId, cityName, disease);
         World.eventBus.publish(new OutbreakEvent(cityName, disease, turnId));
     }
 }

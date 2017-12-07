@@ -11,10 +11,10 @@ import java.util.List;
 
 public class EventBus {
 
-    private final List<InfectionEvent> infectionEvents = new ArrayList<>(); //TODO Event Sourcing style
+    private final List<InfectionEvent> infectionEvents = new ArrayList<>();
     private final List<InfectionListener> infectionListeners = new ArrayList<>();
 
-    private final List<OutbreakEvent> outbreakEvents = new ArrayList<>(); //TODO Event Sourcing style
+    final List<OutbreakEvent> outbreakEvents = new ArrayList<>();
     private final List<OutbreakListener> outbreakListeners = new ArrayList<>();
 
     void listenOutbreak(OutbreakListener listener){
