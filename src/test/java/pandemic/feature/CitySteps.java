@@ -1,70 +1,88 @@
+
 package pandemic.feature;
+
+import static domain.CityName.ALGER;
+import static domain.CityName.ESSEN;
+import static domain.CityName.LONDON;
+import static domain.CityName.MADRID;
+import static domain.CityName.MILAN;
+import static domain.CityName.NEW_YORK;
+import static domain.CityName.PARIS;
+import static domain.InfectionLevel.from;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import domain.City;
+import org.assertj.core.api.Assertions;
 
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import org.assertj.core.api.Assertions;
-import pandemic.City;
-import pandemic.InfectionLevel;
-import pandemic.Network;
-import pandemic.events.World;
-
-import java.util.List;
-import java.util.stream.Stream;
-
-import static pandemic.City.*;
-import static pandemic.InfectionLevel.from;
+import domain.CityName;
+import domain.InfectionLevel;
+import domain.Network;
+import infra.World;
 
 public class CitySteps {
 
-    @After
-    public void reset(){
-        World.reset();
-    }
+	@After
+	public void reset() {
+		World.reset();
+	}
 
-    @Given("^the occident initial sub-network$")
-    public void the_occident_sub_network() throws Throwable {
-        getNetwork().addLink(PARIS, LONDON);
-        getNetwork().addLink(PARIS, MADRID);
-        getNetwork().addLink(PARIS, ESSEN);
-        getNetwork().addLink(PARIS, MILAN);
-        getNetwork().addLink(PARIS, ALGER);
-        getNetwork().addLink(LONDON, ESSEN);
-    }
+	@Given("^the occident initial sub-network$")
+	public void the_occident_sub_network() throws Throwable {
+		createCities(PARIS, LONDON, MADRID, ESSEN, MILAN, ALGER, NEW_YORK);
 
-    @Then("^the cities should have the following infection levels:$")
-    public void the_cities_should_have_the_following_infection_levels(List<CityInfectionLevel> expectedCityInfectionLevels) throws Throwable {
-        expectedCityInfectionLevels.forEach(cityInfectionLevel ->
-                Assertions.assertThat(cityInfectionLevel.city.level).isEqualTo(cityInfectionLevel.getLevel())
-        );
-    }
+		getNetwork().addLink(PARIS, LONDON);
+		getNetwork().addLink(PARIS, MADRID);
+		getNetwork().addLink(PARIS, ESSEN);
+		getNetwork().addLink(PARIS, MILAN);
+		getNetwork().addLink(PARIS, ALGER);
+		getNetwork().addLink(LONDON, ESSEN);
+	}
 
-    @And("^(.*) should be linked to ([^\"]*).$")
-    public void cityShouldBeLinkedToLinkedCities(City city, List<City> linkedCities) throws Throwable {
-        Assertions.assertThat(citiesLinkedTo(city).allMatch(linkedCities::contains)).isTrue();
-    }
+	private void createCities(CityName... cityNames) {
+		for (CityName cityName : cityNames) {
+			getNetwork().addCity(cityName);
+		}
+	}
 
-    private static class CityInfectionLevel {
+	@Then("^the cities should have the following infection levels:$")
+	public void the_cities_should_have_the_following_infection_levels(
+			List<CityInfectionLevel> expectedCityInfectionLevels) throws Throwable {
+		expectedCityInfectionLevels.forEach(cityInfectionLevel -> Assertions
+				.assertThat(World.getNetwork().get(cityInfectionLevel.cityName).level()).isEqualTo(cityInfectionLevel.getLevel()));
+	}
 
-        final City city;
-        final int level;
+	@And("^(.*) should be linked to ([^\"]*).$")
+	public void cityShouldBeLinkedToLinkedCities(CityName cityName, List<CityName> linkedCities) throws Throwable {
+		Assertions.assertThat(citiesLinkedTo(cityName).allMatch(linkedCities::contains)).isTrue();
+	}
 
-        public CityInfectionLevel(City city, int level) {
-            this.city = city;
-            this.level = level;
-        }
+	private static class CityInfectionLevel {
 
-        public InfectionLevel getLevel() {
-            return from(level);
-        }
-    }
+		final CityName cityName;
 
-    private Stream<City> citiesLinkedTo(City city) {
-        return getNetwork().citiesLinkedTo(city);
-    }
+		final int level;
 
-    private Network getNetwork() {
-        return World.get().network;
-    }
+		public CityInfectionLevel(CityName cityName, int level) {
+			this.cityName = cityName;
+			this.level = level;
+		}
+
+		public InfectionLevel getLevel() {
+			return from(level);
+		}
+	}
+
+	private Stream<CityName> citiesLinkedTo(CityName cityName) {
+		return getNetwork().citiesLinkedTo(cityName);
+	}
+
+	private Network getNetwork() {
+		return World.getNetwork();
+	}
 }

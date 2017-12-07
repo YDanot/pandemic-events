@@ -11,8 +11,8 @@ Feature: Outbreaking
     And Paris has already been infected 3 times
     When Paris is infected
     Then the cities should have the following infection levels:
-      | city   | level |
-      | London | 1     |
-      | Essen  | 1     |
-      | Alger  | 1     |
-      | Madrid | 1     |
+      | cityName | level |
+      | London   | 1     |
+      | Essen    | 1     |
+      | Alger    | 1     |
+      | Madrid   | 1     |

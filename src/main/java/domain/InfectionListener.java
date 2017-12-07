@@ -1,5 +1,6 @@
-package pandemic.events;
+package domain;
 
+import domain.events.InfectionEvent;
 
 public interface InfectionListener {
 

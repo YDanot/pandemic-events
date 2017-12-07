@@ -1,5 +1,8 @@
-package pandemic.events;
+package domain;
 
+import domain.events.InfectionEvent;
+import domain.events.OutbreakEvent;
+import infra.World;
 
 public class OutbreakDetector implements InfectionListener{
 
@@ -7,7 +10,7 @@ public class OutbreakDetector implements InfectionListener{
     public void onInfection(InfectionEvent infectionEvent) {
 
         if (infectionEvent.originalLevel.maxReached()){
-            World.get().eventBus.publish(new OutbreakEvent(infectionEvent.city));
+            World.publish(new OutbreakEvent(infectionEvent.cityName));
         }
     }
 }

@@ -3,8 +3,8 @@ package pandemic.feature;
 import cucumber.api.java.After;
 import cucumber.api.java.en.Then;
 import org.assertj.core.api.Assertions;
-import pandemic.OutbreakCounter;
-import pandemic.events.World;
+import domain.OutbreakCounter;
+import infra.World;
 
 public class OutbreakSteps {
 
@@ -15,7 +15,7 @@ public class OutbreakSteps {
     
     @Then("^outbreak counter value should be (\\d+)$")
     public void outbreakCounterValueShouldBe(int expectedOutbreakCounter) throws Throwable {
-        OutbreakCounter outbreakCounter = World.get().outbreakCounter;
+        OutbreakCounter outbreakCounter = World.getOutbreakCounter();
         Assertions.assertThat(outbreakCounter.value).isEqualTo(expectedOutbreakCounter);
     }
 }

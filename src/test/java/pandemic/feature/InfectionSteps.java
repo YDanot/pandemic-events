@@ -4,12 +4,14 @@ import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import domain.Disease;
 import org.assertj.core.api.Assertions;
-import pandemic.City;
-import pandemic.InfectionLevel;
-import pandemic.events.InfectionEvent;
-import pandemic.events.World;
+import domain.CityName;
+import domain.InfectionLevel;
+import domain.events.InfectionEvent;
+import infra.World;
 
+import static infra.World.getNetwork;
 
 public class InfectionSteps {
 
@@ -19,19 +21,19 @@ public class InfectionSteps {
     }
 
     @When("^(.*) is infected$")
-    public void cityIsInfected(City city) throws Throwable {
-        World.get().eventBus.publish(new InfectionEvent(city));
+    public void cityIsInfected(CityName cityName) throws Throwable {
+        World.publish(new InfectionEvent(getNetwork().get(cityName)));
     }
 
     @Then("^infection level of (.*) should (?:be|stay at) (\\d+)$")
-    public void infectionLevelOfParisShouldBe(City city, int infectionLevel) throws Throwable {
-        Assertions.assertThat(city.level).isEqualTo(InfectionLevel.from(infectionLevel));
+    public void infectionLevelOfParisShouldBe(CityName cityName, int infectionLevel) throws Throwable {
+        Assertions.assertThat(World.getNetwork().get(cityName).level()).isEqualTo(InfectionLevel.from(infectionLevel));
     }
 
     @And("^(.*) has already been infected (\\d+) times$")
-    public void cityHasAlreadyBeenInfectedTimes(City city, int infectionTimes) throws Throwable {
+    public void cityHasAlreadyBeenInfectedTimes(CityName cityName, int infectionTimes) throws Throwable {
         for (int i = 0; i < infectionTimes; i++) {
-            city.infect();
+            World.getNetwork().get(cityName).infect(Disease.BLUE);
         }
     }
 }

@@ -1,4 +1,4 @@
-package pandemic;
+package domain;
 
 public class InfectionLevel {
 

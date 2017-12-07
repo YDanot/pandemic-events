@@ -1,5 +1,10 @@
-package pandemic.events;
+package infra;
 
+
+import domain.events.InfectionEvent;
+import domain.events.OutbreakEvent;
+import domain.InfectionListener;
+import domain.OutbreakListener;
 
 import java.util.ArrayList;
 import java.util.List;

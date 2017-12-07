@@ -1,8 +1,8 @@
-package pandemic;
+package domain;
 
 
-import pandemic.events.OutbreakEvent;
-import pandemic.events.OutbreakListener;
+import domain.events.OutbreakEvent;
+import domain.OutbreakListener;
 
 public class OutbreakCounter implements OutbreakListener{
 
