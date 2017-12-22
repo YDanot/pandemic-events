@@ -29,3 +29,5 @@ Feature: Standard Definition
     And Paris should be linked to London, Essen, Milan, Alger, Madrid.
     And Essen should be linked to London, Paris, Milan.
     And Madrid should be linked to London, Paris, Alger.
+    And There should be 40 blue cubes available
+    And There should be 40 black cubes available

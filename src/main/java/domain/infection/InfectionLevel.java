@@ -3,6 +3,8 @@ package domain.infection;
 
 public class InfectionLevel {
 
+    public static final InfectionLevel ZERO = from(0);
+
 	private static final int OUTBREAK_LEVEL = 3;
 
 	private final int value;

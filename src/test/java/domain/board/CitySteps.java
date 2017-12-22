@@ -1,26 +1,20 @@
 
 package domain.board;
 
-import static domain.board.CityName.ALGER;
-import static domain.board.CityName.ESSEN;
-import static domain.board.CityName.LONDON;
-import static domain.board.CityName.MADRID;
-import static domain.board.CityName.MILAN;
-import static domain.board.CityName.NEW_YORK;
-import static domain.board.CityName.PARIS;
-import static domain.infection.InfectionLevel.from;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import domain.cube.CubeBank;
+import domain.infection.Disease;
+import domain.infection.InfectionLevel;
+import infra.World;
+import org.assertj.core.api.Assertions;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.Assertions;
-
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import domain.infection.Disease;
-import domain.infection.InfectionLevel;
-import infra.World;
+import static domain.board.CityName.*;
+import static domain.infection.InfectionLevel.from;
 
 public class CitySteps {
 
@@ -63,6 +57,18 @@ public class CitySteps {
 		Assertions.assertThat(citiesLinkedTo(cityName).allMatch(linkedCities::contains)).isTrue();
 	}
 
+	public CubeBank getCubeBank() {
+		return World.cubeBank;
+	}
+
+	private Stream<CityName> citiesLinkedTo(CityName cityName) {
+		return getNetwork().citiesLinkedTo(cityName);
+	}
+
+	private Network getNetwork() {
+		return World.network;
+	}
+
 	private static class CityInfectionLevel {
 
 		final CityName cityName;
@@ -83,13 +89,5 @@ public class CitySteps {
 		private InfectionLevel getBlackLevel() {
 			return from(blackLevel);
 		}
-	}
-
-	private Stream<CityName> citiesLinkedTo(CityName cityName) {
-		return getNetwork().citiesLinkedTo(cityName);
-	}
-
-	private Network getNetwork() {
-		return World.network;
 	}
 }

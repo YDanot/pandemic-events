@@ -5,33 +5,37 @@ import domain.infection.InfectionLevel;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class City {
 
-	private final CityName cityName;
-	private Map<Disease, InfectionLevel> infections = new HashMap<>();
+    private final CityName cityName;
+    private Map<Disease, InfectionLevel> infections = new HashMap<>();
 
-	City(CityName cityName) {
-		this.cityName = cityName;
-		for (Disease disease : Disease.values()) {
-			infections.put(disease, InfectionLevel.from(0));
-		}
-	}
+    City(CityName cityName) {
+        this.cityName = cityName;
+        Stream.of(Disease.values())
+                .forEach(this::initInfectionLevel);
+    }
 
-	public CityName name() {
-		return cityName;
-	}
+    private InfectionLevel initInfectionLevel(Disease disease) {
+        return infections.put(disease, InfectionLevel.ZERO);
+    }
 
-	public void infect(Disease disease){
-		infections.put(disease, infectionLevelFor(disease).increase());
-	}
+    public CityName name() {
+        return cityName;
+    }
 
-	public InfectionLevel infectionLevelFor(Disease disease) {
-		return infections.get(disease);
-	}
+    public void infect(Disease disease) {
+        infections.put(disease, infectionLevelFor(disease).increase());
+    }
 
-	public boolean outbreakInfectionLevelReached(Disease disease) {
-		return infectionLevelFor(disease).outbreakLevelReached();
-	}
+    public InfectionLevel infectionLevelFor(Disease disease) {
+        return infections.get(disease);
+    }
+
+    public boolean outbreakInfectionLevelReached(Disease disease) {
+        return infectionLevelFor(disease).outbreakLevelReached();
+    }
 
 }
