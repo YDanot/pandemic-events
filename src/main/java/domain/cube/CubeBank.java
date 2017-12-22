@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class CubeBank implements InfectionListener {
 
-    private static final int CUBE_INITIAL_NUMBER = 40;
+    private static final int CUBE_INITIAL_NUMBER = 24;
 
     private Map<Disease, Integer> cubesByDisease = new HashMap<>();
 
