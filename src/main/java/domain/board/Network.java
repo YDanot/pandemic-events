@@ -1,12 +1,6 @@
 package domain.board;
 
-import domain.infection.City;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Network {
@@ -14,18 +8,18 @@ public class Network {
     private final List<Link> links = new ArrayList<>();
     private final Map<CityName, City> cityMap = new HashMap<>();
 
-    public void addLink(CityName cityName1, CityName cityName2){
+    void addLink(CityName cityName1, CityName cityName2) {
         links.add(new Link(cityName1, cityName2));
     }
 
-    public City addCity(CityName cityName1) {
+    City addCity(CityName cityName1) {
         return cityMap.put(cityName1, new City(cityName1));
     }
 
     public Stream<CityName> citiesLinkedTo(CityName cityName){
         return links.stream()
                 .filter(l -> l.contains(cityName))
-                .map(l -> l.other(cityName).get());
+                .map(l -> l.other(cityName).orElseThrow(SingleCityInLinkException::new));
     }
 
     public City get(CityName cityName) {
@@ -37,12 +31,16 @@ public class Network {
         private final CityName city2;
 
         private Link(CityName cityName1, CityName cityName2) {
-            if (cityName1 == null || cityName2 == null){
-                throw new NullPointerException("cities must be defined");
-            }
+            assertCitiesNotNull(cityName1, cityName2);
 
             this.city1 = cityName1;
             this.city2 = cityName2;
+        }
+
+        private void assertCitiesNotNull(CityName cityName1, CityName cityName2) {
+            if (cityName1 == null || cityName2 == null) {
+                throw new NullPointerException("city " + (cityName1 == null ? "1" : "2") + " must be defined");
+            }
         }
 
         private boolean contains(CityName cityName){
@@ -58,5 +56,8 @@ public class Network {
             }
             return Optional.empty();
         }
+    }
+
+    private class SingleCityInLinkException extends RuntimeException {
     }
 }

@@ -15,7 +15,7 @@ public class InfectionLevel {
 		return new InfectionLevel(level);
 	}
 
-	InfectionLevel increase() {
+	public InfectionLevel increase() {
 		if (value < OUTBREAK_LEVEL)
 			return from(value + 1);
 
@@ -40,7 +40,7 @@ public class InfectionLevel {
 		return value;
 	}
 
-	boolean outbreakLevelReached() {
+	public boolean outbreakLevelReached() {
 		return OUTBREAK_LEVEL == value;
 	}
 

@@ -1,16 +1,17 @@
-package domain.infection;
+package domain.board;
+
+import domain.infection.Disease;
+import domain.infection.InfectionLevel;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import domain.board.CityName;
-
 public class City {
 
-	private Map<Disease, InfectionLevel> infections = new HashMap<>();
 	private final CityName cityName;
+	private Map<Disease, InfectionLevel> infections = new HashMap<>();
 
-	public City(CityName cityName) {
+	City(CityName cityName) {
 		this.cityName = cityName;
 		for (Disease disease : Disease.values()) {
 			infections.put(disease, InfectionLevel.from(0));
