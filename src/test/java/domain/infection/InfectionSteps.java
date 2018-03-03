@@ -1,19 +1,26 @@
 package domain.infection;
 
-import org.assertj.core.api.Assertions;
-
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import domain.board.CityName;
 import domain.game.TurnId;
 import infra.World;
+import org.assertj.core.api.Assertions;
 
 public class InfectionSteps {
 
+    private TurnId currentTurnId;
+
+    @Before
+    public void startTurn() {
+        currentTurnId = new TurnId();
+    }
+
     @When("^(.*) is infected by (Blue|Black|Red|Yellow)$")
     public void cityIsInfected(CityName cityName, Disease disease) throws Throwable {
-        World.eventBus.publish(new InfectionEvent(disease, cityName, new TurnId()));
+        infect(cityName, disease);
     }
 
     @Then("^(Blue|Black|Red|Yellow) infection level of (.*) should (?:be|stay at) (\\d+)$")
@@ -24,8 +31,12 @@ public class InfectionSteps {
     @And("^(.*) has already been infected by (Blue|Black|Red|Yellow) (\\d+) times$")
     public void cityHasAlreadyBeenInfectedTimes(CityName cityName, Disease disease, int infectionTimes) throws Throwable {
         for (int i = 0; i < infectionTimes; i++) {
-            World.network.get(cityName).infect(disease);
+            infect(cityName, disease);
         }
+    }
+
+    private void infect(CityName cityName, Disease disease) {
+        World.eventBus.publish(new InfectionEvent(disease, cityName, currentTurnId));
     }
 
 }

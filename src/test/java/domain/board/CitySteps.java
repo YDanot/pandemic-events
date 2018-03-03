@@ -52,7 +52,7 @@ public class CitySteps {
 				.as(cityInfectionLevel.cityName + " blackInfectionLevel").isEqualTo(cityInfectionLevel.getBlackLevel()));
 	}
 
-	@And("^(.*) should be linked to ([^\"]*).$")
+	@And("^(.*) should be linked to (.*).$")
 	public void cityShouldBeLinkedToLinkedCities(CityName cityName, List<CityName> linkedCities) throws Throwable {
 		Assertions.assertThat(citiesLinkedTo(cityName).allMatch(linkedCities::contains)).isTrue();
 	}
