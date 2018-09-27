@@ -3,7 +3,6 @@ package domain.treatment;
 import cucumber.api.java.en.When;
 import domain.board.CityName;
 import domain.infection.Disease;
-import domain.infection.InfectionEvent;
 import infra.World;
 
 
