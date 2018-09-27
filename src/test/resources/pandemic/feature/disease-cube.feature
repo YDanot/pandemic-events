@@ -16,3 +16,9 @@ Feature: Disease cubes
     And 23 blue cubes has been taken from bank
     When Paris is infected by Blue
     Then game should be lost
+
+  Scenario: Cube counter increment on treatment
+    Given the occident initial sub-network
+    And Paris has already been infected by Blue 1 time
+    When Blue is treated in Paris
+    Then There should be 24 blue cubes available

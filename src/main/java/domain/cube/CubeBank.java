@@ -36,7 +36,7 @@ public class CubeBank {
         }
     }
 
-    public void setCubeNumber(Disease disease, int cubesleft) {
-        cubesByDisease.put(disease, cubesleft);
+    public void putBackCube(Disease disease) {
+        cubesByDisease.put(disease, getRemainingCubes(disease) + 1);
     }
 }

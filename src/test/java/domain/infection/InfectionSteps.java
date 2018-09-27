@@ -28,7 +28,7 @@ public class InfectionSteps {
         Assertions.assertThat(World.network.get(cityName).infectionLevelFor(disease)).isEqualTo(InfectionLevel.from(infectionLevel));
     }
 
-    @And("^(.*) has already been infected by (Blue|Black|Red|Yellow) (\\d+) times$")
+    @And("^(.*) has already been infected by (Blue|Black|Red|Yellow) (\\d+) times?$")
     public void cityHasAlreadyBeenInfectedTimes(CityName cityName, Disease disease, int infectionTimes) throws Throwable {
         for (int i = 0; i < infectionTimes; i++) {
             infect(cityName, disease);
