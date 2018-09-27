@@ -32,6 +32,7 @@ public class World {
         Game game = new Game();
         eventBus.listenNoAvailableCubeLeft(game);
         eventBus.listenAllDiseasesCured(game);
+        eventBus.listenMax(game);
         eventBus.listenInfection(new CityInfector());
         eventBus.listenInfection(new OutbreakDetector());
         eventBus.listenOutbreak(new OutbreakPropagator());

@@ -19,4 +19,4 @@ Feature: Discover a cure
     And Black has been cured
     And Red has been cured
     When Yellow is cured
-    Then game should be win
+    Then game should be won

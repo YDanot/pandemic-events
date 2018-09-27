@@ -7,6 +7,8 @@ import domain.cure.*;
 import domain.game.Game;
 import domain.infection.InfectionEvent;
 import domain.infection.InfectionListener;
+import domain.infection.outbreak.MaxOutbreakNumberReachedEvent;
+import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.infection.outbreak.OutbreakEvent;
 import domain.infection.outbreak.OutbreakListener;
 import domain.treatment.Treatment;
@@ -26,6 +28,7 @@ public class EventBus {
     private final List<TreatmentListener> treatmentListeners = new ArrayList<>();
     private final List<CureDiscoveringListener> cureDiscoveringListeners = new ArrayList<>();
     private final List<AllDiseasesCuredListener> allDiseasesCuredListeners = new ArrayList<>();
+    private List<MaxOutbreakNumberReachedListener> maxOutbreakNumberReachedEventListeners = new ArrayList<>();
 
     void listenOutbreak(OutbreakListener listener){
         outbreakListeners.add(listener);
@@ -49,6 +52,10 @@ public class EventBus {
 
     void listenAllDiseasesCured(AllDiseasesCuredListener listener) {
         allDiseasesCuredListeners.add(listener);
+    }
+
+    void listenMax(MaxOutbreakNumberReachedListener listener) {
+        maxOutbreakNumberReachedEventListeners.add(listener);
     }
 
     public void publish(InfectionEvent infectionEvent){
@@ -79,5 +86,9 @@ public class EventBus {
 
     public void publish(AllDiseaseCuredEvent allDiseaseCuredEvent) {
         allDiseasesCuredListeners.forEach(l -> l.onAllDiseasesCured(allDiseaseCuredEvent));
+    }
+
+    public void publish(MaxOutbreakNumberReachedEvent maxOutbreakNumberReachedEvent) {
+        maxOutbreakNumberReachedEventListeners.forEach(MaxOutbreakNumberReachedListener::onMaxOutbreakNumberReached);
     }
 }

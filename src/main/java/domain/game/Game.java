@@ -4,10 +4,11 @@ import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.cure.AllDiseaseCuredEvent;
 import domain.cure.AllDiseasesCuredListener;
+import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import infra.World;
 
 
-public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListener {
+public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListener, MaxOutbreakNumberReachedListener {
 
     @Override
     public void onNoAvailableCubeLeft(NoAvailableCubeLeftEvent noAvailableCubeLeftEvent) {
@@ -16,6 +17,11 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
 
     @Override
     public void onAllDiseasesCured(AllDiseaseCuredEvent event) {
-        World.gameState = GameState.WIN;
+        World.gameState = GameState.WON;
+    }
+
+    @Override
+    public void onMaxOutbreakNumberReached() {
+        World.gameState = GameState.LOST;
     }
 }
