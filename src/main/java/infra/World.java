@@ -2,6 +2,7 @@ package infra;
 
 import domain.board.Network;
 import domain.cube.CubeBank;
+import domain.cure.CureMarkerArea;
 import domain.game.Game;
 import domain.game.GameState;
 import domain.infection.CityInfector;
@@ -19,6 +20,7 @@ public class World {
     public static OutbrokenCityFinder outbrokenCityFinder = new EventSourcingOutbrokenCityDao();
     public static CubeBank cubeBank;
     public static GameState gameState;
+    public static CureMarkerArea cureMarkerArea;
 
     public static void create() {
         gameState = GameState.AVAILABLE;
@@ -26,12 +28,16 @@ public class World {
         network = new Network();
         cubeBank = new CubeBank();
         outbreakCounter = new OutbreakCounter();
-        eventBus.listenNoAvailableCubeLeft(new Game());
+        cureMarkerArea = new CureMarkerArea();
+        Game game = new Game();
+        eventBus.listenNoAvailableCubeLeft(game);
+        eventBus.listenAllDiseasesCured(game);
         eventBus.listenInfection(new CityInfector());
         eventBus.listenInfection(new OutbreakDetector());
         eventBus.listenOutbreak(new OutbreakPropagator());
         eventBus.listenOutbreak(outbreakCounter);
         eventBus.listenTreatment(new Treatment());
+        eventBus.listenCureDiscovering(cureMarkerArea);
     }
 
 }

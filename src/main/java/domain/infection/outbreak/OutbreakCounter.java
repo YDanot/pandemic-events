@@ -1,6 +1,6 @@
 package domain.infection.outbreak;
 
-public class OutbreakCounter implements OutbreakListener{
+public class OutbreakCounter implements OutbreakListener {
 
     int value;
 

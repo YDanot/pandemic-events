@@ -8,8 +8,7 @@ import org.assertj.core.api.Assertions;
 
 public class GameSteps {
 
-
-    @Then("^game should be (.*)")
+    @Then("^game should be (available|lost|win)")
     public void gameShouldBeAvailable(GameState gameState) throws Throwable {
         Assertions.assertThat(World.gameState).isEqualTo(gameState);
     }

@@ -3,6 +3,8 @@ package infra;
 
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
+import domain.cure.*;
+import domain.game.Game;
 import domain.infection.InfectionEvent;
 import domain.infection.InfectionListener;
 import domain.infection.outbreak.OutbreakEvent;
@@ -22,6 +24,8 @@ public class EventBus {
     private final List<OutbreakListener> outbreakListeners = new ArrayList<>();
     private final List<NoAvailableCubeLeftListener> noAvailableCubeLeftListeners = new ArrayList<>();
     private final List<TreatmentListener> treatmentListeners = new ArrayList<>();
+    private final List<CureDiscoveringListener> cureDiscoveringListeners = new ArrayList<>();
+    private final List<AllDiseasesCuredListener> allDiseasesCuredListeners = new ArrayList<>();
 
     void listenOutbreak(OutbreakListener listener){
         outbreakListeners.add(listener);
@@ -37,6 +41,14 @@ public class EventBus {
 
     void listenTreatment(TreatmentListener treatmentListener) {
         treatmentListeners.add(treatmentListener);
+    }
+
+    void listenCureDiscovering(CureMarkerArea cureMarkerArea) {
+        cureDiscoveringListeners.add(cureMarkerArea);
+    }
+
+    void listenAllDiseasesCured(AllDiseasesCuredListener listener) {
+        allDiseasesCuredListeners.add(listener);
     }
 
     public void publish(InfectionEvent infectionEvent){
@@ -61,4 +73,11 @@ public class EventBus {
         treatmentListeners.forEach(l -> l.onTreatment(treatmentEvent));
     }
 
+    public void publish(CureDiscoveringEvent cureDiscoveringEvent) {
+        cureDiscoveringListeners.forEach(l -> l.onCureDiscovered(cureDiscoveringEvent));
+    }
+
+    public void publish(AllDiseaseCuredEvent allDiseaseCuredEvent) {
+        allDiseasesCuredListeners.forEach(l -> l.onAllDiseasesCured(allDiseaseCuredEvent));
+    }
 }
