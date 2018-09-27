@@ -18,12 +18,12 @@ public class BasicActionsSteps {
         World.game.locations.move(role, cityName);
     }
 
-    @Then("^(.*) should be able to move to (.*)$")
+    @Then("^(.*) should be able to drive to (.*)$")
     public void scientistShouldBeAbleToMoveTo(Role role, List<CityName> cityNames) throws Throwable {
         moveTo(role, cityNames);
     }
 
-    @Then("^(.*) should not be able to move to (.*)")
+    @Then("^(.*) should not be able to drive to (.*)")
     public void scientistShouldNotBeAbleToMoveTo(Role role, List<CityName> cityNames) throws Throwable {
         Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> moveTo(role, cityNames));
     }
@@ -36,4 +36,5 @@ public class BasicActionsSteps {
             World.game.locations.drive(role, from);
         }
     }
+
 }

@@ -7,11 +7,11 @@ import infra.World;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Locations {
+public class PawnLocations {
 
     private final Map<Role, CityName> locations = new HashMap<>();
 
-    public Locations(CityName cityName, Role... roles) {
+    public PawnLocations(CityName cityName, Role... roles) {
         for (Role role : roles) {
             locations.put(role, cityName);
         }
