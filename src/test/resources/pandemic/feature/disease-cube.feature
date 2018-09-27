@@ -19,6 +19,13 @@ Feature: Disease cubes
 
   Scenario: Cube counter increment on treatment
     Given the occident initial sub-network
-    And Paris has already been infected by Blue 1 time
+    And Paris has already been infected by Blue 2 times
+    When Blue is treated in Paris
+    Then There should be 23 blue cubes available
+
+  Scenario: Cube counter increment on full treatment
+    Given the occident initial sub-network
+    And Paris has already been infected by Blue 3 times
+    And Blue has been cured
     When Blue is treated in Paris
     Then There should be 24 blue cubes available

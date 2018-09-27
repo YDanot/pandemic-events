@@ -41,4 +41,7 @@ public class City {
         return infectionLevelFor(disease).outbreakLevelReached();
     }
 
+    public boolean isHealthyFor(Disease disease) {
+        return infectionLevelFor(disease).isZero();
+    }
 }

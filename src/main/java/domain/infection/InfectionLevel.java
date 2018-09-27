@@ -47,6 +47,10 @@ public class InfectionLevel {
         return OUTBREAK_LEVEL == value;
     }
 
+    public boolean isZero() {
+        return 0 == value;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(value);

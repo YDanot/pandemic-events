@@ -21,7 +21,7 @@ public class CureMarkerArea implements CureDiscoveringListener {
         cures.put(disease,true);
     }
 
-    boolean isCured(Disease disease){
+    public boolean isCured(Disease disease){
         return cures.get(disease);
     }
 

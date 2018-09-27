@@ -4,6 +4,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import domain.board.City;
 import domain.board.CityName;
 import domain.game.TurnId;
 import infra.World;
@@ -36,7 +37,8 @@ public class InfectionSteps {
     }
 
     private void infect(CityName cityName, Disease disease) {
-        World.eventBus.publish(new InfectionEvent(disease, cityName, currentTurnId));
+        City city = World.network.get(cityName);
+        World.eventBus.publish(new InfectionEvent(disease, cityName, currentTurnId, city.infectionLevelFor(disease)));
     }
 
 }

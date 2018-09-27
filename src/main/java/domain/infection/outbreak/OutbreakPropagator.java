@@ -1,5 +1,6 @@
 package domain.infection.outbreak;
 
+import domain.board.City;
 import domain.game.TurnId;
 import domain.board.CityName;
 import domain.infection.InfectionEvent;
@@ -13,7 +14,8 @@ public class OutbreakPropagator implements OutbreakListener{
         World.network.citiesLinkedTo(outbreakEvent.cityName).forEach(city -> infect(city, outbreakEvent.disease, outbreakEvent.turnId));
     }
 
-    private void infect(CityName c, Disease disease, TurnId turnId) {
-        World.eventBus.publish(new InfectionEvent(disease, c, turnId));
+    private void infect(CityName cityName, Disease disease, TurnId turnId) {
+        City city = World.network.get(cityName);
+        World.eventBus.publish(new InfectionEvent(disease, cityName, turnId, city.infectionLevelFor(disease)));
     }
 }
