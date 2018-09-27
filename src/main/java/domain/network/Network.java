@@ -22,6 +22,11 @@ public class Network {
                 .map(l -> l.other(cityName).orElseThrow(SingleCityInLinkException::new));
     }
 
+    public boolean areLinked(CityName cityName, CityName cityName2) {
+        return links.stream()
+                .filter(l -> l.contains(cityName)).anyMatch(l -> l.contains(cityName2));
+    }
+
     public City get(CityName cityName) {
         return cityMap.get(cityName);
     }

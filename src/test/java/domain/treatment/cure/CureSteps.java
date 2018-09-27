@@ -1,10 +1,9 @@
-package domain.cure;
+package domain.treatment.cure;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import domain.infection.Disease;
-import domain.treatment.cure.CureDiscoveringEvent;
 import infra.World;
 import org.assertj.core.api.Assertions;
 

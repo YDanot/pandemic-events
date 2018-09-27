@@ -18,12 +18,14 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
     public final OutbreakCounter outbreakCounter;
     public final CureMarkerArea cureMarkerArea;
     public GameState gameState = GameState.AVAILABLE;
+    public Locations locations;
 
-    public Game(Network network, CubeBank cubeBank, OutbreakCounter outbreakCounter, CureMarkerArea cureMarkerArea) {
+    public Game(Network network, CubeBank cubeBank, OutbreakCounter outbreakCounter, CureMarkerArea cureMarkerArea, Locations locations) {
         this.network = network;
         this.cubeBank = cubeBank;
         this.outbreakCounter = outbreakCounter;
         this.cureMarkerArea = cureMarkerArea;
+        this.locations = locations;
     }
 
     @Override

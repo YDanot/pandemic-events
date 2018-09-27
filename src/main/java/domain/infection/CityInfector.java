@@ -3,8 +3,6 @@ package domain.infection;
 import domain.network.City;
 import infra.World;
 
-
-
 public class CityInfector implements InfectionListener{
 
 	@Override
