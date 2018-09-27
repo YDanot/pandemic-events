@@ -7,6 +7,9 @@ import domain.infection.InfectionEvent;
 import domain.infection.InfectionListener;
 import domain.infection.outbreak.OutbreakEvent;
 import domain.infection.outbreak.OutbreakListener;
+import domain.treatment.Treatment;
+import domain.treatment.TreatmentEvent;
+import domain.treatment.TreatmentListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,7 @@ public class EventBus {
     private final List<InfectionListener> infectionListeners = new ArrayList<>();
     private final List<OutbreakListener> outbreakListeners = new ArrayList<>();
     private final List<NoAvailableCubeLeftListener> noAvailableCubeLeftListeners = new ArrayList<>();
-    NoAvailableCubeLeftEvent noAvailableCubeLeftEvent;
+    private final List<TreatmentListener> treatmentListeners = new ArrayList<>();
 
     void listenOutbreak(OutbreakListener listener){
         outbreakListeners.add(listener);
@@ -30,6 +33,10 @@ public class EventBus {
 
     void listenNoAvailableCubeLeft(NoAvailableCubeLeftListener listener) {
         noAvailableCubeLeftListeners.add(listener);
+    }
+
+    void listenTreatment(TreatmentListener treatmentListener) {
+        treatmentListeners.add(treatmentListener);
     }
 
     public void publish(InfectionEvent infectionEvent){
@@ -47,7 +54,11 @@ public class EventBus {
     }
 
     public void publish(NoAvailableCubeLeftEvent noAvailableCubeLeftEvent) {
-        this.noAvailableCubeLeftEvent = noAvailableCubeLeftEvent;
         noAvailableCubeLeftListeners.forEach(l -> l.onNoAvailableCubeLeft(noAvailableCubeLeftEvent));
     }
+
+    public void publish(TreatmentEvent treatmentEvent) {
+        treatmentListeners.forEach(l -> l.onTreatment(treatmentEvent));
+    }
+
 }

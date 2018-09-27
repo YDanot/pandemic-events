@@ -21,6 +21,10 @@ public class InfectionLevel {
         return from(value + 1);
     }
 
+    public InfectionLevel decrease() {
+        return from(value > 0 ? value - 1 : 0);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

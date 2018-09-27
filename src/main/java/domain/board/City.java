@@ -30,6 +30,9 @@ public class City {
         infections.put(disease, infectionLevelFor(disease).increase());
     }
 
+    public void treat(Disease disease) {
+        infections.put(disease, infectionLevelFor(disease).decrease());
+    }
     public InfectionLevel infectionLevelFor(Disease disease) {
         return infections.get(disease);
     }

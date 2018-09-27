@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(strict = true,
-		glue = {"domain","run"}
+		glue = {"domain","run"},tags = {"~@wip"}
 )
 public class RunFeature {
 

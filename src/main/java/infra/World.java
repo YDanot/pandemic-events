@@ -9,6 +9,7 @@ import domain.infection.outbreak.OutbreakCounter;
 import domain.infection.outbreak.OutbreakDetector;
 import domain.infection.outbreak.OutbreakPropagator;
 import domain.infection.outbreak.OutbrokenCityFinder;
+import domain.treatment.Treatment;
 
 public class World {
 
@@ -30,6 +31,7 @@ public class World {
         eventBus.listenInfection(new OutbreakDetector());
         eventBus.listenOutbreak(new OutbreakPropagator());
         eventBus.listenOutbreak(outbreakCounter);
+        eventBus.listenTreatment(new Treatment());
     }
 
 }
