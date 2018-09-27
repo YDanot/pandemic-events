@@ -1,4 +1,4 @@
-package domain.cure;
+package domain.treatment.cure;
 
 
 public interface CureDiscoveringListener {

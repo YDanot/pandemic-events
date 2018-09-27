@@ -3,12 +3,12 @@ package domain.game;
 import domain.cube.CubeBank;
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
-import domain.cure.AllDiseaseCuredEvent;
-import domain.cure.AllDiseasesCuredListener;
-import domain.cure.CureMarkerArea;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.infection.outbreak.OutbreakCounter;
 import domain.network.Network;
+import domain.treatment.cure.AllDiseaseCuredEvent;
+import domain.treatment.cure.AllDiseasesCuredListener;
+import domain.treatment.cure.CureMarkerArea;
 
 
 public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListener, MaxOutbreakNumberReachedListener {

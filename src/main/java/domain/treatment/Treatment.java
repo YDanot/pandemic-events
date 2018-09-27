@@ -10,7 +10,7 @@ public class Treatment implements TreatmentListener {
     public void onTreatment(TreatmentEvent treatmentEvent) {
         City city = World.game.network.get(treatmentEvent.cityName);
         Disease disease = treatmentEvent.disease;
-        if (World.game.cureMarkerArea.isCured(disease)) {
+        if (World.game.cureMarkerArea.hasBeenCured(disease)) {
             while (!city.isHealthyFor(disease)) {
                 treat(city, disease);
             }

@@ -3,17 +3,15 @@ package infra;
 
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
-import domain.cure.*;
-import domain.game.Game;
 import domain.infection.InfectionEvent;
 import domain.infection.InfectionListener;
 import domain.infection.outbreak.MaxOutbreakNumberReachedEvent;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.infection.outbreak.OutbreakEvent;
 import domain.infection.outbreak.OutbreakListener;
-import domain.treatment.Treatment;
 import domain.treatment.TreatmentEvent;
 import domain.treatment.TreatmentListener;
+import domain.treatment.cure.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +27,13 @@ public class EventBus {
     private final List<CureDiscoveringListener> cureDiscoveringListeners = new ArrayList<>();
     private final List<AllDiseasesCuredListener> allDiseasesCuredListeners = new ArrayList<>();
     private List<MaxOutbreakNumberReachedListener> maxOutbreakNumberReachedEventListeners = new ArrayList<>();
+    private List<EradicationListener> eradicationListeners = new ArrayList<>();
 
-    void listenOutbreak(OutbreakListener listener){
+    void listenOutbreak(OutbreakListener listener) {
         outbreakListeners.add(listener);
     }
 
-    void listenInfection(InfectionListener listener){
+    void listenInfection(InfectionListener listener) {
         infectionListeners.add(listener);
     }
 
@@ -58,14 +57,18 @@ public class EventBus {
         maxOutbreakNumberReachedEventListeners.add(listener);
     }
 
-    public void publish(InfectionEvent infectionEvent){
+    void listenEradication(EradicationListener listener) {
+        eradicationListeners.add(listener);
+    }
+
+    public void publish(InfectionEvent infectionEvent) {
         infectionEvents.add(infectionEvent);
         for (InfectionListener infectionListener : infectionListeners) {
             infectionListener.onInfection(infectionEvent);
         }
     }
 
-    public void publish(OutbreakEvent outbreakEvent){
+    public void publish(OutbreakEvent outbreakEvent) {
         outbreakEvents.add(outbreakEvent);
         for (OutbreakListener outbreakListener : outbreakListeners) {
             outbreakListener.onOutbreak(outbreakEvent);
@@ -90,5 +93,9 @@ public class EventBus {
 
     public void publish(MaxOutbreakNumberReachedEvent maxOutbreakNumberReachedEvent) {
         maxOutbreakNumberReachedEventListeners.forEach(MaxOutbreakNumberReachedListener::onMaxOutbreakNumberReached);
+    }
+
+    public void publish(EradicationEvent eradicationEvent) {
+        eradicationListeners.forEach(l -> l.onEradication(eradicationEvent));
     }
 }

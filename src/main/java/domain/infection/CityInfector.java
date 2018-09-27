@@ -11,8 +11,9 @@ public class CityInfector implements InfectionListener{
 	public void onInfection(InfectionEvent infectionEvent) {
 		City city = World.game.network.get(infectionEvent.cityName);
 		InfectionLevel infectionLevel = city.infectionLevelFor(infectionEvent.disease);
-		if (!infectionLevel.outbreakLevelReached()) {
-			World.game.cubeBank.takeCube(infectionEvent.disease);
+
+        if (!infectionLevel.outbreakLevelReached() && !World.game.cureMarkerArea.hasBeenEradicated(infectionEvent.disease)) {
+            World.game.cubeBank.takeCube(infectionEvent.disease);
 			city.infect(infectionEvent.disease);
 		}
 	}

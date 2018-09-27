@@ -1,7 +1,6 @@
 package infra;
 
 import domain.cube.CubeBank;
-import domain.cure.CureMarkerArea;
 import domain.game.Game;
 import domain.infection.CityInfector;
 import domain.infection.outbreak.OutbreakCounter;
@@ -10,6 +9,7 @@ import domain.infection.outbreak.OutbreakPropagator;
 import domain.infection.outbreak.OutbrokenCityFinder;
 import domain.network.Network;
 import domain.treatment.Treatment;
+import domain.treatment.cure.CureMarkerArea;
 
 public class World {
 
@@ -25,6 +25,7 @@ public class World {
         eventBus.listenNoAvailableCubeLeft(game);
         eventBus.listenAllDiseasesCured(game);
         eventBus.listenMax(game);
+        eventBus.listenEradication(cureMarkerArea);
         eventBus.listenInfection(new CityInfector());
         eventBus.listenInfection(new OutbreakDetector());
         eventBus.listenOutbreak(new OutbreakPropagator());
