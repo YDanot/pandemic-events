@@ -1,4 +1,4 @@
-package domain.board;
+package domain.network;
 
 public enum CityName {
     PARIS,

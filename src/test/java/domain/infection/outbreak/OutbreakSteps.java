@@ -1,21 +1,19 @@
 package domain.infection.outbreak;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
-import domain.board.CityName;
+import domain.network.CityName;
 import domain.game.TurnId;
 import domain.infection.Disease;
 import org.assertj.core.api.Assertions;
 
 import cucumber.api.java.en.Then;
-import domain.infection.outbreak.OutbreakCounter;
 import infra.World;
 
 public class OutbreakSteps {
 
     @Then("^outbreak counter value should be (\\d+)$")
     public void outbreakCounterValueShouldBe(int expectedOutbreakCounter) throws Throwable {
-        OutbreakCounter outbreakCounter = World.outbreakCounter;
+        OutbreakCounter outbreakCounter = World.game.outbreakCounter;
         Assertions.assertThat(outbreakCounter.value).as("outbreak counter").isEqualTo(expectedOutbreakCounter);
     }
 

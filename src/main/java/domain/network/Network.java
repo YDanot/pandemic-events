@@ -1,4 +1,4 @@
-package domain.board;
+package domain.network;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -8,11 +8,11 @@ public class Network {
     private final List<Link> links = new ArrayList<>();
     private final Map<CityName, City> cityMap = new HashMap<>();
 
-    void addLink(CityName cityName1, CityName cityName2) {
+    public void addLink(CityName cityName1, CityName cityName2) {
         links.add(new Link(cityName1, cityName2));
     }
 
-    City addCity(CityName cityName1) {
+    public City addCity(CityName cityName1) {
         return cityMap.put(cityName1, new City(cityName1));
     }
 

@@ -7,13 +7,15 @@ import cucumber.api.java.en.Then;
 import domain.cube.CubeBank;
 import domain.infection.Disease;
 import domain.infection.InfectionLevel;
+import domain.network.CityName;
+import domain.network.Network;
 import infra.World;
 import org.assertj.core.api.Assertions;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-import static domain.board.CityName.*;
+import static domain.network.CityName.*;
 import static domain.infection.InfectionLevel.from;
 
 public class CitySteps {
@@ -44,11 +46,11 @@ public class CitySteps {
 			List<CityInfectionLevel> expectedCityInfectionLevels) throws Throwable {
 
 		expectedCityInfectionLevels.forEach(cityInfectionLevel -> Assertions
-				.assertThat(World.network.get(cityInfectionLevel.cityName).infectionLevelFor(Disease.BLUE))
+				.assertThat(World.game.network.get(cityInfectionLevel.cityName).infectionLevelFor(Disease.BLUE))
 				.as(cityInfectionLevel.cityName + " blueInfectionLevel").isEqualTo(cityInfectionLevel.getBlueLevel()));
 
 		expectedCityInfectionLevels.forEach(cityInfectionLevel -> Assertions
-				.assertThat(World.network.get(cityInfectionLevel.cityName).infectionLevelFor(Disease.BLACK))
+				.assertThat(World.game.network.get(cityInfectionLevel.cityName).infectionLevelFor(Disease.BLACK))
 				.as(cityInfectionLevel.cityName + " blackInfectionLevel").isEqualTo(cityInfectionLevel.getBlackLevel()));
 	}
 
@@ -57,16 +59,12 @@ public class CitySteps {
 		Assertions.assertThat(citiesLinkedTo(cityName).allMatch(linkedCities::contains)).isTrue();
 	}
 
-	public CubeBank getCubeBank() {
-		return World.cubeBank;
-	}
-
 	private Stream<CityName> citiesLinkedTo(CityName cityName) {
 		return getNetwork().citiesLinkedTo(cityName);
 	}
 
 	private Network getNetwork() {
-		return World.network;
+		return World.game.network;
 	}
 
 	private static class CityInfectionLevel {

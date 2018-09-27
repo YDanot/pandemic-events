@@ -1,6 +1,6 @@
 package domain.infection;
 
-import domain.board.CityName;
+import domain.network.CityName;
 import domain.game.TurnId;
 
 public class InfectionEvent {

@@ -1,7 +1,7 @@
 package domain.infection.outbreak;
 
 import domain.game.TurnId;
-import domain.board.CityName;
+import domain.network.CityName;
 import domain.infection.Disease;
 
 import java.util.List;

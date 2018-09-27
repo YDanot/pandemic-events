@@ -1,6 +1,5 @@
 package domain.cure;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -18,7 +17,7 @@ public class CureSteps {
 
     @Then("^(Blue|Black|Red|Yellow) should be mark as cured$")
     public void blueShouldBeMarkAsCured(Disease disease) throws Throwable {
-        Assertions.assertThat(World.cureMarkerArea.isCured(disease)).isTrue();
+        Assertions.assertThat(World.game.cureMarkerArea.isCured(disease)).isTrue();
     }
 
     @And("^(Blue|Black|Red|Yellow) has been cured$")

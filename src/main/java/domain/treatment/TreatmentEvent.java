@@ -1,6 +1,6 @@
 package domain.treatment;
 
-import domain.board.CityName;
+import domain.network.CityName;
 import domain.infection.Disease;
 
 

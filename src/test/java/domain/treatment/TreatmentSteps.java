@@ -1,7 +1,7 @@
 package domain.treatment;
 
 import cucumber.api.java.en.When;
-import domain.board.CityName;
+import domain.network.CityName;
 import domain.infection.Disease;
 import infra.World;
 

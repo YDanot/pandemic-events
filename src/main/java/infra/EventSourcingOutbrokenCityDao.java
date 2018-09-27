@@ -4,7 +4,7 @@ package infra;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import domain.board.CityName;
+import domain.network.CityName;
 import domain.game.TurnId;
 import domain.infection.Disease;
 import domain.infection.outbreak.OutbrokenCityFinder;

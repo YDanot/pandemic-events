@@ -1,4 +1,4 @@
-package domain.board;
+package domain.network;
 
 import domain.infection.Disease;
 import domain.infection.InfectionLevel;

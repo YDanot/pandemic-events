@@ -1,27 +1,43 @@
 package domain.game;
 
+import domain.cube.CubeBank;
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.cure.AllDiseaseCuredEvent;
 import domain.cure.AllDiseasesCuredListener;
+import domain.cure.CureMarkerArea;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
-import infra.World;
+import domain.infection.outbreak.OutbreakCounter;
+import domain.network.Network;
 
 
 public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListener, MaxOutbreakNumberReachedListener {
 
+    public final Network network;
+    public final CubeBank cubeBank;
+    public final OutbreakCounter outbreakCounter;
+    public final CureMarkerArea cureMarkerArea;
+    public GameState gameState = GameState.AVAILABLE;
+
+    public Game(Network network, CubeBank cubeBank, OutbreakCounter outbreakCounter, CureMarkerArea cureMarkerArea) {
+        this.network = network;
+        this.cubeBank = cubeBank;
+        this.outbreakCounter = outbreakCounter;
+        this.cureMarkerArea = cureMarkerArea;
+    }
+
     @Override
     public void onNoAvailableCubeLeft(NoAvailableCubeLeftEvent noAvailableCubeLeftEvent) {
-        World.gameState = GameState.LOST;
+        gameState = GameState.LOST;
     }
 
     @Override
     public void onAllDiseasesCured(AllDiseaseCuredEvent event) {
-        World.gameState = GameState.WON;
+        gameState = GameState.WON;
     }
 
     @Override
     public void onMaxOutbreakNumberReached() {
-        World.gameState = GameState.LOST;
+        gameState = GameState.LOST;
     }
 }

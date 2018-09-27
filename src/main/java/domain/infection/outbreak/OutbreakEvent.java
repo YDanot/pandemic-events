@@ -1,6 +1,6 @@
 package domain.infection.outbreak;
 
-import domain.board.CityName;
+import domain.network.CityName;
 import domain.game.TurnId;
 import domain.infection.Disease;
 
