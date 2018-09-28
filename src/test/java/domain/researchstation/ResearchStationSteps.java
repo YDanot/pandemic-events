@@ -19,7 +19,7 @@ public class ResearchStationSteps {
     }
 
     @And("^a research station has been built on (.*)")
-    public void aResearchStationHasBeenBuiltOnAlger(List<CityName> locations) throws Throwable {
+    public void aResearchStationHasBeenBuiltOnAlgiers(List<CityName> locations) throws Throwable {
         locations.forEach(l -> {
             try {
                 World.game.researchStations.buildOn(l);

@@ -14,7 +14,7 @@ Feature: Outbreaking
       | cityName | blue level |
       | London   | 1          |
       | Essen    | 1          |
-      | Alger    | 1          |
+      | Algiers  | 1          |
       | Madrid   | 1          |
       | Milan    | 1          |
 
@@ -28,6 +28,6 @@ Feature: Outbreaking
     And the cities should have the following infection levels:
       | cityName | blue level |
       | Essen    | 3          |
-      | Alger    | 1          |
+      | Algiers  | 1          |
       | Madrid   | 2          |
       | Milan    | 2          |

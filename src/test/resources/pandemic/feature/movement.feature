@@ -9,14 +9,14 @@ Feature: Basics Action
   Scenario: Drive (or Ferry) on an adjacent city
     Given the occident initial sub-network
     And Scientist is located at Paris
-    Then Scientist should be able to drive to London, Essen, Milan, Alger, Madrid
+    Then Scientist should be able to drive to London, Essen, Milan, Algiers, Madrid
 
   Scenario: Drive (or Ferry) on a non adjacent city
     Given the occident initial sub-network
     And Scientist is located at New_york
-    Then Scientist should not be able to drive to Alger
+    Then Scientist should not be able to drive to Algiers
 
-  Scenario: Shuttle Flight
+  Scenario: Shuttle Flight with both research station on location and destination
     Given the occident initial sub-network
     And a research station has been built on New_York, Essen
     And Scientist is located at New_York
@@ -25,7 +25,7 @@ Feature: Basics Action
   Scenario: Shuttle Flight without research stations on location
     Given the occident initial sub-network
     And a research station has been built on New_York, Essen
-    And Scientist is located at Alger
+    And Scientist is located at Algiers
     Then Scientist should not be able to shuttle flight to New_York
 
   Scenario: Shuttle Flight without research stations on destination

@@ -5,6 +5,7 @@ import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.infection.InfectionEvent;
 import domain.infection.InfectionListener;
+import domain.infection.cards.InfectionCardDrawnEvent;
 import domain.infection.outbreak.MaxOutbreakNumberReachedEvent;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.infection.outbreak.OutbreakEvent;
@@ -28,6 +29,7 @@ public class EventBus {
     private final List<AllDiseasesCuredListener> allDiseasesCuredListeners = new ArrayList<>();
     private List<MaxOutbreakNumberReachedListener> maxOutbreakNumberReachedEventListeners = new ArrayList<>();
     private List<EradicationListener> eradicationListeners = new ArrayList<>();
+    private List<InfectionCardDrawnListener> infectionCardDrawnListeners = new ArrayList<>();
 
     void listenOutbreak(OutbreakListener listener) {
         outbreakListeners.add(listener);
@@ -59,6 +61,10 @@ public class EventBus {
 
     void listenEradication(EradicationListener listener) {
         eradicationListeners.add(listener);
+    }
+
+    void listenInfectionCardDrawn(InfectionCardDrawnListener infectionCardDrawnListener) {
+        infectionCardDrawnListeners.add(infectionCardDrawnListener);
     }
 
     public void publish(InfectionEvent infectionEvent) {
@@ -97,5 +103,9 @@ public class EventBus {
 
     public void publish(EradicationEvent eradicationEvent) {
         eradicationListeners.forEach(l -> l.onEradication(eradicationEvent));
+    }
+
+    public void publish(InfectionCardDrawnEvent infectionCardDrawnEvent) {
+        infectionCardDrawnListeners.forEach(l -> l.onInfectionCardDrawn(infectionCardDrawnEvent));
     }
 }

@@ -4,7 +4,6 @@ package domain.board;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import domain.cube.CubeBank;
 import domain.infection.Disease;
 import domain.infection.InfectionLevel;
 import domain.network.CityName;
@@ -15,23 +14,23 @@ import org.assertj.core.api.Assertions;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static domain.network.CityName.*;
 import static domain.infection.InfectionLevel.from;
+import static domain.network.CityName.*;
 
 public class CitySteps {
 
 	@Given("^the occident initial sub-network$")
 	public void the_occident_sub_network() throws Throwable {
-		createCities(PARIS, LONDON, MADRID, ESSEN, MILAN, ALGER, NEW_YORK);
+		createCities(PARIS, LONDON, MADRID, ESSEN, MILAN, ALGIERS, NEW_YORK);
 
 		getNetwork().addLink(PARIS, LONDON);
 		getNetwork().addLink(PARIS, MADRID);
 		getNetwork().addLink(PARIS, ESSEN);
 		getNetwork().addLink(PARIS, MILAN);
-		getNetwork().addLink(PARIS, ALGER);
+		getNetwork().addLink(PARIS, ALGIERS);
 		getNetwork().addLink(LONDON, ESSEN);
 		getNetwork().addLink(LONDON, MADRID);
-		getNetwork().addLink(ALGER, MADRID);
+		getNetwork().addLink(ALGIERS, MADRID);
 		getNetwork().addLink(MILAN, ESSEN);
 	}
 
