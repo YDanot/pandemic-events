@@ -1,8 +1,8 @@
 package infra;
 
+import domain.actions.basics.PawnLocations;
 import domain.cube.CubeBank;
 import domain.game.Game;
-import domain.game.PawnLocations;
 import domain.infection.CityInfector;
 import domain.infection.outbreak.OutbreakCounter;
 import domain.infection.outbreak.OutbreakDetector;

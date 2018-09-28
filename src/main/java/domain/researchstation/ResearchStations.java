@@ -25,7 +25,7 @@ public class ResearchStations {
         locations.add(location);
     }
 
-    boolean builtOn(CityName location) {
+    public boolean builtOn(CityName location) {
         return locations.contains(location);
     }
 }

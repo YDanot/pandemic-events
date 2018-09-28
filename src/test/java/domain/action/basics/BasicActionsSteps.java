@@ -2,13 +2,14 @@ package domain.action.basics;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
-import domain.game.ForbiddenMoveException;
+import domain.actions.basics.ForbiddenMoveException;
 import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
 import org.assertj.core.api.Assertions;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 
 public class BasicActionsSteps {
@@ -19,22 +20,47 @@ public class BasicActionsSteps {
     }
 
     @Then("^(.*) should be able to drive to (.*)$")
-    public void scientistShouldBeAbleToMoveTo(Role role, List<CityName> cityNames) throws Throwable {
-        moveTo(role, cityNames);
+    public void shouldBeAbleToMoveTo(Role role, List<CityName> cityNames) throws Throwable {
+        drive(role, cityNames);
     }
 
     @Then("^(.*) should not be able to drive to (.*)")
-    public void scientistShouldNotBeAbleToMoveTo(Role role, List<CityName> cityNames) throws Throwable {
-        Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> moveTo(role, cityNames));
+    public void shouldNotBeAbleToMoveTo(Role role, List<CityName> cityNames) throws Throwable {
+        Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> drive(role, cityNames));
     }
 
-    private void moveTo(Role role, List<CityName> cityNames) throws ForbiddenMoveException {
-        CityName from = World.game.locations.locationsOf(role);
+    @Then("^(.*) should be able to shuttle flight to (.*)$")
+    public void shouldBeAbleToFlightTo(Role role, List<CityName> destinations) throws Throwable {
+        shuttle(role, destinations);
+    }
 
-        for (CityName cityName : cityNames) {
-            World.game.locations.drive(role, cityName);
-            World.game.locations.drive(role, from);
+    @Then("^(.*) should not be able to shuttle flight to (.*)")
+    public void shouldNotBeAbleToShuttleTo(Role role, List<CityName> cityNames) throws Throwable {
+        Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> shuttle(role, cityNames));
+    }
+
+    private void drive(Role role, List<CityName> destinations) {
+        BiConsumer<Role, CityName> drive = (Role r, CityName d) -> World.game.locations.drive(r, d);
+        trip(role, destinations, drive);
+    }
+
+    private void shuttle(Role role, List<CityName> destinations) {
+        BiConsumer<Role, CityName> shuttleFlight = (r, d) -> World.game.locations.shuttleFlight(r, d);
+        trip(role, destinations, shuttleFlight);
+    }
+
+
+    private void trip(Role role, List<CityName> destinations, BiConsumer<Role, CityName> conveyance) {
+        for (CityName destination : destinations) {
+            roundTrip(role, conveyance, destination);
         }
     }
 
+    private void roundTrip(Role role, BiConsumer<Role, CityName> conveyance, CityName destination) {
+        CityName from = World.game.locations.locationsOf(role);
+        conveyance.accept(role, destination);
+        Assertions.assertThat(World.game.locations.locationsOf(role).equals(destination)).isTrue();
+        conveyance.accept(role, from);
+        Assertions.assertThat(World.game.locations.locationsOf(role).equals(from)).isTrue();
+    }
 }

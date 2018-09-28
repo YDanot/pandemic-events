@@ -1,5 +1,6 @@
 package domain.game;
 
+import domain.actions.basics.PawnLocations;
 import domain.cube.CubeBank;
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;

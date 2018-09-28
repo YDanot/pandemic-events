@@ -1,4 +1,4 @@
-package domain.game;
+package domain.actions.basics;
 
 import domain.network.CityName;
 import domain.role.Role;
@@ -32,5 +32,14 @@ public class PawnLocations {
 
     public void move(Role role, CityName cityName) {
         locations.put(role, cityName);
+    }
+
+    public void shuttleFlight(Role role, CityName destination) {
+        CityName from = locationsOf(role);
+        if (World.game.researchStations.builtOn(from) && World.game.researchStations.builtOn(destination)) {
+            locations.put(role, destination);
+        } else {
+            throw new ForbiddenMoveException(from, destination);
+        }
     }
 }
