@@ -6,8 +6,10 @@ import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
 import org.assertj.core.api.Assertions;
+import run.AsyncAssertions;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class ResearchStationSteps {
@@ -15,7 +17,9 @@ public class ResearchStationSteps {
     @Then("^(.*) should be able to build a research station$")
     public void heShouldBeAbleToBuildAResearchStation(Role role) throws Throwable {
         CityName location = build(role);
-        Assertions.assertThat(World.game.researchStations.builtOn(location)).isTrue();
+        AsyncAssertions.isTrueWithin(() ->
+                        World.game.researchStations.builtOn(location),
+                1, TimeUnit.SECONDS);
     }
 
     @And("^a research station has been built on (.*)")

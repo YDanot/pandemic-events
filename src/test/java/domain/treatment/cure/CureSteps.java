@@ -5,7 +5,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import domain.infection.Disease;
 import infra.World;
-import org.assertj.core.api.Assertions;
+import run.AsyncAssertions;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class CureSteps {
@@ -17,7 +19,9 @@ public class CureSteps {
 
     @Then("^(Blue|Black|Red|Yellow) should be mark as cured$")
     public void blueShouldBeMarkAsCured(Disease disease) throws Throwable {
-        Assertions.assertThat(World.game.cureMarkerArea.hasBeenCured(disease)).isTrue();
+        AsyncAssertions.isTrueWithin(() ->
+                        World.game.cureMarkerArea.hasBeenCured(disease),
+                1, TimeUnit.SECONDS);
     }
 
     @And("^(Blue|Black|Red|Yellow) has been cured$")

@@ -21,9 +21,10 @@ public class World {
     public static EventBus eventBus;
     public static OutbrokenCityFinder outbrokenCityFinder = new EventSourcingOutbrokenCityDao();
     public static Game game;
+    public static CityInfector cityInfector;
 
     public static void create() {
-        eventBus = new EventBus();
+        eventBus = new AsyncEventBus();
         CureMarkerArea cureMarkerArea = new CureMarkerArea();
         OutbreakCounter outbreakCounter = new OutbreakCounter();
         game = new Game(new Network(), new CubeBank(), outbreakCounter, cureMarkerArea, new PawnLocations(CityName.PARIS, Role.values()), new ResearchStations(CityName.PARIS), new InfectionCardsPiles());
@@ -31,7 +32,7 @@ public class World {
         eventBus.listenAllDiseasesCured(game);
         eventBus.listenMax(game);
         eventBus.listenEradication(cureMarkerArea);
-        CityInfector cityInfector = new CityInfector();
+        cityInfector = new CityInfector();
         eventBus.listenInfectionCardDrawn(cityInfector);
         eventBus.listenInfection(cityInfector);
         eventBus.listenInfection(new OutbreakDetector());
