@@ -7,6 +7,8 @@ import domain.role.Role;
 import infra.World;
 import org.assertj.core.api.Assertions;
 
+import java.util.List;
+
 
 public class ResearchStationSteps {
 
@@ -17,16 +19,21 @@ public class ResearchStationSteps {
     }
 
     @And("^a research station has been built on (.*)")
-    public void aResearchStationHasBeenBuiltOnAlger(CityName location) throws Throwable {
-        World.game.researchStations.buildOn(location);
+    public void aResearchStationHasBeenBuiltOnAlger(List<CityName> locations) throws Throwable {
+        locations.forEach(l -> {
+            try {
+                World.game.researchStations.buildOn(l);
+            } catch (ResearchStationException ignored) {
+            }
+        });
     }
 
     @Then("^(.*) should not be able to build a research station$")
     public void medicShouldNotBeAbleToBuildAResearchStation(Role role) throws Throwable {
-        Assertions.assertThatExceptionOfType(OnlyOneResearchStationException.class).isThrownBy(() -> build(role));
+        Assertions.assertThatExceptionOfType(Exception.class).isThrownBy(() -> build(role));
     }
 
-    private CityName build(Role role) throws OnlyOneResearchStationException {
+    private CityName build(Role role) throws ResearchStationException {
         CityName location = World.game.locations.locationsOf(role);
         World.game.researchStations.buildOn(location);
         return location;

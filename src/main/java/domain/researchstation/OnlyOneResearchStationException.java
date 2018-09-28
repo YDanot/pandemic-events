@@ -1,5 +1,5 @@
 package domain.researchstation;
 
 
-class OnlyOneResearchStationException extends Exception {
+class OnlyOneResearchStationException extends ResearchStationException {
 }
