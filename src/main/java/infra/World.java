@@ -27,7 +27,9 @@ public class World {
         eventBus = new AsyncEventBus();
         CureMarkerArea cureMarkerArea = new CureMarkerArea();
         OutbreakCounter outbreakCounter = new OutbreakCounter();
-        game = new Game(new Network(), new CubeBank(), outbreakCounter, cureMarkerArea, new PawnLocations(CityName.PARIS, Role.values()), new ResearchStations(CityName.PARIS), new InfectionCardsPiles());
+        CubeBank cubeBank = new CubeBank();
+        game = new Game(new Network(), cubeBank, outbreakCounter, cureMarkerArea, new PawnLocations(CityName.PARIS, Role.values()), new ResearchStations(CityName.PARIS), new InfectionCardsPiles());
+        eventBus.listenTakeCube(cubeBank);
         eventBus.listenNoAvailableCubeLeft(game);
         eventBus.listenAllDiseasesCured(game);
         eventBus.listenMax(game);

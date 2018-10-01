@@ -3,6 +3,8 @@ package infra;
 
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
+import domain.cube.TakeCubeEvent;
+import domain.cube.TakeCubeEventListener;
 import domain.infection.InfectionEvent;
 import domain.infection.InfectionListener;
 import domain.infection.cards.InfectionCardDrawnEvent;
@@ -30,6 +32,7 @@ public class SyncEventBus implements EventBus {
     private List<MaxOutbreakNumberReachedListener> maxOutbreakNumberReachedEventListeners = new ArrayList<>();
     private List<EradicationListener> eradicationListeners = new ArrayList<>();
     private List<InfectionCardDrawnListener> infectionCardDrawnListeners = new ArrayList<>();
+    private List<TakeCubeEventListener> takeCubeListeners = new ArrayList<>();
 
     public void listenOutbreak(OutbreakListener listener) {
         outbreakListeners.add(listener);
@@ -65,6 +68,11 @@ public class SyncEventBus implements EventBus {
 
     public void listenInfectionCardDrawn(InfectionCardDrawnListener infectionCardDrawnListener) {
         infectionCardDrawnListeners.add(infectionCardDrawnListener);
+    }
+
+    @Override
+    public void listenTakeCube(TakeCubeEventListener takeCubeEventListener) {
+        takeCubeListeners.add(takeCubeEventListener);
     }
 
     public void publish(InfectionEvent infectionEvent) {
@@ -112,5 +120,10 @@ public class SyncEventBus implements EventBus {
     @Override
     public List<OutbreakEvent> getOutbreakEvents() {
         return outbreakEvents;
+    }
+
+    @Override
+    public void publish(TakeCubeEvent takeCubeEvent) {
+        takeCubeListeners.forEach(l -> l.takeCube(takeCubeEvent));
     }
 }

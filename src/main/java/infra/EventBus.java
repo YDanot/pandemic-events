@@ -2,6 +2,8 @@ package infra;
 
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
+import domain.cube.TakeCubeEvent;
+import domain.cube.TakeCubeEventListener;
 import domain.infection.InfectionEvent;
 import domain.infection.InfectionListener;
 import domain.infection.cards.InfectionCardDrawnEvent;
@@ -35,6 +37,9 @@ public interface EventBus {
 
     void listenInfectionCardDrawn(InfectionCardDrawnListener infectionCardDrawnListener);
 
+    void listenTakeCube(TakeCubeEventListener
+                                takeCubeEventListener);
+
     List<OutbreakEvent> getOutbreakEvents();
 
     void publish(InfectionEvent infectionEvent);
@@ -54,4 +59,6 @@ public interface EventBus {
     void publish(EradicationEvent eradicationEvent);
 
     void publish(InfectionCardDrawnEvent infectionCardDrawnEvent);
+
+    void publish(TakeCubeEvent takeCubeEvent);
 }

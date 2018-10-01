@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class CubeBank {
+public class CubeBank implements TakeCubeEventListener {
 
     private static final int CUBE_INITIAL_NUMBER = 24;
 
@@ -26,6 +26,11 @@ public class CubeBank {
 
     public Integer getRemainingCubes(Disease disease) {
         return cubesByDisease.get(disease);
+    }
+
+    @Override
+    public void takeCube(TakeCubeEvent takeCubeEvent) {
+        takeCube(takeCubeEvent.disease);
     }
 
     public void takeCube(Disease disease) {

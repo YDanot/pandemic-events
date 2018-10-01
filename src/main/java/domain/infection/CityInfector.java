@@ -1,5 +1,6 @@
 package domain.infection;
 
+import domain.cube.TakeCubeEvent;
 import domain.game.TurnId;
 import domain.infection.cards.InfectionCardDrawnEvent;
 import domain.network.City;
@@ -15,7 +16,7 @@ public class CityInfector implements InfectionListener, InfectionCardDrawnListen
         InfectionLevel infectionLevel = city.infectionLevelFor(infectionEvent.disease);
 
         if (!infectionLevel.outbreakLevelReached() && !World.game.cureMarkerArea.hasBeenEradicated(infectionEvent.disease)) {
-            World.game.cubeBank.takeCube(infectionEvent.disease);
+            World.eventBus.publish(new TakeCubeEvent(infectionEvent.disease));
             city.infect(infectionEvent.disease);
         }
     }
