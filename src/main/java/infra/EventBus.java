@@ -4,9 +4,12 @@ import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.cube.TakeCubeEvent;
 import domain.cube.TakeCubeEventListener;
+import domain.epidemic.EpidemicEvent;
+import domain.epidemic.EpidemicListener;
 import domain.infection.InfectionEvent;
 import domain.infection.InfectionListener;
 import domain.infection.cards.InfectionCardDrawnEvent;
+import domain.infection.cards.InfectionCardDrawnListener;
 import domain.infection.outbreak.MaxOutbreakNumberReachedEvent;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.infection.outbreak.OutbreakEvent;
@@ -37,6 +40,8 @@ public interface EventBus {
 
     void listenInfectionCardDrawn(InfectionCardDrawnListener infectionCardDrawnListener);
 
+    void listenEpidemic(EpidemicListener infectionCardDrawnListener);
+
     void listenTakeCube(TakeCubeEventListener
                                 takeCubeEventListener);
 
@@ -61,4 +66,6 @@ public interface EventBus {
     void publish(InfectionCardDrawnEvent infectionCardDrawnEvent);
 
     void publish(TakeCubeEvent takeCubeEvent);
+
+    void publish(EpidemicEvent epidemicEvent);
 }

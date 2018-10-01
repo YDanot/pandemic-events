@@ -5,9 +5,12 @@ import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.cube.TakeCubeEvent;
 import domain.cube.TakeCubeEventListener;
+import domain.epidemic.EpidemicEvent;
+import domain.epidemic.EpidemicListener;
 import domain.infection.InfectionEvent;
 import domain.infection.InfectionListener;
 import domain.infection.cards.InfectionCardDrawnEvent;
+import domain.infection.cards.InfectionCardDrawnListener;
 import domain.infection.outbreak.MaxOutbreakNumberReachedEvent;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.infection.outbreak.OutbreakEvent;
@@ -34,6 +37,7 @@ public class AsyncEventBus implements EventBus {
     private List<EradicationListener> eradicationListeners = new ArrayList<>();
     private List<InfectionCardDrawnListener> infectionCardDrawnListeners = new ArrayList<>();
     private List<TakeCubeEventListener> takeCubeListeners = new ArrayList<>();
+    private List<EpidemicListener> epidemicListeners = new ArrayList<>();
 
     @Override
     public void listenOutbreak(OutbreakListener listener) {
@@ -84,6 +88,11 @@ public class AsyncEventBus implements EventBus {
     public void listenTakeCube(TakeCubeEventListener
                                        takeCubeEventListener) {
         takeCubeListeners.add(takeCubeEventListener);
+    }
+
+    @Override
+    public void listenEpidemic(EpidemicListener epidemicListener) {
+        epidemicListeners.add(epidemicListener);
     }
 
     //private final List<InfectionAppliedListener> infectionAppliedEventListeners = new ArrayList<>();
@@ -154,5 +163,10 @@ public class AsyncEventBus implements EventBus {
     @Override
     public void publish(TakeCubeEvent takeCubeEvent) {
         CompletableFuture.runAsync(() -> takeCubeListeners.forEach(l -> l.takeCube(takeCubeEvent)));
+    }
+
+    @Override
+    public void publish(EpidemicEvent epidemicEvent) {
+        CompletableFuture.runAsync(() -> epidemicListeners.forEach(EpidemicListener::onEpidemic));
     }
 }

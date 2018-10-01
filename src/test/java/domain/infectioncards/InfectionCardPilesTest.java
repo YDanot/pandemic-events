@@ -1,7 +1,7 @@
-package domain.infection.cards;
+package domain.infectioncards;
 
 import domain.board.CitySteps;
-import domain.infectioncards.InfectionCardsSteps;
+import domain.infection.cards.InfectionCard;
 import infra.World;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;

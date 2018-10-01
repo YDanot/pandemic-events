@@ -6,6 +6,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import domain.infection.Disease;
 import domain.infection.InfectionLevel;
+import domain.infection.cards.InfectionCard;
 import domain.network.CityName;
 import domain.network.Network;
 import infra.World;
@@ -34,6 +35,14 @@ public class CitySteps {
         getNetwork().addLink(LONDON, MADRID);
         getNetwork().addLink(ALGIERS, MADRID);
         getNetwork().addLink(MILAN, ESSEN);
+
+        World.game.infectionCardsPiles.drawPile().clear();
+        World.game.infectionCardsPiles.drawPile().add(InfectionCard.PARIS);
+        World.game.infectionCardsPiles.drawPile().add(InfectionCard.LONDON);
+        World.game.infectionCardsPiles.drawPile().add(InfectionCard.MADRID);
+        World.game.infectionCardsPiles.drawPile().add(InfectionCard.MILAN);
+        World.game.infectionCardsPiles.drawPile().add(InfectionCard.ALGIERS);
+        World.game.infectionCardsPiles.drawPile().add(InfectionCard.NEW_YORK);
     }
 
     private void createCities(CityName... cityNames) {

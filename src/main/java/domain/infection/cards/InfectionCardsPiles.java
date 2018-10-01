@@ -31,4 +31,11 @@ public class InfectionCardsPiles {
     public Stack<InfectionCard> drawPile() {
         return draw;
     }
+
+    public InfectionCard drawBottom() {
+        InfectionCard pop = this.draw.lastElement();
+        draw.remove(pop);
+        discard.add(pop);
+        return pop;
+    }
 }

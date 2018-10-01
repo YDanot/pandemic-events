@@ -7,10 +7,13 @@ import cucumber.api.java.en.When;
 import domain.game.TurnId;
 import domain.network.City;
 import domain.network.CityName;
+import infra.AsyncEventBus;
 import infra.World;
-import run.AsyncAssertions;
 
 import java.util.concurrent.TimeUnit;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static run.AsyncAssertions.within;
 
 public class InfectionSteps {
 
@@ -30,9 +33,9 @@ public class InfectionSteps {
     @Then("^(Blue|Black|Red|Yellow) infection level of (.*) should (?:be|stay at) (\\d+)$")
     public void infectionLevelOfParisShouldBe(Disease disease, CityName cityName, int infectionLevel) throws Throwable {
 
-        AsyncAssertions.isTrueWithin(() ->
-                        World.game.network.get(cityName).infectionLevelFor(disease).equals(InfectionLevel.from(infectionLevel)),
-                1, TimeUnit.MICROSECONDS);
+        within(() ->
+                        assertThat(World.game.network.get(cityName).infectionLevelFor(disease)).isEqualTo(InfectionLevel.from(infectionLevel)),
+                1, TimeUnit.SECONDS);
 
         /*boolean validated = AsyncAssertions.isTrueWithin(() -> GameHook.RecordEvent.INSTANCE.infectionAppliedEvents.stream()
                 .filter(e -> e.disease == disease
@@ -47,7 +50,10 @@ public class InfectionSteps {
     public void cityHasAlreadyBeenInfectedTimes(CityName cityName, Disease disease, int infectionTimes) throws Throwable {
         for (int i = 0; i < infectionTimes; i++) {
             City city = World.game.network.get(cityName);
-            World.cityInfector.onInfection(new InfectionEvent(disease, cityName, currentTurnId, city.infectionLevelFor(disease)));
+            World.eventBus.publish(new InfectionEvent(disease, cityName, currentTurnId, city.infectionLevelFor(disease)));
+            if (World.eventBus instanceof AsyncEventBus) {
+                Thread.sleep(10);
+            }
         }
     }
 

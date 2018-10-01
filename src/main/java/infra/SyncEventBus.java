@@ -5,9 +5,12 @@ import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.cube.TakeCubeEvent;
 import domain.cube.TakeCubeEventListener;
+import domain.epidemic.EpidemicEvent;
+import domain.epidemic.EpidemicListener;
 import domain.infection.InfectionEvent;
 import domain.infection.InfectionListener;
 import domain.infection.cards.InfectionCardDrawnEvent;
+import domain.infection.cards.InfectionCardDrawnListener;
 import domain.infection.outbreak.MaxOutbreakNumberReachedEvent;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.infection.outbreak.OutbreakEvent;
@@ -33,6 +36,7 @@ public class SyncEventBus implements EventBus {
     private List<EradicationListener> eradicationListeners = new ArrayList<>();
     private List<InfectionCardDrawnListener> infectionCardDrawnListeners = new ArrayList<>();
     private List<TakeCubeEventListener> takeCubeListeners = new ArrayList<>();
+    private List<EpidemicListener> epidemicListeners = new ArrayList<>();
 
     public void listenOutbreak(OutbreakListener listener) {
         outbreakListeners.add(listener);
@@ -68,6 +72,11 @@ public class SyncEventBus implements EventBus {
 
     public void listenInfectionCardDrawn(InfectionCardDrawnListener infectionCardDrawnListener) {
         infectionCardDrawnListeners.add(infectionCardDrawnListener);
+    }
+
+    @Override
+    public void listenEpidemic(EpidemicListener epidemicListener) {
+        epidemicListeners.add(epidemicListener);
     }
 
     @Override
@@ -125,5 +134,10 @@ public class SyncEventBus implements EventBus {
     @Override
     public void publish(TakeCubeEvent takeCubeEvent) {
         takeCubeListeners.forEach(l -> l.takeCube(takeCubeEvent));
+    }
+
+    @Override
+    public void publish(EpidemicEvent epidemicEvent) {
+        epidemicListeners.forEach(EpidemicListener::onEpidemic);
     }
 }

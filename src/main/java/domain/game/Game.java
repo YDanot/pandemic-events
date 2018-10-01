@@ -7,6 +7,7 @@ import domain.cube.NoAvailableCubeLeftListener;
 import domain.infection.cards.InfectionCardsPiles;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.infection.outbreak.OutbreakCounter;
+import domain.infection.rate.InfectionRateTrack;
 import domain.network.Network;
 import domain.researchstation.ResearchStations;
 import domain.treatment.cure.AllDiseaseCuredEvent;
@@ -21,11 +22,12 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
     public final OutbreakCounter outbreakCounter;
     public final CureMarkerArea cureMarkerArea;
     public final InfectionCardsPiles infectionCardsPiles;
+    public final InfectionRateTrack infectionRateTrack;
     public GameState gameState = GameState.AVAILABLE;
     public PawnLocations locations;
     public ResearchStations researchStations;
 
-    public Game(Network network, CubeBank cubeBank, OutbreakCounter outbreakCounter, CureMarkerArea cureMarkerArea, PawnLocations locations, ResearchStations researchStations, InfectionCardsPiles infectionCardsPiles) {
+    public Game(Network network, CubeBank cubeBank, OutbreakCounter outbreakCounter, CureMarkerArea cureMarkerArea, PawnLocations locations, ResearchStations researchStations, InfectionCardsPiles infectionCardsPiles, InfectionRateTrack infectionRateTrack) {
         this.network = network;
         this.cubeBank = cubeBank;
         this.outbreakCounter = outbreakCounter;
@@ -33,6 +35,7 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
         this.locations = locations;
         this.researchStations = researchStations;
         this.infectionCardsPiles = infectionCardsPiles;
+        this.infectionRateTrack = infectionRateTrack;
     }
 
     @Override

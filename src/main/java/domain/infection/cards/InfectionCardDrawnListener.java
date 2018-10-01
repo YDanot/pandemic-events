@@ -1,6 +1,4 @@
-package infra;
-
-import domain.infection.cards.InfectionCardDrawnEvent;
+package domain.infection.cards;
 
 public interface InfectionCardDrawnListener {
 

@@ -2,13 +2,16 @@ package infra;
 
 import domain.actions.basics.PawnLocations;
 import domain.cube.CubeBank;
+import domain.epidemic.Epidemic;
 import domain.game.Game;
 import domain.infection.CityInfector;
+import domain.infection.Infector;
 import domain.infection.cards.InfectionCardsPiles;
 import domain.infection.outbreak.OutbreakCounter;
 import domain.infection.outbreak.OutbreakDetector;
 import domain.infection.outbreak.OutbreakPropagator;
 import domain.infection.outbreak.OutbrokenCityFinder;
+import domain.infection.rate.InfectionRateTrack;
 import domain.network.CityName;
 import domain.network.Network;
 import domain.researchstation.ResearchStations;
@@ -21,21 +24,22 @@ public class World {
     public static EventBus eventBus;
     public static OutbrokenCityFinder outbrokenCityFinder = new EventSourcingOutbrokenCityDao();
     public static Game game;
-    public static CityInfector cityInfector;
+    private static CityInfector cityInfector;
 
     public static void create() {
-        eventBus = new AsyncEventBus();
+        eventBus = new SyncEventBus();
         CureMarkerArea cureMarkerArea = new CureMarkerArea();
         OutbreakCounter outbreakCounter = new OutbreakCounter();
         CubeBank cubeBank = new CubeBank();
-        game = new Game(new Network(), cubeBank, outbreakCounter, cureMarkerArea, new PawnLocations(CityName.PARIS, Role.values()), new ResearchStations(CityName.PARIS), new InfectionCardsPiles());
+        eventBus.listenEpidemic(new Epidemic());
+        game = new Game(new Network(), cubeBank, outbreakCounter, cureMarkerArea, new PawnLocations(CityName.PARIS, Role.values()), new ResearchStations(CityName.PARIS), new InfectionCardsPiles(), new InfectionRateTrack());
         eventBus.listenTakeCube(cubeBank);
         eventBus.listenNoAvailableCubeLeft(game);
         eventBus.listenAllDiseasesCured(game);
         eventBus.listenMax(game);
         eventBus.listenEradication(cureMarkerArea);
         cityInfector = new CityInfector();
-        eventBus.listenInfectionCardDrawn(cityInfector);
+        eventBus.listenInfectionCardDrawn(new Infector());
         eventBus.listenInfection(cityInfector);
         eventBus.listenInfection(new OutbreakDetector());
         eventBus.listenOutbreak(new OutbreakPropagator());
