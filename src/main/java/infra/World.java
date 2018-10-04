@@ -20,6 +20,8 @@ import domain.role.Role;
 import domain.treatment.Treatment;
 import domain.treatment.cure.CureMarkerArea;
 
+import java.util.Arrays;
+
 public class World {
 
     public static EventBus eventBus;
@@ -33,7 +35,8 @@ public class World {
         OutbreakCounter outbreakCounter = new OutbreakCounter();
         CubeBank cubeBank = new CubeBank();
         eventBus.listenEpidemic(new Epidemic());
-        game = new Game(new Network(), cubeBank, outbreakCounter, cureMarkerArea, new PawnLocations(CityName.PARIS, Role.values()), new ResearchStations(CityName.PARIS), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles());
+        game = new Game(new Network(), cubeBank, outbreakCounter, cureMarkerArea, new PawnLocations(CityName.PARIS, Role.values()), new ResearchStations(CityName.PARIS), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
+                Arrays.asList(Role.SCIENTIST, Role.MEDIC));
         eventBus.listenTakeCube(cubeBank);
         eventBus.listenNoAvailableCubeLeft(game);
         eventBus.listenAllDiseasesCured(game);
