@@ -14,6 +14,7 @@ import domain.infection.outbreak.OutbrokenCityFinder;
 import domain.infection.rate.InfectionRateTrack;
 import domain.network.CityName;
 import domain.network.Network;
+import domain.player.cards.PlayerCardsPiles;
 import domain.researchstation.ResearchStations;
 import domain.role.Role;
 import domain.treatment.Treatment;
@@ -32,7 +33,7 @@ public class World {
         OutbreakCounter outbreakCounter = new OutbreakCounter();
         CubeBank cubeBank = new CubeBank();
         eventBus.listenEpidemic(new Epidemic());
-        game = new Game(new Network(), cubeBank, outbreakCounter, cureMarkerArea, new PawnLocations(CityName.PARIS, Role.values()), new ResearchStations(CityName.PARIS), new InfectionCardsPiles(), new InfectionRateTrack());
+        game = new Game(new Network(), cubeBank, outbreakCounter, cureMarkerArea, new PawnLocations(CityName.PARIS, Role.values()), new ResearchStations(CityName.PARIS), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles());
         eventBus.listenTakeCube(cubeBank);
         eventBus.listenNoAvailableCubeLeft(game);
         eventBus.listenAllDiseasesCured(game);

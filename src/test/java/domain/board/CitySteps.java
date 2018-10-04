@@ -9,6 +9,7 @@ import domain.infection.InfectionLevel;
 import domain.infection.cards.InfectionCard;
 import domain.network.CityName;
 import domain.network.Network;
+import domain.player.cards.PlayerCard;
 import infra.World;
 import org.assertj.core.api.Assertions;
 import run.AsyncAssertions;
@@ -42,7 +43,18 @@ public class CitySteps {
         World.game.infectionCardsPiles.drawPile().add(InfectionCard.MADRID);
         World.game.infectionCardsPiles.drawPile().add(InfectionCard.MILAN);
         World.game.infectionCardsPiles.drawPile().add(InfectionCard.ALGIERS);
+        World.game.infectionCardsPiles.drawPile().add(InfectionCard.ESSEN);
         World.game.infectionCardsPiles.drawPile().add(InfectionCard.NEW_YORK);
+
+        World.game.playerCardsPiles.drawPile().clear();
+        World.game.playerCardsPiles.drawPile().add(PlayerCard.PARIS);
+        World.game.playerCardsPiles.drawPile().add(PlayerCard.LONDON);
+        World.game.playerCardsPiles.drawPile().add(PlayerCard.MADRID);
+        World.game.playerCardsPiles.drawPile().add(PlayerCard.MILAN);
+        World.game.playerCardsPiles.drawPile().add(PlayerCard.ALGIERS);
+        World.game.playerCardsPiles.drawPile().add(PlayerCard.ESSEN);
+        World.game.playerCardsPiles.drawPile().add(PlayerCard.NEW_YORK);
+        World.game.playerCardsPiles.drawPile().add(PlayerCard.EPIDEMIC);
     }
 
     private void createCities(CityName... cityNames) {

@@ -22,11 +22,12 @@ Feature: epidemic
 
   Scenario: Infect bottom card Epidemic when it's already infected
     Given the occident initial sub-network
+    And there already were 2 outbreaks
     And Paris has already been infected by Blue 2 times
     And the bottom card from the Infection Draw Pile is Paris
     When an epidemic occurred
     Then Blue infection level of Paris should be 3
-    And outbreak counter value should be 1
+    And outbreak counter value should be 3
 
   Scenario: Increase the intensity of infection
     Given the occident initial sub-network
