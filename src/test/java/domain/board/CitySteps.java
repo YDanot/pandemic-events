@@ -1,15 +1,24 @@
 
 package domain.board;
 
+import com.google.common.collect.Lists;
+import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import domain.actions.basics.PawnLocations;
+import domain.cube.CubeBank;
+import domain.game.Game;
 import domain.infection.Disease;
 import domain.infection.InfectionLevel;
-import domain.infection.cards.InfectionCard;
+import domain.infection.cards.InfectionCardsPiles;
+import domain.infection.outbreak.OutbreakCounter;
+import domain.infection.rate.InfectionRateTrack;
 import domain.network.CityName;
 import domain.network.Network;
-import domain.player.cards.PlayerCard;
+import domain.player.cards.PlayerCardsPiles;
+import domain.researchstation.ResearchStations;
+import domain.treatment.cure.CureMarkerArea;
 import infra.World;
 import org.assertj.core.api.Assertions;
 import run.AsyncAssertions;
@@ -23,44 +32,38 @@ import static domain.network.CityName.*;
 
 public class CitySteps {
 
-    @Given("^the occident initial sub-network$")
-    public void the_occident_sub_network() throws Throwable {
-        createCities(PARIS, LONDON, MADRID, ESSEN, MILAN, ALGIERS, NEW_YORK);
+    private boolean occidentSubNetworkUsed;
 
-        getNetwork().addLink(PARIS, LONDON);
-        getNetwork().addLink(PARIS, MADRID);
-        getNetwork().addLink(PARIS, ESSEN);
-        getNetwork().addLink(PARIS, MILAN);
-        getNetwork().addLink(PARIS, ALGIERS);
-        getNetwork().addLink(LONDON, ESSEN);
-        getNetwork().addLink(LONDON, MADRID);
-        getNetwork().addLink(ALGIERS, MADRID);
-        getNetwork().addLink(MILAN, ESSEN);
-
-        World.game.infectionCardsPiles.drawPile().clear();
-        World.game.infectionCardsPiles.drawPile().add(InfectionCard.PARIS);
-        World.game.infectionCardsPiles.drawPile().add(InfectionCard.LONDON);
-        World.game.infectionCardsPiles.drawPile().add(InfectionCard.MADRID);
-        World.game.infectionCardsPiles.drawPile().add(InfectionCard.MILAN);
-        World.game.infectionCardsPiles.drawPile().add(InfectionCard.ALGIERS);
-        World.game.infectionCardsPiles.drawPile().add(InfectionCard.ESSEN);
-        World.game.infectionCardsPiles.drawPile().add(InfectionCard.NEW_YORK);
-
-        World.game.playerCardsPiles.drawPile().clear();
-        World.game.playerCardsPiles.drawPile().add(PlayerCard.PARIS);
-        World.game.playerCardsPiles.drawPile().add(PlayerCard.LONDON);
-        World.game.playerCardsPiles.drawPile().add(PlayerCard.MADRID);
-        World.game.playerCardsPiles.drawPile().add(PlayerCard.MILAN);
-        World.game.playerCardsPiles.drawPile().add(PlayerCard.ALGIERS);
-        World.game.playerCardsPiles.drawPile().add(PlayerCard.ESSEN);
-        World.game.playerCardsPiles.drawPile().add(PlayerCard.NEW_YORK);
-        World.game.playerCardsPiles.drawPile().add(PlayerCard.EPIDEMIC);
+    @After
+    public void tearDown() {
+        occidentSubNetworkUsed = false;
     }
 
-    private void createCities(CityName... cityNames) {
+    @Given("^the occident initial sub-network$")
+    public void the_occident_sub_network() throws Throwable {
+        Network network = createCities(PARIS, LONDON, MADRID, ESSEN, MILAN, ALGIERS, NEW_YORK);
+
+        network.addLink(PARIS, LONDON);
+        network.addLink(PARIS, MADRID);
+        network.addLink(PARIS, ESSEN);
+        network.addLink(PARIS, MILAN);
+        network.addLink(PARIS, ALGIERS);
+        network.addLink(LONDON, ESSEN);
+        network.addLink(LONDON, MADRID);
+        network.addLink(ALGIERS, MADRID);
+        network.addLink(MILAN, ESSEN);
+        occidentSubNetworkUsed = true;
+
+        World.create(new Game(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new PawnLocations(), new ResearchStations(), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
+                Lists.newArrayList()));
+    }
+
+    private Network createCities(CityName... cityNames) {
+        Network network = new Network();
         for (CityName cityName : cityNames) {
-            getNetwork().addCity(cityName);
+            network.addCity(cityName);
         }
+        return network;
     }
 
     @Then("^the cities should have the following infection levels:$")
@@ -91,6 +94,11 @@ public class CitySteps {
 
     private Network getNetwork() {
         return World.game.network;
+    }
+
+    @Then("^occident initial sub-network should be used$")
+    public void occidentInitialSubNetworkShouldBeUsed() throws Throwable {
+        Assertions.assertThat(occidentSubNetworkUsed).isTrue();
     }
 
     private static class CityInfectionLevel {

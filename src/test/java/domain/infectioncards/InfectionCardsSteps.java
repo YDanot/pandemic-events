@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 import domain.infection.cards.InfectionCard;
 import infra.World;
+import org.assertj.core.api.Assertions;
 
 import java.util.List;
 import java.util.Stack;
@@ -39,5 +40,10 @@ public class InfectionCardsSteps {
             putAtTopOfDeck(infectionCard);
             World.game.infectionCardsPiles.draw();
         }
+    }
+
+    @And("^Infection draw pile should contains at least (.*)$")
+    public void infectionDrawPileShouldContainsAtLeast(List<InfectionCard> cards) throws Throwable {
+        Assertions.assertThat(World.game.infectionCardsPiles.drawPile()).containsAll(cards);
     }
 }

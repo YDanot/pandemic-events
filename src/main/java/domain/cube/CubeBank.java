@@ -14,6 +14,10 @@ public class CubeBank implements TakeCubeEventListener {
 
     private Map<Disease, Integer> cubesByDisease;
 
+    public CubeBank(Map<Disease, Integer> cubesByDisease) {
+        this.cubesByDisease = cubesByDisease;
+    }
+
     public CubeBank() {
         cubesByDisease = new HashMap<>();
         Stream.of(Disease.values())

@@ -9,12 +9,12 @@ Feature: Discover a cure
 
 
   Scenario: discover a cure for blue disease
-    Given the occident initial sub-network
+    Given a minimalist game
     When Blue is cured
     Then Blue should be mark as cured
 
   Scenario: win the game on discovering all cures
-    Given the occident initial sub-network
+    Given a minimalist game
     And Blue has been cured
     And Black has been cured
     And Red has been cured

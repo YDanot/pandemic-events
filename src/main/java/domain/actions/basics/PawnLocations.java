@@ -11,7 +11,10 @@ public class PawnLocations {
 
     private final Map<Role, CityName> locations = new HashMap<>();
 
-    public PawnLocations(CityName cityName, Role... roles) {
+    public PawnLocations() {
+    }
+
+    public PawnLocations(CityName cityName, Iterable<Role> roles) {
         for (Role role : roles) {
             locations.put(role, cityName);
         }

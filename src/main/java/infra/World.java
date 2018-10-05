@@ -27,29 +27,28 @@ public class World {
     public static EventBus eventBus;
     public static OutbrokenCityFinder outbrokenCityFinder = new EventSourcingOutbrokenCityDao();
     public static Game game;
-    private static CityInfector cityInfector;
 
     public static void create() {
+        create(new Game(new Network(), new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new PawnLocations(CityName.PARIS, Arrays.asList(Role.values())), new ResearchStations(CityName.PARIS), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
+                Arrays.asList(Role.SCIENTIST, Role.MEDIC)));
+    }
+
+    public static void create(Game game) {
+        World.game = game;
         eventBus = new SyncEventBus();
-        CureMarkerArea cureMarkerArea = new CureMarkerArea();
-        OutbreakCounter outbreakCounter = new OutbreakCounter();
-        CubeBank cubeBank = new CubeBank();
         eventBus.listenEpidemic(new Epidemic());
-        game = new Game(new Network(), cubeBank, outbreakCounter, cureMarkerArea, new PawnLocations(CityName.PARIS, Role.values()), new ResearchStations(CityName.PARIS), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
-                Arrays.asList(Role.SCIENTIST, Role.MEDIC));
-        eventBus.listenTakeCube(cubeBank);
-        eventBus.listenNoAvailableCubeLeft(game);
-        eventBus.listenAllDiseasesCured(game);
-        eventBus.listenMax(game);
-        eventBus.listenEradication(cureMarkerArea);
-        cityInfector = new CityInfector();
+        eventBus.listenTakeCube(World.game.cubeBank);
+        eventBus.listenNoAvailableCubeLeft(World.game);
+        eventBus.listenAllDiseasesCured(World.game);
+        eventBus.listenMax(World.game);
+        eventBus.listenEradication(World.game.cureMarkerArea);
         eventBus.listenInfectionCardDrawn(new Infector());
-        eventBus.listenInfection(cityInfector);
+        eventBus.listenInfection(new CityInfector());
         eventBus.listenInfection(new OutbreakDetector());
         eventBus.listenOutbreak(new OutbreakPropagator());
-        eventBus.listenOutbreak(outbreakCounter);
+        eventBus.listenOutbreak(World.game.outbreakCounter);
         eventBus.listenTreatment(new Treatment());
-        eventBus.listenCureDiscovering(cureMarkerArea);
+        eventBus.listenCureDiscovering(World.game.cureMarkerArea);
     }
 
 }
