@@ -78,8 +78,12 @@ public class GameSteps {
     }
 
     @When("^the game starts with (\\d+) epidemic cards$")
-    public void theGameStartsWithEpidemicCards(int nbEpidemicCards) throws Throwable {
-        World.game.start(World.game.players.size(), nbEpidemicCards);
+    public void theGameStartsWithEpidemicCards(int nbCards) throws Throwable {
+        World.game.start(World.game.players.size(), nbCards);
     }
 
+    @Given("^a standard game$")
+    public void aStandardGame() throws Throwable {
+
+    }
 }

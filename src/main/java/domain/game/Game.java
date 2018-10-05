@@ -63,14 +63,31 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
         gameState = GameState.LOST;
     }
 
-    public void start(int nbCardsDealAtBegining, int nbEpidemicCards) {
+    public void start(int nbCardsDealAtBegining, Level level) {
+        start(nbCardsDealAtBegining, level.nbEpidemicCard);
+    }
+
+    public void start(int nbCardsDealAtBegining, int nbEpidemicCard) {
 
         for (int nbCard = 0; nbCard < nbCardsDealAtBegining; nbCard++) {
             for (Role player : players) {
                 playerHands.deal(player, playerCardsPiles.draw());
             }
         }
-        playerCardsPiles.addEpidemicCardsToDrawPile(nbEpidemicCards);
+        playerCardsPiles.addEpidemicCardsToDrawPile(nbEpidemicCard);
+    }
+
+    public enum Level {
+        INTRODUCTION(4),
+        NORMAL(5),
+        HEROIC(6);
+
+        int nbEpidemicCard;
+
+        Level(int nbEpidemicCard) {
+
+            this.nbEpidemicCard = nbEpidemicCard;
+        }
     }
 
 }
