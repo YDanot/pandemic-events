@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 public class PlayerCardsPiles {
 
     private final List<PlayerCard> discard;
-    private List<PlayerCard> draw;
+    private Stack<PlayerCard> draw;
 
     public PlayerCardsPiles() {
-        this.draw = new ArrayList<>();
+        this.draw = new Stack<>();
         Arrays.stream(PlayerCard.values()).forEach(c -> {
             if (!c.equals(PlayerCard.EPIDEMIC)) draw.add(c);
         });
@@ -30,7 +30,7 @@ public class PlayerCardsPiles {
         return discard;
     }
 
-    public List<PlayerCard> drawPile() {
+    public Stack<PlayerCard> drawPile() {
         return draw;
     }
 

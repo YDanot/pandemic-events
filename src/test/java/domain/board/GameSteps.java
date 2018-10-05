@@ -12,6 +12,7 @@ import domain.infection.cards.InfectionCardsPiles;
 import domain.infection.outbreak.OutbreakCounter;
 import domain.infection.rate.InfectionRateTrack;
 import domain.network.CityName;
+import domain.network.Network;
 import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerCardsPiles;
 import domain.researchstation.ResearchStations;
@@ -24,6 +25,10 @@ import run.AsyncAssertions;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static domain.network.CityName.ATLANTA;
+import static domain.role.Role.MEDIC;
+import static domain.role.Role.SCIENTIST;
 
 
 public class GameSteps {
@@ -67,8 +72,8 @@ public class GameSteps {
         playerCardsPiles.drawPile().add(PlayerCard.NEW_YORK);
 
         Set<Role> players = new HashSet<>();
-        players.add(Role.SCIENTIST);
-        players.add(Role.MEDIC);
+        players.add(SCIENTIST);
+        players.add(MEDIC);
 
         PawnLocations pawnLocations = new PawnLocations(CityName.PARIS, players);
         ResearchStations researchStations = new ResearchStations(CityName.PARIS);
@@ -84,6 +89,19 @@ public class GameSteps {
 
     @Given("^a standard game$")
     public void aStandardGame() throws Throwable {
+        Network network = citySteps.standard_network();
+        Set<Role> players = new HashSet<>();
+        players.add(SCIENTIST);
+        players.add(MEDIC);
 
+        PawnLocations pawnLocations = new PawnLocations(ATLANTA, players);
+        ResearchStations researchStations = new ResearchStations(ATLANTA);
+        World.create(new Game(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), pawnLocations, researchStations, new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
+                players));
+    }
+
+    @When("^the game starts in (.*) level$")
+    public void theGameStartsInNormalLevel(Game.Level level) throws Throwable {
+        World.game.start(4, level);
     }
 }

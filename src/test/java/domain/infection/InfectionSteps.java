@@ -10,10 +10,7 @@ import domain.network.CityName;
 import infra.AsyncEventBus;
 import infra.World;
 
-import java.util.concurrent.TimeUnit;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static run.AsyncAssertions.within;
 
 public class InfectionSteps {
 
@@ -32,10 +29,7 @@ public class InfectionSteps {
 
     @Then("^(Blue|Black|Red|Yellow) infection level of (.*) should (?:be|stay at) (\\d+)$")
     public void infectionLevelOfParisShouldBe(Disease disease, CityName cityName, int infectionLevel) throws Throwable {
-
-        within(() ->
-                        assertThat(World.game.network.get(cityName).infectionLevelFor(disease)).isEqualTo(InfectionLevel.from(infectionLevel)),
-                1, TimeUnit.SECONDS);
+        assertThat(World.game.network.get(cityName).infectionLevelFor(disease)).isEqualTo(InfectionLevel.from(infectionLevel));
 
         /*boolean validated = AsyncAssertions.isTrueWithin(() -> GameHook.RecordEvent.INSTANCE.infectionAppliedEvents.stream()
                 .filter(e -> e.disease == disease

@@ -59,4 +59,5 @@ public class PlayerCardsSteps {
         Assertions.assertThat(World.game.playerCardsPiles.drawPile().stream()
                 .filter(c -> c.equals(PlayerCard.EPIDEMIC)).count()).isEqualTo(nbEpidemic);
     }
+
 }

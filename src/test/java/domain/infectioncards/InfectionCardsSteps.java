@@ -6,6 +6,7 @@ import domain.infection.cards.InfectionCard;
 import infra.World;
 import org.assertj.core.api.Assertions;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -46,4 +47,11 @@ public class InfectionCardsSteps {
     public void infectionDrawPileShouldContainsAtLeast(List<InfectionCard> cards) throws Throwable {
         Assertions.assertThat(World.game.infectionCardsPiles.drawPile()).containsAll(cards);
     }
+
+    @And("^Infection draw pile starts with (.*)$")
+    public void playerDrawPileStartsWithParisBogotaOsakaMoscowMilanManilaAlgiersIstanbulJakarta(List<InfectionCard> cards) throws Throwable {
+        Collections.reverse(cards);
+        cards.forEach(this::putAtTopOfDeck);
+    }
+
 }

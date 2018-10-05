@@ -24,6 +24,12 @@ public class InfectionCardsPiles {
         return pop;
     }
 
+    public InfectionCard pop() {
+        InfectionCard pop = this.draw.pop();
+        discard.add(pop);
+        return pop;
+    }
+
     public List<InfectionCard> discardPile() {
         return discard;
     }

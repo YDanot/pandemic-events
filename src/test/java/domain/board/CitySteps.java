@@ -58,7 +58,7 @@ public class CitySteps {
                 Lists.newArrayList()));
     }
 
-    public void standard_network() {
+    Network standard_network() {
         Network network = createCities(CityName.values());
 
         network.addLink(SAN_FRANCISCO, LOS_ANGELES);
@@ -189,8 +189,7 @@ public class CitySteps {
 
         network.addLink(SYDNEY, JAKARTA);
 
-        World.create(new Game(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new PawnLocations(), new ResearchStations(), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
-                Lists.newArrayList()));
+        return network;
     }
 
     private Network createCities(CityName... cityNames) {
