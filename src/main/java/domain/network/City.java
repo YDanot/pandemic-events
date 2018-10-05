@@ -22,11 +22,7 @@ public class City {
         return infections.put(disease, InfectionLevel.ZERO);
     }
 
-    public CityName name() {
-        return cityName;
-    }
-
-    public void infect(Disease disease) {
+    public void putCube(Disease disease) {
         infections.put(disease, infectionLevelFor(disease).increase());
     }
 

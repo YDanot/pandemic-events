@@ -13,7 +13,7 @@ public class CityInfector implements InfectionListener {
 
         if (!infectionLevel.outbreakLevelReached() && !World.game.cureMarkerArea.hasBeenEradicated(infectionEvent.disease)) {
             World.eventBus.publish(new TakeCubeEvent(infectionEvent.disease));
-            city.infect(infectionEvent.disease);
+            city.putCube(infectionEvent.disease);
         }
     }
 

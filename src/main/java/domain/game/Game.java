@@ -4,7 +4,6 @@ import domain.actions.basics.PawnLocations;
 import domain.cube.CubeBank;
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
-import domain.infection.InfectionEvent;
 import domain.infection.cards.InfectionCard;
 import domain.infection.cards.InfectionCardsPiles;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
@@ -19,7 +18,6 @@ import domain.role.Role;
 import domain.treatment.cure.AllDiseaseCuredEvent;
 import domain.treatment.cure.AllDiseasesCuredListener;
 import domain.treatment.cure.CureMarkerArea;
-import infra.World;
 
 import java.util.Collection;
 
@@ -69,35 +67,19 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
 
     public void start(int nbCardsDealAtBegining, Level level) {
         start(nbCardsDealAtBegining, level.nbEpidemicCard);
+        putDefaultColorCubesOnThreeFirstDrawnCards(3);
+        putDefaultColorCubesOnThreeFirstDrawnCards(2);
+        putDefaultColorCubesOnThreeFirstDrawnCards(1);
 
-        for (int i = 0; i < 3; i++) {
-            InfectionCard draw = infectionCardsPiles.pop();
-            TurnId turnId = new TurnId();
-            CityName cityName = CityName.valueOf(draw.name());
-            infect(draw, cityName, turnId);
-            infect(draw, cityName, turnId);
-            infect(draw, cityName, turnId);
-        }
-
-        for (int i = 0; i < 3; i++) {
-            InfectionCard draw = infectionCardsPiles.pop();
-            TurnId turnId = new TurnId();
-            CityName cityName = CityName.valueOf(draw.name());
-            infect(draw, cityName, turnId);
-            infect(draw, cityName, turnId);
-        }
-
-        for (int i = 0; i < 3; i++) {
-            InfectionCard draw = infectionCardsPiles.pop();
-            TurnId turnId = new TurnId();
-            CityName cityName = CityName.valueOf(draw.name());
-            infect(draw, cityName, turnId);
-        }
     }
 
-    private void infect(InfectionCard infectionCard, CityName cityName, TurnId turnId) {
-        World.eventBus.publish(new InfectionEvent(infectionCard.disease(), cityName, turnId,
-                World.game.network.get(cityName).infectionLevelFor(infectionCard.disease())));
+    private void putDefaultColorCubesOnThreeFirstDrawnCards(int nbCubes) {
+        for (int i = 0; i < 3; i++) {
+            InfectionCard draw = infectionCardsPiles.pop();
+            for (int j = 0; j < nbCubes; j++) {
+                network.get(CityName.valueOf(draw.name())).putCube(draw.disease());
+            }
+        }
     }
 
     public void start(int nbCardsDealAtBegining, int nbEpidemicCard) {
