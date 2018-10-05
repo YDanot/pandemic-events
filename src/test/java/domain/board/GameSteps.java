@@ -2,6 +2,7 @@ package domain.board;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import domain.actions.basics.PawnLocations;
 import domain.cube.CubeBank;
 import domain.game.Game;
@@ -64,7 +65,6 @@ public class GameSteps {
         playerCardsPiles.drawPile().add(PlayerCard.ALGIERS);
         playerCardsPiles.drawPile().add(PlayerCard.ESSEN);
         playerCardsPiles.drawPile().add(PlayerCard.NEW_YORK);
-        playerCardsPiles.drawPile().add(PlayerCard.EPIDEMIC);
 
         Set<Role> players = new HashSet<>();
         players.add(Role.SCIENTIST);
@@ -75,6 +75,11 @@ public class GameSteps {
 
         World.create(new Game(World.game.network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), pawnLocations, researchStations, infectionCardsPiles, new InfectionRateTrack(), playerCardsPiles,
                 players));
+    }
+
+    @When("^the game starts with (\\d+) epidemic cards$")
+    public void theGameStartsWithEpidemicCards(int nbEpidemicCards) throws Throwable {
+        World.game.start(World.game.players.size(), nbEpidemicCards);
     }
 
 }

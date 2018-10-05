@@ -35,7 +35,8 @@ Feature: Standard Definition
     Given a minimalist game
     Then occident initial sub-network should be used
     And Infection draw pile should contains at least Paris,Essen,London,New_York,Milan,Madrid,Algiers
-    And Player draw pile should contains at least Paris,Essen,London,New_York,Milan,Madrid,Algiers,Epidemic
+    And Player draw pile should contains cities Paris,Essen,London,New_York,Milan,Madrid,Algiers in any order
+    And Player draw pile should not contains Epidemic cards
     And There should be 24 blue cubes available
     And There should be 24 black cubes available
     Then game should be available

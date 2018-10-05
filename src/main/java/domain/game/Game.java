@@ -17,6 +17,8 @@ import domain.treatment.cure.AllDiseaseCuredEvent;
 import domain.treatment.cure.AllDiseasesCuredListener;
 import domain.treatment.cure.CureMarkerArea;
 
+import java.util.Collection;
+
 
 public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListener, MaxOutbreakNumberReachedListener {
 
@@ -26,14 +28,14 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
     public final CureMarkerArea cureMarkerArea;
     public final InfectionCardsPiles infectionCardsPiles;
     public final InfectionRateTrack infectionRateTrack;
-    public final Iterable<Role> players;
+    public final Collection<Role> players;
     public GameState gameState = GameState.AVAILABLE;
     public PawnLocations locations;
     public PlayerHands playerHands = new PlayerHands();
     public ResearchStations researchStations;
     public PlayerCardsPiles playerCardsPiles;
 
-    public Game(Network network, CubeBank cubeBank, OutbreakCounter outbreakCounter, CureMarkerArea cureMarkerArea, PawnLocations locations, ResearchStations researchStations, InfectionCardsPiles infectionCardsPiles, InfectionRateTrack infectionRateTrack, PlayerCardsPiles playerCardsPiles, Iterable<Role> players) {
+    public Game(Network network, CubeBank cubeBank, OutbreakCounter outbreakCounter, CureMarkerArea cureMarkerArea, PawnLocations locations, ResearchStations researchStations, InfectionCardsPiles infectionCardsPiles, InfectionRateTrack infectionRateTrack, PlayerCardsPiles playerCardsPiles, Collection<Role> players) {
         this.network = network;
         this.cubeBank = cubeBank;
         this.outbreakCounter = outbreakCounter;
@@ -61,12 +63,14 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
         gameState = GameState.LOST;
     }
 
-    public void start() {
-        int nbCardsDealAtBegining = 2;
+    public void start(int nbCardsDealAtBegining, int nbEpidemicCards) {
+
         for (int nbCard = 0; nbCard < nbCardsDealAtBegining; nbCard++) {
             for (Role player : players) {
                 playerHands.deal(player, playerCardsPiles.draw());
             }
         }
+        playerCardsPiles.addEpidemicCardsToDrawPile(nbEpidemicCards);
     }
+
 }

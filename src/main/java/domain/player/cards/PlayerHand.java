@@ -10,9 +10,9 @@ public class PlayerHand {
 
     private final Map<PlayerCardColor, List<PlayerCard>> playerCards = new HashMap<>();
 
-    public void deal(PlayerCard playerCard) {
+    void deal(PlayerCard playerCard) {
 
-        List<PlayerCard> cards = playerCards.computeIfAbsent(playerCard.color(), k -> new ArrayList<PlayerCard>());
+        List<PlayerCard> cards = playerCards.computeIfAbsent(playerCard.color(), k -> new ArrayList<>());
         cards.add(playerCard);
     }
 
@@ -22,4 +22,8 @@ public class PlayerHand {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(get());
+    }
 }
