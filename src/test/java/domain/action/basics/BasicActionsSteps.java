@@ -50,11 +50,6 @@ public class BasicActionsSteps {
         Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> World.game.locations.charterFlight(role, cityName));
     }
 
-    private void charter(Role role, List<CityName> destinations) {
-        BiConsumer<Role, CityName> drive = (Role r, CityName d) -> World.game.locations.charterFlight(r, d);
-        trip(role, destinations, drive);
-    }
-
     private void drive(Role role, List<CityName> destinations) {
         BiConsumer<Role, CityName> drive = (Role r, CityName d) -> World.game.locations.drive(r, d);
         trip(role, destinations, drive);
@@ -63,11 +58,6 @@ public class BasicActionsSteps {
     private void shuttle(Role role, List<CityName> destinations) {
         BiConsumer<Role, CityName> shuttleFlight = (r, d) -> World.game.locations.shuttleFlight(r, d);
         trip(role, destinations, shuttleFlight);
-    }
-
-    private void direct(Role role, List<CityName> destinations) {
-        BiConsumer<Role, CityName> directFlight = (r, d) -> World.game.locations.directFlight(r, d);
-        trip(role, destinations, directFlight);
     }
 
     private void trip(Role role, List<CityName> destinations, BiConsumer<Role, CityName> conveyance) {
