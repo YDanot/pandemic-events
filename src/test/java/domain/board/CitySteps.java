@@ -1,7 +1,6 @@
 
 package domain.board;
 
-import com.google.common.collect.Lists;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -9,6 +8,7 @@ import cucumber.api.java.en.Then;
 import domain.actions.basics.PawnLocations;
 import domain.cube.CubeBank;
 import domain.game.Game;
+import domain.game.Players;
 import domain.infection.Disease;
 import domain.infection.InfectionLevel;
 import domain.infection.cards.InfectionCardsPiles;
@@ -21,6 +21,7 @@ import domain.researchstation.ResearchStations;
 import domain.treatment.cure.CureMarkerArea;
 import infra.World;
 import org.assertj.core.api.Assertions;
+import org.mockito.Mockito;
 import run.AsyncAssertions;
 
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.stream.Stream;
 
 import static domain.infection.InfectionLevel.from;
 import static domain.network.CityName.*;
+
 
 public class CitySteps {
 
@@ -54,8 +56,7 @@ public class CitySteps {
         network.addLink(MILAN, ESSEN);
         occidentSubNetworkUsed = true;
 
-        World.create(new Game(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new PawnLocations(), new ResearchStations(), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
-                Lists.newArrayList()));
+        World.create(new Game(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), Mockito.any(PawnLocations.class), new ResearchStations(), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(), Mockito.any(Players.class), Game.Level.INTRODUCTION));
     }
 
     Network standard_network() {

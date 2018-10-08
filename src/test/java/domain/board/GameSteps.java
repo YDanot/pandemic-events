@@ -1,5 +1,6 @@
 package domain.board;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -7,6 +8,10 @@ import domain.actions.basics.PawnLocations;
 import domain.cube.CubeBank;
 import domain.game.Game;
 import domain.game.GameState;
+import domain.game.Player;
+import domain.game.Players;
+import domain.game.start.Dealer;
+import domain.game.start.GameStarter;
 import domain.infection.cards.InfectionCard;
 import domain.infection.cards.InfectionCardsPiles;
 import domain.infection.outbreak.OutbreakCounter;
@@ -16,14 +21,11 @@ import domain.network.Network;
 import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerCardsPiles;
 import domain.researchstation.ResearchStations;
-import domain.role.Role;
 import domain.treatment.cure.CureMarkerArea;
 import infra.World;
 import org.assertj.core.api.Assertions;
 import run.AsyncAssertions;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static domain.network.CityName.ATLANTA;
@@ -34,6 +36,7 @@ import static domain.role.Role.SCIENTIST;
 public class GameSteps {
 
     private final CitySteps citySteps;
+    private Game.Level level;
 
     public GameSteps(CitySteps citySteps) {
         this.citySteps = citySteps;
@@ -71,37 +74,44 @@ public class GameSteps {
         playerCardsPiles.drawPile().add(PlayerCard.ESSEN);
         playerCardsPiles.drawPile().add(PlayerCard.NEW_YORK);
 
-        Set<Role> players = new HashSet<>();
-        players.add(SCIENTIST);
-        players.add(MEDIC);
+        Players players = Players.of(Player.as(SCIENTIST), Player.as(MEDIC));
 
         PawnLocations pawnLocations = new PawnLocations(CityName.PARIS, players);
         ResearchStations researchStations = new ResearchStations(CityName.PARIS);
 
         World.create(new Game(World.game.network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), pawnLocations, researchStations, infectionCardsPiles, new InfectionRateTrack(), playerCardsPiles,
-                players));
-    }
-
-    @When("^the game starts with (\\d+) epidemic cards$")
-    public void theGameStartsWithEpidemicCards(int nbCards) throws Throwable {
-        World.game.start(World.game.players.size(), nbCards);
+                players, Game.Level.INTRODUCTION));
     }
 
     @Given("^a standard game$")
     public void aStandardGame() throws Throwable {
         Network network = citySteps.standard_network();
-        Set<Role> players = new HashSet<>();
-        players.add(SCIENTIST);
-        players.add(MEDIC);
+
+        Players players = Players.of(Player.as(SCIENTIST), Player.as(MEDIC));
 
         PawnLocations pawnLocations = new PawnLocations(ATLANTA, players);
         ResearchStations researchStations = new ResearchStations(ATLANTA);
         World.create(new Game(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), pawnLocations, researchStations, new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
-                players));
+                players, Game.Level.INTRODUCTION));
     }
 
-    @When("^the game starts in (.*) level$")
-    public void theGameStartsInNormalLevel(Game.Level level) throws Throwable {
-        World.game.start(4, level);
+    @And("^Level is (.*)")
+    public void levelIsIntroduction(Game.Level level) throws Throwable {
+        this.level = level;
+    }
+
+    @And("^cards has been dealt$")
+    public void cardsHasBeenDealt() throws Throwable {
+        new Dealer().deal(World.game.players);
+    }
+
+    @When("^we deal cards$")
+    public void deal() throws Throwable {
+        new Dealer().deal(World.game.players);
+    }
+
+    @When("^we put initial disease cubes on the board$")
+    public void wePutInitialDiseaseCubesOnTheBoard() throws Throwable {
+        new GameStarter(World.game).putInitialDiseaseCubesOnTheBoard();
     }
 }

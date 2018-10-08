@@ -1,6 +1,6 @@
 package domain.player.cards;
 
-import domain.role.Role;
+import domain.game.Player;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,18 +8,18 @@ import java.util.Map;
 
 public class PlayerHands {
 
-    private final Map<Role, PlayerHand> hands = new HashMap<>();
+    private final Map<Player, PlayerHand> hands = new HashMap<>();
 
-    public void build(Iterable<Role> roles) {
-        roles.forEach(r -> hands.put(r, new PlayerHand()));
+    public void build(Iterable<Player> players) {
+        players.forEach(r -> hands.put(r, new PlayerHand()));
     }
 
-    public void deal(Role role, PlayerCard... playerCards) {
-        PlayerHand playerHand = hands.computeIfAbsent(role, k -> new PlayerHand());
+    public void deal(Player player, PlayerCard... playerCards) {
+        PlayerHand playerHand = hands.computeIfAbsent(player, k -> new PlayerHand());
         Arrays.stream(playerCards).forEach(playerHand::deal);
     }
 
-    public PlayerHand handOf(Role role) {
-        return hands.get(role);
+    public PlayerHand handOf(Player player) {
+        return hands.get(player);
     }
 }

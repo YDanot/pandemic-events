@@ -1,5 +1,7 @@
 package domain.actions.basics;
 
+import domain.game.Player;
+import domain.game.Players;
 import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
@@ -11,14 +13,16 @@ public class PawnLocations {
 
     private final Map<Role, CityName> locations = new HashMap<>();
 
-    public PawnLocations() {
+    public PawnLocations(CityName cityName, Players players) {
+        this(cityName, players.get());
     }
 
-    public PawnLocations(CityName cityName, Iterable<Role> roles) {
-        for (Role role : roles) {
-            locations.put(role, cityName);
+    private PawnLocations(CityName cityName, Iterable<Player> roles) {
+        for (Player player : roles) {
+            locations.put(player.role(), cityName);
         }
     }
+
 
     public void drive(Role role, CityName destination) throws ForbiddenMoveException {
         CityName from = locationsOf(role);

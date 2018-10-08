@@ -35,7 +35,7 @@ Feature: start a game
   Scenario: Put the initial Disease cubes on the board
     Given a standard game
     And Infection draw pile starts with Paris,Bogota,Osaka,Moscow,Milan,Manila,Algiers,Istanbul,Jakarta
-    When the game starts in normal level
+    When we put initial disease cubes on the board
     Then Blue infection level of Paris should be 3
     And Yellow infection level of Bogota should be 3
     And Red infection level of Osaka should be 3
@@ -47,20 +47,20 @@ Feature: start a game
     And Red infection level of Jakarta should be 1
     And the infection discard pile is Paris,Bogota,Osaka,Moscow,Milan,Manila,Algiers,Istanbul,Jakarta
 
-
   Scenario: dealing player cards
-    Given a minimalist game
-    And Player draw pile is Paris,London,New_York,Essen,Milan,Madrid,Algiers
+    Given a standard game
+    And Player draw pile starts with Paris,London,New_York,Essen,Milan,Madrid,Algiers,Jakarta
     And players are Medic, Scientist
-    When the game starts with 2 epidemic cards
+    When we deal cards
     Then a player should have Paris,New_York in his hand
     And a player should have London,Essen in his hand
-    Then Player draw pile should contains cities Milan,Madrid,Algiers in any order
+    And Player draw pile should not contains cities Paris,London,New_York,Essen,Milan,Madrid,Algiers,Jakarta
 
-  Scenario: epidemic cards should be added after dealing first player cards
-    Given a minimalist game
-    And Player draw pile is Paris,London,New_York,Essen,Milan,Madrid,Algiers
-    And players are Medic, Scientist
-    When the game starts with 2 epidemic cards
-    Then Player draw pile should contains 2 Epidemic cards
+  Scenario: epidemic cards should be added into Player pile by dividing it by 4 for introduction game
+    Given a standard game
+    And Level is Introduction
+    And cards has been dealt
+    When we add Epidemic cards to draw Pile
+    Then Player draw pile should contains 4 Epidemic cards
+    And we should have one epidemic card on each 1/4 of player card pile
 

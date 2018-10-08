@@ -4,6 +4,8 @@ import domain.actions.basics.PawnLocations;
 import domain.cube.CubeBank;
 import domain.epidemic.Epidemic;
 import domain.game.Game;
+import domain.game.Player;
+import domain.game.Players;
 import domain.infection.CityInfector;
 import domain.infection.Infector;
 import domain.infection.cards.InfectionCardsPiles;
@@ -20,8 +22,6 @@ import domain.role.Role;
 import domain.treatment.Treatment;
 import domain.treatment.cure.CureMarkerArea;
 
-import java.util.Arrays;
-
 public class World {
 
     public static EventBus eventBus;
@@ -29,8 +29,9 @@ public class World {
     public static Game game;
 
     public static void create() {
-        create(new Game(new Network(), new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new PawnLocations(CityName.PARIS, Arrays.asList(Role.values())), new ResearchStations(CityName.PARIS), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
-                Arrays.asList(Role.SCIENTIST, Role.MEDIC)));
+        Players players = Players.of(Player.as(Role.SCIENTIST), Player.as(Role.MEDIC));
+        create(new Game(new Network(), new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new PawnLocations(CityName.PARIS, players), new ResearchStations(CityName.PARIS), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
+                players, Game.Level.INTRODUCTION));
     }
 
     public static void create(Game game) {

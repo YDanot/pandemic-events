@@ -1,10 +1,7 @@
 package domain.player.cards;
 
 
-import java.math.BigDecimal;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class PlayerCardsPiles {
 
@@ -35,23 +32,30 @@ public class PlayerCardsPiles {
     }
 
     public void addEpidemicCardsToDrawPile(int nbEpidemicCards) {
-
-        Collection<List<PlayerCard>> lists = partitioned(BigDecimal.valueOf(draw.size()).divide(BigDecimal.valueOf(nbEpidemicCards), BigDecimal.ROUND_HALF_UP).intValue());
-        draw.clear();
-        lists.forEach(deck -> {
-            deck.add(PlayerCard.EPIDEMIC);
-            Collections.shuffle(deck);
-            draw.addAll(deck);
-        });
-
+        divideDrawPileIntoEqualParts(nbEpidemicCards).forEach(this::addRandomlyAnEpidemicCard);
     }
 
-    private Collection<List<PlayerCard>> partitioned(int parts) {
+    private void addRandomlyAnEpidemicCard(List<PlayerCard> deck) {
+        deck.add(new Random().nextInt(deck.size()), PlayerCard.EPIDEMIC);
+        putBackIntoDrawPile(deck);
+    }
 
-        final AtomicInteger counter = new AtomicInteger(0);
+    private void putBackIntoDrawPile(List<PlayerCard> partition) {
+        draw.addAll(partition);
+    }
 
-        return draw.stream()
-                .collect(Collectors.groupingBy(it -> counter.getAndIncrement() / parts))
-                .values();
+    private List<List<PlayerCard>> divideDrawPileIntoEqualParts(int nbEpidemicCards) {
+        List<List<PlayerCard>> lists = splitInto(draw, nbEpidemicCards, new ArrayList<>());
+        draw.clear();
+        return lists;
+    }
+
+    private List<List<PlayerCard>> splitInto(List<PlayerCard> list, int numberOfParts, List<List<PlayerCard>> result) {
+        if (numberOfParts == 0) {
+            return result;
+        }
+        int ceil = (int) Math.ceil(((double) list.size()) / numberOfParts);
+        result.add(new ArrayList<>(list.subList(0, ceil)));
+        return splitInto(new ArrayList<>(list.subList(ceil, list.size())), numberOfParts - 1, result);
     }
 }

@@ -7,29 +7,29 @@ Feature: Basics Action
   If your pawn is in a city with a Research Station, move it to any other city with a Research Station.
 
   Scenario: Drive (or Ferry) on an adjacent city
-    Given the occident initial sub-network
+    Given a minimalist game
     And Scientist is located at Paris
     Then Scientist should be able to drive to London, Essen, Milan, Algiers, Madrid
 
   Scenario: Drive (or Ferry) on a non adjacent city
-    Given the occident initial sub-network
+    Given a minimalist game
     And Scientist is located at New_york
     Then Scientist should not be able to drive to Algiers
 
   Scenario: Shuttle Flight with both research station on location and destination
-    Given the occident initial sub-network
+    Given a minimalist game
     And a research station has been built on New_York, Essen
     And Scientist is located at New_York
     Then Scientist should be able to shuttle flight to Essen
 
   Scenario: Shuttle Flight without research stations on location
-    Given the occident initial sub-network
+    Given a minimalist game
     And a research station has been built on New_York, Essen
     And Scientist is located at Algiers
     Then Scientist should not be able to shuttle flight to New_York
 
   Scenario: Shuttle Flight without research stations on destination
-    Given the occident initial sub-network
+    Given a minimalist game
     And a research station has been built on Essen
     And Scientist is located at Essen
     Then Scientist should not be able to shuttle flight to New_York
