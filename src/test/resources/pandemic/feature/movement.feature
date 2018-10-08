@@ -37,6 +37,22 @@ Feature: Basics Action
  #Direct Flight
  #Play a card from your hand and move your pawn to the pictured city. Discard the card to the Player Discard pile.
 
+  Scenario: Direct Flight
+    Given a minimalist game
+    And Scientist is located at Essen
+    And Scientist hand is New_York,Algiers
+    When Scientist direct flies to New_York
+    Then Scientist should be located at New_York
+    And Scientist hand should be Algiers
+    And the player discard pile should contains New_York
+
+  Scenario: Direct Flight
+    Given a minimalist game
+    And Scientist is located at Essen
+    And Scientist hand is Essen,Algiers
+    Then Scientist should not be able to direct flight to Jakarta
+
+
  #Charter Flight
  #Play the card corresponding to your pawn’s current location, and move to any city on the board. Discard the card to the Player Discard pile.
 

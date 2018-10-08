@@ -1,5 +1,6 @@
 package domain.game;
 
+import com.google.common.collect.Lists;
 import domain.actions.basics.PawnLocations;
 import domain.cube.CubeBank;
 import domain.cube.NoAvailableCubeLeftEvent;
@@ -27,9 +28,9 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
     public final InfectionRateTrack infectionRateTrack;
     public final Players players;
     public final Level level;
+    public final PlayerHands playerHands;
     public GameState gameState = GameState.AVAILABLE;
     public PawnLocations locations;
-    public PlayerHands playerHands = new PlayerHands();
     public ResearchStations researchStations;
     public PlayerCardsPiles playerCardsPiles;
 
@@ -45,6 +46,10 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
         this.playerCardsPiles = playerCardsPiles;
         this.players = players;
         this.level = level;
+        if (players != null)
+            this.playerHands = PlayerHands.build(players.get());
+        else
+            playerHands = PlayerHands.build(Lists.newArrayList());
     }
 
     @Override

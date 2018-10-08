@@ -18,9 +18,7 @@ public class PlayerCardsPiles {
     }
 
     public PlayerCard draw() {
-        PlayerCard pop = this.draw.remove(draw.size() - 1);
-        discard.add(pop);
-        return pop;
+        return this.draw.remove(draw.size() - 1);
     }
 
     public List<PlayerCard> discardPile() {
@@ -57,5 +55,9 @@ public class PlayerCardsPiles {
         int ceil = (int) Math.ceil(((double) list.size()) / numberOfParts);
         result.add(new ArrayList<>(list.subList(0, ceil)));
         return splitInto(new ArrayList<>(list.subList(ceil, list.size())), numberOfParts - 1, result);
+    }
+
+    void addToDiscard(PlayerCard playerCard) {
+        discardPile().add(playerCard);
     }
 }

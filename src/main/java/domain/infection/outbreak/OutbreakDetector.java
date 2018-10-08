@@ -1,11 +1,12 @@
 package domain.infection.outbreak;
 
 import domain.game.TurnId;
-import domain.network.CityName;
-import domain.infection.InfectionEvent;
 import domain.infection.Disease;
+import domain.infection.InfectionEvent;
 import domain.infection.InfectionLevel;
 import domain.infection.InfectionListener;
+import domain.network.CityName;
+import infra.EventSourcingOutbrokenCityDao;
 import infra.World;
 
 public class OutbreakDetector implements InfectionListener {
@@ -22,7 +23,7 @@ public class OutbreakDetector implements InfectionListener {
     }
 
     private boolean alreadyOutbrokenInTurn(Disease disease, CityName cityName, TurnId turnId) {
-        return World.outbrokenCityFinder.find(turnId, disease).contains(cityName);
+        return new EventSourcingOutbrokenCityDao().find(turnId, disease).contains(cityName);
     }
 
     private void outbreak(Disease disease, CityName cityName, TurnId turnId) {

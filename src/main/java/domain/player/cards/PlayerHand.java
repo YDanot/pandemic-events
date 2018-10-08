@@ -1,5 +1,7 @@
 package domain.player.cards;
 
+import infra.World;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +12,7 @@ public class PlayerHand {
 
     private final Map<PlayerCardColor, List<PlayerCard>> playerCards = new HashMap<>();
 
-    void deal(PlayerCard playerCard) {
+    public void deal(PlayerCard playerCard) {
 
         List<PlayerCard> cards = playerCards.computeIfAbsent(playerCard.color(), k -> new ArrayList<>());
         cards.add(playerCard);
@@ -25,5 +27,14 @@ public class PlayerHand {
     @Override
     public String toString() {
         return String.valueOf(get());
+    }
+
+    public boolean contains(PlayerCard playerCard) {
+        return get().contains(playerCard);
+    }
+
+    public void discard(PlayerCard playerCard) {
+        World.game.playerCardsPiles.addToDiscard(playerCard);
+        playerCards.get(playerCard.color()).remove(playerCard);
     }
 }

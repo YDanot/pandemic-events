@@ -12,7 +12,6 @@ import domain.infection.cards.InfectionCardsPiles;
 import domain.infection.outbreak.OutbreakCounter;
 import domain.infection.outbreak.OutbreakDetector;
 import domain.infection.outbreak.OutbreakPropagator;
-import domain.infection.outbreak.OutbrokenCityFinder;
 import domain.infection.rate.InfectionRateTrack;
 import domain.network.CityName;
 import domain.network.Network;
@@ -25,7 +24,6 @@ import domain.treatment.cure.CureMarkerArea;
 public class World {
 
     public static EventBus eventBus;
-    public static OutbrokenCityFinder outbrokenCityFinder = new EventSourcingOutbrokenCityDao();
     public static Game game;
 
     public static void create() {

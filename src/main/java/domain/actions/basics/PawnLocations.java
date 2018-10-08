@@ -3,6 +3,8 @@ package domain.actions.basics;
 import domain.game.Player;
 import domain.game.Players;
 import domain.network.CityName;
+import domain.player.cards.PlayerCard;
+import domain.player.cards.PlayerHand;
 import domain.role.Role;
 import infra.World;
 
@@ -47,6 +49,17 @@ public class PawnLocations {
             locations.put(role, destination);
         } else {
             throw new ForbiddenMoveException(from, destination);
+        }
+    }
+
+    public void directFlight(Role role, CityName destination) {
+        PlayerCard playerCard = PlayerCard.valueOf(destination.name());
+        PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
+        if (playerHand.contains(playerCard)) {
+            locations.put(role, destination);
+            playerHand.discard(playerCard);
+        } else {
+            throw new ForbiddenMoveException(locationsOf(role), destination);
         }
     }
 }

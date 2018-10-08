@@ -10,8 +10,13 @@ public class PlayerHands {
 
     private final Map<Player, PlayerHand> hands = new HashMap<>();
 
-    public void build(Iterable<Player> players) {
-        players.forEach(r -> hands.put(r, new PlayerHand()));
+    private PlayerHands() {
+    }
+
+    public static PlayerHands build(Iterable<Player> players) {
+        PlayerHands playerHands = new PlayerHands();
+        players.forEach(r -> playerHands.hands.put(r, new PlayerHand()));
+        return playerHands;
     }
 
     public void deal(Player player, PlayerCard... playerCards) {

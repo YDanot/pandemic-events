@@ -6,6 +6,7 @@ import cucumber.api.java.en.When;
 import domain.game.Player;
 import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
+import domain.player.cards.PlayerHands;
 import domain.role.Role;
 import infra.World;
 import org.assertj.core.api.Assertions;
@@ -49,7 +50,7 @@ public class PlayerCardsSteps {
 
     @And("^players are (.*)$")
     public void playersAreMedicScientist(List<Role> roles) throws Throwable {
-        World.game.playerHands.build(roles.stream().map(Player::as).collect(Collectors.toList()));
+        PlayerHands.build(roles.stream().map(Player::as).collect(Collectors.toList()));
     }
 
     @And("^Player draw pile should not contains Epidemic cards$")
@@ -99,5 +100,25 @@ public class PlayerCardsSteps {
         return draw.stream()
                 .collect(Collectors.groupingBy(it -> counter.getAndIncrement() / partSize))
                 .values();
+    }
+
+    @And("^(.*) hand is (.*)$")
+    public void handIs(Role role, List<PlayerCard> playerCards) throws Throwable {
+        PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
+        playerCards.forEach(
+                p -> {
+                    this.putAtTopOfDeck(p);
+                    playerHand.deal(World.game.playerCardsPiles.draw());
+                });
+    }
+
+    @And("^(.*) hand should be (.*)$")
+    public void handShouldBe(Role role, List<PlayerCard> playerCards) throws Throwable {
+        playerCards.forEach(playerCard -> Assertions.assertThat(World.game.playerHands.handOf(Player.as(role)).contains(playerCard)).isTrue());
+    }
+
+    @And("^the player discard pile should contains (.*)")
+    public void thePlayerDiscardPileShouldContains(List<PlayerCard> playerCards) throws Throwable {
+        Assertions.assertThat(World.game.playerCardsPiles.discardPile()).containsAll(playerCards);
     }
 }
