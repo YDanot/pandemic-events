@@ -41,8 +41,18 @@ public class BasicActionsSteps {
     }
 
     @Then("^(.*) should not be able to direct flight to (.*)")
-    public void shouldNotBeAbleToDirectFlightTo(Role role, List<CityName> cityNames) throws Throwable {
-        Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> direct(role, cityNames));
+    public void shouldNotBeAbleToDirectFlightTo(Role role, CityName cityName) throws Throwable {
+        Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> World.game.locations.directFlight(role, cityName));
+    }
+
+    @Then("^(.*) should not be able to charter flight to (.*)$")
+    public void scientistShouldNotBeAbleToCharterFlightToNew_York(Role role, CityName cityName) throws Throwable {
+        Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> World.game.locations.charterFlight(role, cityName));
+    }
+
+    private void charter(Role role, List<CityName> destinations) {
+        BiConsumer<Role, CityName> drive = (Role r, CityName d) -> World.game.locations.charterFlight(r, d);
+        trip(role, destinations, drive);
     }
 
     private void drive(Role role, List<CityName> destinations) {
@@ -83,4 +93,10 @@ public class BasicActionsSteps {
     public void shouldBeLocatedAt(Role role, CityName cityName) throws Throwable {
         Assertions.assertThat(World.game.locations.locationsOf(role)).isEqualTo(cityName);
     }
+
+    @When("^(.*) charter flies to (.*)$")
+    public void charterTo(Role role, CityName cityName) throws Throwable {
+        World.game.locations.charterFlight(role, cityName);
+    }
+
 }

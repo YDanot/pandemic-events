@@ -49,12 +49,26 @@ Feature: Basics Action
   Scenario: Direct Flight
     Given a minimalist game
     And Scientist is located at Essen
-    And Scientist hand is Essen,Algiers
-    Then Scientist should not be able to direct flight to Jakarta
-
+    And Scientist hand is Paris,Algiers
+    Then Scientist should not be able to direct flight to New_York
 
  #Charter Flight
  #Play the card corresponding to your pawn’s current location, and move to any city on the board. Discard the card to the Player Discard pile.
+
+  Scenario: Charter Flight
+    Given a minimalist game
+    And Scientist is located at Essen
+    And Scientist hand is Essen,Algiers
+    When Scientist charter flies to New_York
+    Then Scientist should be located at New_York
+    And Scientist hand should be Algiers
+    And the player discard pile should contains Essen
+
+  Scenario: Direct Flight
+    Given a minimalist game
+    And Scientist is located at Essen
+    And Scientist hand is Paris,Algiers
+    Then Scientist should not be able to charter flight to New_York
 
  #A player may also elect to pass (and do nothing) for an action.
  #The Dispatcher may move other player’s pawns on his turn (using any of the available Basic actions) as if they were his own pawn. He may also spend an action to move a pawn to any city that contains another pawn. He may only move other players’ pawns if they permit him to do so. Note: For the Charter Flight action, the Dispatcher must play the card corresponding to the current location of the pawn he wishes to move.

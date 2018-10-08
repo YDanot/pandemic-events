@@ -62,4 +62,15 @@ public class PawnLocations {
             throw new ForbiddenMoveException(locationsOf(role), destination);
         }
     }
+
+    public void charterFlight(Role role, CityName destination) {
+        PlayerCard playerCard = PlayerCard.valueOf(locationsOf(role).name());
+        PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
+        if (playerHand.contains(playerCard)) {
+            locations.put(role, destination);
+            playerHand.discard(playerCard);
+        } else {
+            throw new ForbiddenMoveException(locationsOf(role), destination);
+        }
+    }
 }
