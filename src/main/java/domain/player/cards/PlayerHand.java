@@ -37,4 +37,16 @@ public class PlayerHand {
         World.game.playerCardsPiles.addToDiscard(playerCard);
         playerCards.get(playerCard.color()).remove(playerCard);
     }
+
+    private boolean containsAll(List<PlayerCard> discard) {
+        return get().containsAll(discard);
+    }
+
+    public SubHand subHand(List<PlayerCard> cards) {
+        if (!containsAll(cards)) {
+            throw new IllegalArgumentException(cards + " is not a sub hand of " + get());
+        }
+        return new SubHand(cards);
+    }
+
 }

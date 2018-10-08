@@ -1,6 +1,11 @@
 package domain.game;
 
+import domain.infection.Disease;
+import domain.player.cards.PlayerHand;
+import domain.player.cards.SubHand;
 import domain.role.Role;
+import domain.treatment.cure.CureDiscoveringEvent;
+import infra.World;
 
 public class Player {
 
@@ -16,6 +21,24 @@ public class Player {
 
     public Role role() {
         return role;
+    }
+
+    public void cures(Disease disease, SubHand subHand) {
+        PlayerHand playerHand = World.game.playerHands.handOf(this);
+        if (noResearchStationBuiltOnLocation() || countDiseaseCardLowerThanFive(disease, subHand)) {
+            throw new IllegalArgumentException("You cannot cure " + disease + " disease");
+        }
+        subHand.cards().forEach(playerHand::discard);
+        World.eventBus.publish(new CureDiscoveringEvent(disease));
+
+    }
+
+    private boolean countDiseaseCardLowerThanFive(Disease disease, SubHand subHand) {
+        return subHand.countDiseaseCard(disease) < 5;
+    }
+
+    private boolean noResearchStationBuiltOnLocation() {
+        return !World.game.researchStations.builtOn(World.game.locations.locationsOf(role));
     }
 
     @Override

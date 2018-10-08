@@ -9,14 +9,39 @@ Feature: Discover a cure
 
 
   Scenario: discover a cure for blue disease
-    Given a minimalist game
-    When Blue is cured
+    Given a standard game
+    And MEDIC hand is Essen,Paris,New_York,London,Washington,Algiers
+    And MEDIC is located at Atlanta
+    When MEDIC cures Blue disease by discarding Essen,Paris,New_York,London,Washington
     Then Blue should be mark as cured
 
   Scenario: win the game on discovering all cures
-    Given a minimalist game
-    And Blue has been cured
+    Given a standard game
+    And MEDIC hand is Essen,Paris,New_York,London,Washington,Algiers
+    And MEDIC is located at Atlanta
+    And Yellow has been cured
     And Black has been cured
     And Red has been cured
-    When Yellow is cured
+    When MEDIC cures Blue disease by discarding Essen,Paris,New_York,London,Washington
     Then game should be won
+
+  Scenario: discard 5 cards of the same color to cure the corresponding disease.
+    Given a standard game
+    And MEDIC hand is Essen,Paris,New_York,London,Washington,Algiers
+    And MEDIC is located at Atlanta
+    When MEDIC cures Blue disease by discarding Essen,Paris,New_York,London,Washington
+    Then MEDIC hand should be Algiers
+    And the player discard pile should contains Essen,Paris,New_York,London,Washington
+
+  Scenario: cure a disease only if you have 5 cards on the color of the disease.
+    Given a standard game
+    And MEDIC hand is Essen,Paris,New_York,London,Washington,Algiers
+    And MEDIC is located at Atlanta
+    Then MEDIC should not be able to cure Red disease
+
+  Scenario: cure a disease in a research station only.
+    Given a standard game
+    And MEDIC hand is Essen,Paris,New_York,London,Washington,Algiers
+    And MEDIC is located at Jakarta
+    Then MEDIC should not be able to cure Blue disease
+    

@@ -6,6 +6,12 @@ Feature: Basics Action
   Shuttle Flight
   If your pawn is in a city with a Research Station, move it to any other city with a Research Station.
 
+  Direct Flight
+  Play a card from your hand and move your pawn to the pictured city. Discard the card to the Player Discard pile.
+
+  Charter Flight
+  Play the card corresponding to your pawn’s current location, and move to any city on the board. Discard the card to the Player Discard pile.
+
   Scenario: Drive (or Ferry) on an adjacent city
     Given a minimalist game
     And Scientist is located at Paris
@@ -15,6 +21,7 @@ Feature: Basics Action
     Given a minimalist game
     And Scientist is located at New_york
     Then Scientist should not be able to drive to Algiers
+
 
   Scenario: Shuttle Flight with both research station on location and destination
     Given a minimalist game
@@ -34,8 +41,6 @@ Feature: Basics Action
     And Scientist is located at Essen
     Then Scientist should not be able to shuttle flight to New_York
 
- #Direct Flight
- #Play a card from your hand and move your pawn to the pictured city. Discard the card to the Player Discard pile.
 
   Scenario: Direct Flight
     Given a minimalist game
@@ -46,14 +51,11 @@ Feature: Basics Action
     And Scientist hand should be Algiers
     And the player discard pile should contains New_York
 
-  Scenario: Direct Flight
+  Scenario: Direct Flight impossible
     Given a minimalist game
     And Scientist is located at Essen
     And Scientist hand is Paris,Algiers
     Then Scientist should not be able to direct flight to New_York
-
- #Charter Flight
- #Play the card corresponding to your pawn’s current location, and move to any city on the board. Discard the card to the Player Discard pile.
 
   Scenario: Charter Flight
     Given a minimalist game
@@ -64,7 +66,7 @@ Feature: Basics Action
     And Scientist hand should be Algiers
     And the player discard pile should contains Essen
 
-  Scenario: Direct Flight
+  Scenario: Charter Flight impossible
     Given a minimalist game
     And Scientist is located at Essen
     And Scientist hand is Paris,Algiers

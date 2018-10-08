@@ -3,10 +3,16 @@ package domain.treatment.cure;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import domain.game.Player;
 import domain.infection.Disease;
+import domain.player.cards.PlayerCard;
+import domain.player.cards.PlayerHand;
+import domain.role.Role;
 import infra.World;
+import org.assertj.core.api.Assertions;
 import run.AsyncAssertions;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -27,5 +33,20 @@ public class CureSteps {
     @And("^(Blue|Black|Red|Yellow) has been cured$")
     public void blueHasBeenCured(Disease disease) throws Throwable {
         World.eventBus.publish(new CureDiscoveringEvent(disease));
+    }
+
+    @When("^(.*) cures (Blue|Black|Red|Yellow) disease by discarding (.*)$")
+    public void medicCuresBlueDisease(Role role, Disease disease, List<PlayerCard> subHand) throws Throwable {
+        Player.as(role).cures(disease, World.game.playerHands.handOf(Player.as(role)).subHand(subHand));
+    }
+
+    @Then("^(.*) should not be able to cure (Blue|Black|Red|Yellow) disease$")
+    public void medicShouldNotBeAbleToCureBlueDisease(Role role, Disease disease) throws Throwable {
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> cure(role, disease));
+    }
+
+    private void cure(Role role, Disease disease) {
+        PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
+        Player.as(role).cures(disease, playerHand.subHand(playerHand.get()));
     }
 }
