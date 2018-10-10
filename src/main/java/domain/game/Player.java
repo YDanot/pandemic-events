@@ -1,5 +1,6 @@
 package domain.game;
 
+import domain.actions.Action;
 import domain.infection.Disease;
 import domain.player.cards.PlayerHand;
 import domain.player.cards.SubHand;
@@ -21,6 +22,10 @@ public class Player {
 
     public Role role() {
         return role;
+    }
+
+    public void act(Action action) {
+        action.accept(this);
     }
 
     public void cures(Disease disease, SubHand subHand) {

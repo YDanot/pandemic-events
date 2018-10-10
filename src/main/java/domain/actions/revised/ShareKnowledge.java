@@ -5,34 +5,33 @@ import domain.network.CityName;
 import domain.player.cards.PlayerCard;
 import infra.World;
 
-public class ShareKnowledge {
+public class ShareKnowledge implements RevisedAction {
 
-    private final Player doer;
     private final Player receiver;
     private final PlayerCard playerCard;
 
-    public ShareKnowledge(Player doer, Player receiver, PlayerCard playerCard) {
-        this.doer = doer;
+    public ShareKnowledge(Player receiver, PlayerCard playerCard) {
         this.receiver = receiver;
         this.playerCard = playerCard;
-        if (doerDoesNotHaveSharingCardInHand() || doerAndReceiverAreNotInPlace()) {
-            throw new ActionImpossible();
-        }
     }
 
-    public void execute() {
-        World.game.playerHands.handOf(doer).pull(playerCard);
-        World.game.playerHands.handOf(receiver).deal(playerCard);
-    }
-
-    private boolean doerAndReceiverAreNotInPlace() {
+    private boolean isNotInPlaceWithReceiver(Player doer) {
         CityName doerLocation = World.game.locations.locationsOf(doer.role());
         CityName receiverLocation = World.game.locations.locationsOf(receiver.role());
         CityName place = CityName.valueOf(playerCard.name());
         return !receiverLocation.equals(place) && doerLocation.equals(place);
     }
 
-    private boolean doerDoesNotHaveSharingCardInHand() {
+    private boolean doerDoesNotHaveSharingCardInHand(Player doer) {
         return !World.game.playerHands.handOf(doer).contains(playerCard);
+    }
+
+    @Override
+    public void accept(Player player) {
+        if (doerDoesNotHaveSharingCardInHand(player) || isNotInPlaceWithReceiver(player)) {
+            throw new ActionImpossible();
+        }
+        World.game.playerHands.handOf(player).pull(playerCard);
+        World.game.playerHands.handOf(receiver).deal(playerCard);
     }
 }
