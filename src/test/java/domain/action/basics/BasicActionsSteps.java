@@ -5,6 +5,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import domain.actions.basics.DriveOrFerry;
 import domain.actions.basics.ForbiddenMove;
+import domain.actions.basics.ShuttleFly;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;
@@ -58,7 +59,7 @@ public class BasicActionsSteps {
     }
 
     private void shuttle(Role role, List<CityName> destinations) {
-        BiConsumer<Role, CityName> shuttleFlight = (r, d) -> World.game.locations.shuttleFlight(r, d);
+        BiConsumer<Role, CityName> shuttleFlight = (r, d) -> Player.as(r).act(new ShuttleFly(d));
         trip(role, destinations, shuttleFlight);
     }
 
