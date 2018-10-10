@@ -3,7 +3,7 @@ package domain.action.basics;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domain.actions.basics.ForbiddenMoveException;
+import domain.actions.basics.ForbiddenMove;
 import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
@@ -27,7 +27,7 @@ public class BasicActionsSteps {
 
     @Then("^(.*) should not be able to drive to (.*)")
     public void shouldNotBeAbleToMoveTo(Role role, List<CityName> cityNames) throws Throwable {
-        Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> drive(role, cityNames));
+        Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> drive(role, cityNames));
     }
 
     @Then("^(.*) should be able to shuttle flight to (.*)$")
@@ -37,17 +37,17 @@ public class BasicActionsSteps {
 
     @Then("^(.*) should not be able to shuttle flight to (.*)")
     public void shouldNotBeAbleToShuttleTo(Role role, List<CityName> cityNames) throws Throwable {
-        Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> shuttle(role, cityNames));
+        Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> shuttle(role, cityNames));
     }
 
     @Then("^(.*) should not be able to direct flight to (.*)")
     public void shouldNotBeAbleToDirectFlightTo(Role role, CityName cityName) throws Throwable {
-        Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> World.game.locations.directFlight(role, cityName));
+        Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> World.game.locations.directFlight(role, cityName));
     }
 
     @Then("^(.*) should not be able to charter flight to (.*)$")
     public void scientistShouldNotBeAbleToCharterFlightToNew_York(Role role, CityName cityName) throws Throwable {
-        Assertions.assertThatExceptionOfType(ForbiddenMoveException.class).isThrownBy(() -> World.game.locations.charterFlight(role, cityName));
+        Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> World.game.locations.charterFlight(role, cityName));
     }
 
     private void drive(Role role, List<CityName> destinations) {

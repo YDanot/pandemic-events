@@ -2,7 +2,7 @@ package domain.board;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domain.actions.revised.ActionImpossible;
+import domain.actions.ActionImpossible;
 import domain.actions.revised.ShareKnowledge;
 import domain.game.Player;
 import domain.network.CityName;

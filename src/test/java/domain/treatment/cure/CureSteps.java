@@ -3,6 +3,7 @@ package domain.treatment.cure;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import domain.actions.revised.CureDisease;
 import domain.game.Player;
 import domain.infection.Disease;
 import domain.player.cards.PlayerCard;
@@ -37,7 +38,7 @@ public class CureSteps {
 
     @When("^(.*) cures (Blue|Black|Red|Yellow) disease by discarding (.*)$")
     public void medicCuresBlueDisease(Role role, Disease disease, List<PlayerCard> subHand) throws Throwable {
-        Player.as(role).cures(disease, World.game.playerHands.handOf(Player.as(role)).subHand(subHand));
+        Player.as(role).act(new CureDisease(disease, World.game.playerHands.handOf(Player.as(role)).subHand(subHand)));
     }
 
     @Then("^(.*) should not be able to cure (Blue|Black|Red|Yellow) disease$")
@@ -47,6 +48,6 @@ public class CureSteps {
 
     private void cure(Role role, Disease disease) {
         PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
-        Player.as(role).cures(disease, playerHand.subHand(playerHand.get()));
+        Player.as(role).act(new CureDisease(disease, playerHand.subHand(playerHand.get())));
     }
 }

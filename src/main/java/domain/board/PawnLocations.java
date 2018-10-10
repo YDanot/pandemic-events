@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.actions.basics.ForbiddenMoveException;
+import domain.actions.basics.ForbiddenMove;
 import domain.game.Player;
 import domain.game.Players;
 import domain.network.CityName;
@@ -27,12 +27,12 @@ public class PawnLocations {
     }
 
 
-    public void drive(Role role, CityName destination) throws ForbiddenMoveException {
+    public void drive(Role role, CityName destination) throws ForbiddenMove {
         CityName from = locationsOf(role);
         if (World.game.network.areLinked(from, destination)) {
             locations.put(role, destination);
         } else {
-            throw new ForbiddenMoveException(from, destination);
+            throw new ForbiddenMove(from, destination);
         }
     }
 
@@ -49,7 +49,7 @@ public class PawnLocations {
         if (World.game.researchStations.builtOn(from) && World.game.researchStations.builtOn(destination)) {
             locations.put(role, destination);
         } else {
-            throw new ForbiddenMoveException(from, destination);
+            throw new ForbiddenMove(from, destination);
         }
     }
 
@@ -60,7 +60,7 @@ public class PawnLocations {
             locations.put(role, destination);
             playerHand.discard(playerCard);
         } else {
-            throw new ForbiddenMoveException(locationsOf(role), destination);
+            throw new ForbiddenMove(locationsOf(role), destination);
         }
     }
 
@@ -71,7 +71,7 @@ public class PawnLocations {
             locations.put(role, destination);
             playerHand.discard(playerCard);
         } else {
-            throw new ForbiddenMoveException(locationsOf(role), destination);
+            throw new ForbiddenMove(locationsOf(role), destination);
         }
     }
 }

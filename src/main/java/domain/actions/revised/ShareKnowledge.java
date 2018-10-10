@@ -1,5 +1,6 @@
 package domain.actions.revised;
 
+import domain.actions.ActionImpossible;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;

@@ -1,4 +1,4 @@
-package domain.actions.revised;
+package domain.actions;
 
 public class ActionImpossible extends RuntimeException {
 }
