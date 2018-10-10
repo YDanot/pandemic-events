@@ -9,11 +9,9 @@ import java.util.stream.Stream;
 
 public class City {
 
-    private final CityName cityName;
     private Map<Disease, InfectionLevel> infections = new HashMap<>();
 
-    City(CityName cityName) {
-        this.cityName = cityName;
+    City() {
         Stream.of(Disease.values())
                 .forEach(this::initInfectionLevel);
     }
@@ -31,10 +29,6 @@ public class City {
     }
     public InfectionLevel infectionLevelFor(Disease disease) {
         return infections.get(disease);
-    }
-
-    public boolean outbreakInfectionLevelReached(Disease disease) {
-        return infectionLevelFor(disease).outbreakLevelReached();
     }
 
     public boolean isHealthyFor(Disease disease) {

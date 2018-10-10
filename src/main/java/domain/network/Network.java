@@ -12,8 +12,8 @@ public class Network {
         links.add(new Link(cityName1, cityName2));
     }
 
-    public City addCity(CityName cityName1) {
-        return cityMap.put(cityName1, new City(cityName1));
+    public City addCity(CityName name) {
+        return cityMap.put(name, new City());
     }
 
     public Stream<CityName> citiesLinkedTo(CityName cityName){

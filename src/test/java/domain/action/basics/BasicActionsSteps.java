@@ -3,7 +3,9 @@ package domain.action.basics;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import domain.actions.basics.DriveOrFerry;
 import domain.actions.basics.ForbiddenMove;
+import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
@@ -51,7 +53,7 @@ public class BasicActionsSteps {
     }
 
     private void drive(Role role, List<CityName> destinations) {
-        BiConsumer<Role, CityName> drive = (Role r, CityName d) -> World.game.locations.drive(r, d);
+        BiConsumer<Role, CityName> drive = (Role r, CityName d) -> Player.as(r).act(new DriveOrFerry(d));
         trip(role, destinations, drive);
     }
 
