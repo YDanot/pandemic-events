@@ -3,6 +3,7 @@ package domain.action.basics;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import domain.actions.basics.DirectFly;
 import domain.actions.basics.DriveOrFerry;
 import domain.actions.basics.ForbiddenMove;
 import domain.actions.basics.ShuttleFly;
@@ -45,7 +46,7 @@ public class BasicActionsSteps {
 
     @Then("^(.*) should not be able to direct flight to (.*)")
     public void shouldNotBeAbleToDirectFlightTo(Role role, CityName cityName) throws Throwable {
-        Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> World.game.locations.directFlight(role, cityName));
+        Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> Player.as(role).act(new DirectFly(cityName)));
     }
 
     @Then("^(.*) should not be able to charter flight to (.*)$")
@@ -79,7 +80,7 @@ public class BasicActionsSteps {
 
     @When("^(.*) direct flies to (.*)$")
     public void scientistDirectFlightToNew_York(Role role, CityName cityName) throws Throwable {
-        World.game.locations.directFlight(role, cityName);
+        Player.as(role).act(new DirectFly(cityName));
     }
 
     @Then("^(.*) should be located at (.*)$")
