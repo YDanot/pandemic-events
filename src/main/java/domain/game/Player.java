@@ -19,7 +19,7 @@ public class Player {
         return role;
     }
 
-    public void act(Action action) {
+    public void take(Action action) {
         action.accept(this);
     }
 

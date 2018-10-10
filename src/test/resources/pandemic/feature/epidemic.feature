@@ -35,3 +35,9 @@ Feature: epidemic
     And the bottom card from the Infection Draw Pile is London
     When an epidemic occurred
     Then top cards of the Infection Draw Pile should be Paris,Algiers,New_York,London
+
+  Scenario: Epidemic launched after drawing epidemic card
+    Given a minimalist game
+    And Player draw pile starts with Epidemic
+    When a player draws a card
+    Then epidemic should occurs

@@ -22,4 +22,9 @@ public class EpidemicSteps {
             Assertions.assertThat(drawPile.pop()).isIn(infectionCardList);
         }
     }
+
+    @Then("^epidemic should occurs$")
+    public void epidemicShouldOccurs() throws Throwable {
+        Assertions.assertThat(World.eventBus.getEpidemicEvents()).isNotEmpty();
+    }
 }

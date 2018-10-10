@@ -43,21 +43,21 @@ public class BasicActionsSteps {
 
     @Then("^(.*) should not be able to direct flight to (.*)")
     public void shouldNotBeAbleToDirectFlightTo(Role role, CityName cityName) throws Throwable {
-        Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> Player.as(role).act(new DirectFly(cityName)));
+        Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> Player.as(role).take(new DirectFly(cityName)));
     }
 
     @Then("^(.*) should not be able to charter flight to (.*)$")
     public void scientistShouldNotBeAbleToCharterFlightToNew_York(Role role, CityName cityName) throws Throwable {
-        Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> Player.as(role).act(new CharterFly(cityName)));
+        Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> Player.as(role).take(new CharterFly(cityName)));
     }
 
     private void drive(Role role, List<CityName> destinations) {
-        BiConsumer<Role, CityName> drive = (Role r, CityName d) -> Player.as(r).act(new DriveOrFerry(d));
+        BiConsumer<Role, CityName> drive = (Role r, CityName d) -> Player.as(r).take(new DriveOrFerry(d));
         trip(role, destinations, drive);
     }
 
     private void shuttle(Role role, List<CityName> destinations) {
-        BiConsumer<Role, CityName> shuttleFlight = (r, d) -> Player.as(r).act(new ShuttleFly(d));
+        BiConsumer<Role, CityName> shuttleFlight = (r, d) -> Player.as(r).take(new ShuttleFly(d));
         trip(role, destinations, shuttleFlight);
     }
 
@@ -77,7 +77,7 @@ public class BasicActionsSteps {
 
     @When("^(.*) direct flies to (.*)$")
     public void scientistDirectFlightToNew_York(Role role, CityName cityName) throws Throwable {
-        Player.as(role).act(new DirectFly(cityName));
+        Player.as(role).take(new DirectFly(cityName));
     }
 
     @Then("^(.*) should be located at (.*)$")
@@ -87,7 +87,7 @@ public class BasicActionsSteps {
 
     @When("^(.*) charter flies to (.*)$")
     public void charterTo(Role role, CityName cityName) throws Throwable {
-        Player.as(role).act(new CharterFly(cityName));
+        Player.as(role).take(new CharterFly(cityName));
     }
 
 }

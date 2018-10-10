@@ -76,5 +76,6 @@ public class GameStarter {
         putInitialDiseaseCubesOnTheBoard();
         board.researchStations.buildOn(researchStationLocation);
         players.get().forEach((p) -> board.locations.move(p.role(), pawnLocation));
+
     }
 }

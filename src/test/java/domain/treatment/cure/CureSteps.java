@@ -38,7 +38,7 @@ public class CureSteps {
 
     @When("^(.*) cures (Blue|Black|Red|Yellow) disease by discarding (.*)$")
     public void medicCuresBlueDisease(Role role, Disease disease, List<PlayerCard> subHand) throws Throwable {
-        Player.as(role).act(new CureDisease(disease, World.game.playerHands.handOf(Player.as(role)).subHand(subHand)));
+        Player.as(role).take(new CureDisease(disease, World.game.playerHands.handOf(Player.as(role)).subHand(subHand)));
     }
 
     @Then("^(.*) should not be able to cure (Blue|Black|Red|Yellow) disease$")
@@ -48,6 +48,6 @@ public class CureSteps {
 
     private void cure(Role role, Disease disease) {
         PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
-        Player.as(role).act(new CureDisease(disease, playerHand.subHand(playerHand.get())));
+        Player.as(role).take(new CureDisease(disease, playerHand.subHand(playerHand.get())));
     }
 }

@@ -1,6 +1,9 @@
 package domain.player.cards;
 
 
+import domain.epidemic.EpidemicEvent;
+import infra.World;
+
 import java.util.*;
 
 public class PlayerCardsPiles {
@@ -18,7 +21,11 @@ public class PlayerCardsPiles {
     }
 
     public PlayerCard draw() {
-        return this.draw.remove(draw.size() - 1);
+        PlayerCard card = this.draw.remove(draw.size() - 1);
+        if (card.equals(PlayerCard.EPIDEMIC)) {
+            World.eventBus.publish(new EpidemicEvent());
+        }
+        return card;
     }
 
     public List<PlayerCard> discardPile() {
@@ -29,7 +36,7 @@ public class PlayerCardsPiles {
         return draw;
     }
 
-    void addToDiscard(PlayerCard playerCard) {
+    public void discard(PlayerCard playerCard) {
         discardPile().add(playerCard);
     }
 }

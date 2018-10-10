@@ -14,13 +14,13 @@ public class RevisedActionSteps {
 
     @When("^(.*) shares (.*) with (.*)$")
     public void medicSharesParis(Role doer, CityName cityName, Role receiver) throws Throwable {
-        Player.as(doer).act(new ShareKnowledge(Player.as(receiver), PlayerCard.valueOf(cityName.name())));
+        Player.as(doer).take(new ShareKnowledge(Player.as(receiver), PlayerCard.valueOf(cityName.name())));
     }
 
     @Then("^(.*) should not be able to share (.*) with (.*)$")
     public void medicShouldNotBeAbleToShareParisWithScientist(Role doer, CityName cityName, Role receiver) throws Throwable {
         Assertions.assertThatExceptionOfType(ActionImpossible.class).isThrownBy(
-                () -> Player.as(doer).act(new ShareKnowledge(Player.as(receiver), PlayerCard.valueOf(cityName.name())))
+                () -> Player.as(doer).take(new ShareKnowledge(Player.as(receiver), PlayerCard.valueOf(cityName.name())))
         );
     }
 }

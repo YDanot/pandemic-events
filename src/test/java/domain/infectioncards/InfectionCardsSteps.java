@@ -1,6 +1,7 @@
 package domain.infectioncards;
 
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import domain.infection.cards.InfectionCard;
 import infra.World;
@@ -54,5 +55,8 @@ public class InfectionCardsSteps {
         cards.forEach(this::putAtTopOfDeck);
     }
 
-
+    @Then("^the infection discard pile should contains (.*)$")
+    public void theInfectionDiscardPileShouldContains(List<InfectionCard> cards) throws Throwable {
+        Assertions.assertThat(World.board.infectionCardsPiles.discardPile()).containsAll(cards);
+    }
 }

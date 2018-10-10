@@ -2,6 +2,7 @@ package domain.board;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import domain.game.Player;
 import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
@@ -114,5 +115,10 @@ public class PlayerCardsSteps {
     @And("^the player discard pile should contains (.*)")
     public void thePlayerDiscardPileShouldContains(List<PlayerCard> playerCards) throws Throwable {
         Assertions.assertThat(World.board.playerCardsPiles.discardPile()).containsAll(playerCards);
+    }
+
+    @When("^a player draws a card$")
+    public void aPlayerDrawsACard() throws Throwable {
+        World.board.playerCardsPiles.draw();
     }
 }

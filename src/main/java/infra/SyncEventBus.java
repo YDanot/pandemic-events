@@ -25,6 +25,7 @@ import java.util.List;
 public class SyncEventBus implements EventBus {
 
     private final List<OutbreakEvent> outbreakEvents = new ArrayList<>();
+    private final List<EpidemicEvent> epidemicEvents = new ArrayList<>();
     private final List<InfectionEvent> infectionEvents = new ArrayList<>();
     private final List<InfectionListener> infectionListeners = new ArrayList<>();
     private final List<OutbreakListener> outbreakListeners = new ArrayList<>();
@@ -32,11 +33,11 @@ public class SyncEventBus implements EventBus {
     private final List<TreatmentListener> treatmentListeners = new ArrayList<>();
     private final List<CureDiscoveringListener> cureDiscoveringListeners = new ArrayList<>();
     private final List<AllDiseasesCuredListener> allDiseasesCuredListeners = new ArrayList<>();
-    private List<MaxOutbreakNumberReachedListener> maxOutbreakNumberReachedEventListeners = new ArrayList<>();
-    private List<EradicationListener> eradicationListeners = new ArrayList<>();
-    private List<InfectionCardDrawnListener> infectionCardDrawnListeners = new ArrayList<>();
-    private List<TakeCubeEventListener> takeCubeListeners = new ArrayList<>();
-    private List<EpidemicListener> epidemicListeners = new ArrayList<>();
+    private final List<MaxOutbreakNumberReachedListener> maxOutbreakNumberReachedEventListeners = new ArrayList<>();
+    private final List<EradicationListener> eradicationListeners = new ArrayList<>();
+    private final List<InfectionCardDrawnListener> infectionCardDrawnListeners = new ArrayList<>();
+    private final List<TakeCubeEventListener> takeCubeListeners = new ArrayList<>();
+    private final List<EpidemicListener> epidemicListeners = new ArrayList<>();
 
     public void listenOutbreak(OutbreakListener listener) {
         outbreakListeners.add(listener);
@@ -138,6 +139,17 @@ public class SyncEventBus implements EventBus {
 
     @Override
     public void publish(EpidemicEvent epidemicEvent) {
+        epidemicEvents.add(epidemicEvent);
         epidemicListeners.forEach(EpidemicListener::onEpidemic);
+    }
+
+    @Override
+    public List<EpidemicEvent> getEpidemicEvents() {
+        return epidemicEvents;
+    }
+
+    @Override
+    public List<InfectionEvent> getInfectionEvents() {
+        return infectionEvents;
     }
 }

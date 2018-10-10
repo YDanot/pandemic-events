@@ -1,15 +1,15 @@
 package domain.game;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class Players {
 
-    private final Set<Player> players;
+    private final List<Player> players;
 
     private Players(Player... players) {
-        this.players = new HashSet<>();
+        this.players = new ArrayList<>();
 
         Stream.of(players).forEach(this.players::add);
         if (this.players.size() < 2 || this.players.size() > 4) {
@@ -26,6 +26,13 @@ public class Players {
     }
 
     public Iterable<Player> get() {
-        return new HashSet<>(players);
+        return new ArrayList<>(players);
+    }
+
+    public Turn turn() {
+        Player next = players.iterator().next();
+        players.remove(next);
+        players.add(next);
+        return new Turn(next);
     }
 }

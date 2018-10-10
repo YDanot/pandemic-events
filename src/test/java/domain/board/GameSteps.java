@@ -4,11 +4,9 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import domain.actions.basics.DriveOrFerry;
 import domain.cube.CubeBank;
-import domain.game.Game;
-import domain.game.GameState;
-import domain.game.Player;
-import domain.game.Players;
+import domain.game.*;
 import domain.game.start.GameStarter;
 import domain.infection.cards.InfectionCard;
 import domain.infection.cards.InfectionCardsPiles;
@@ -34,6 +32,7 @@ public class GameSteps {
 
     private final CitySteps citySteps;
     private Game.Level level;
+    private Turn currentTurn;
 
     public GameSteps(CitySteps citySteps) {
         this.citySteps = citySteps;
@@ -93,6 +92,7 @@ public class GameSteps {
         Board standard = Board.standard();
         World.create(standard, players);
         new GameStarter(World.board, World.game.players, Game.Level.INTRODUCTION).start(CityName.ATLANTA, CityName.ATLANTA);
+        currentTurn = World.game.players.turn();
     }
 
     @And("^Level is (.*)")
@@ -122,5 +122,69 @@ public class GameSteps {
 
     private GameStarter starter() {
         return new GameStarter(World.board, World.game.players, level);
+    }
+
+    @And("^(?:Scientist|Medic) has driven to (.*)")
+    public void scientistHasDrivenFromAtlantaToWashington(CityName destination) throws Throwable {
+        currentTurn.take(new DriveOrFerry(destination));
+    }
+
+    @Then("^(?:Scientist|Medic) should be able to take an action$")
+    public void scientistShouldBeAbleToTakeAnAction() throws Throwable {
+        Assertions.assertThat(currentTurn.takingActionPhaseDone()).isFalse();
+    }
+
+    @Then("^(?:Scientist|Medic) should not be able to take an action$")
+    public void scientistShouldNotBeAbleToTakeAnAction() throws Throwable {
+        Assertions.assertThat(currentTurn.takingActionPhaseDone()).isTrue();
+    }
+
+    @When("^(?:Scientist|Medic) draws a card$")
+    public void scientistDrawsACard() throws Throwable {
+        currentTurn.drawAPlayerCard();
+    }
+
+    @Then("^(?:Scientist|Medic) should not be able to draw (?:another|a) card$")
+    public void shouldBeAbleToDrawAnOtherCard() throws Throwable {
+        Assertions.assertThat(currentTurn.drawingPhaseDone()).isTrue();
+    }
+
+    @And("^(?:Scientist|Medic) has drawn a card$")
+    public void scientistHasDrawnACard() throws Throwable {
+        currentTurn.drawAPlayerCard();
+    }
+
+    @And("^Scientist has drawn 2 cards$")
+    public void scientistHasDrawnCards() throws Throwable {
+        currentTurn.drawAPlayerCard();
+        currentTurn.drawAPlayerCard();
+    }
+
+    @When("^infector plays$")
+    public void infectorPlays() throws Throwable {
+        currentTurn.infectorPhase();
+    }
+
+    @Then("^Turn should be over$")
+    public void turnShouldBeOver() throws Throwable {
+        Assertions.assertThat(currentTurn.isOver()).isTrue();
+    }
+
+    @Then("^drawing phase should not be over$")
+    public void drawingPhaseShouldNotBeOver() throws Throwable {
+        Assertions.assertThat(currentTurn.drawingPhaseDone()).isFalse();
+    }
+
+    @And("^Scientist has taken 4 actions$")
+    public void scientistHasTakenActions() throws Throwable {
+        currentTurn.take(new DriveOrFerry(CityName.WASHINGTON));
+        currentTurn.take(new DriveOrFerry(CityName.MONTREAL));
+        currentTurn.take(new DriveOrFerry(CityName.NEW_YORK));
+        currentTurn.take(new DriveOrFerry(CityName.LONDON));
+    }
+
+    @Then("^infection should occurs on (.*)")
+    public void infectionShouldOccursOnJakarta(CityName cityName) throws Throwable {
+        Assertions.assertThat(World.eventBus.getInfectionEvents().stream().anyMatch((e) -> e.cityName.equals(cityName) && e.turnId.equals(currentTurn.id())));
     }
 }

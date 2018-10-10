@@ -20,7 +20,7 @@ public class TreatmentSteps {
     public void isTreatedIn(Disease disease, CityName cityName) throws Throwable {
         Player anyPlayer = World.game.players.get().iterator().next();
         World.board.locations.move(anyPlayer.role(), cityName);
-        anyPlayer.act(new TreatmentOf(disease));
+        anyPlayer.take(new TreatmentOf(disease));
     }
 
     @And("^(Blue|Black|Red|Yellow) has been eradicated$")
@@ -30,12 +30,12 @@ public class TreatmentSteps {
 
     @When("^(.*) treats (.*)$")
     public void scientistTreatsBlue(Role role, Disease disease) throws Throwable {
-        Player.as(role).act(new TreatmentOf(disease));
+        Player.as(role).take(new TreatmentOf(disease));
     }
 
     @Then("^(.*) should not be able to treat (.*)$")
     public void scientistShouldNotBeAbleToTreatBlue(Role role, Disease disease) throws Throwable {
-        Assertions.assertThatExceptionOfType(ActionImpossible.class).isThrownBy(() -> Player.as(role).act(new TreatmentOf(disease)));
+        Assertions.assertThatExceptionOfType(ActionImpossible.class).isThrownBy(() -> Player.as(role).take(new TreatmentOf(disease)));
     }
 }
 

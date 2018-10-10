@@ -40,6 +40,6 @@ public class ResearchStationSteps {
     }
 
     private void build(Role role) throws ResearchStationException {
-        Player.as(role).act(new BuildAResearchStation());
+        Player.as(role).take(new BuildAResearchStation());
     }
 }

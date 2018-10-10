@@ -11,7 +11,7 @@ public class InfectionRateTrack {
 
     private int currentRate = 0;
 
-    int current() {
+    public int current() {
         return rates.get(currentRate).value;
     }
 

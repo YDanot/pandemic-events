@@ -68,4 +68,8 @@ public interface EventBus {
     void publish(TakeCubeEvent takeCubeEvent);
 
     void publish(EpidemicEvent epidemicEvent);
+
+    List<EpidemicEvent> getEpidemicEvents();
+
+    List<InfectionEvent> getInfectionEvents();
 }
