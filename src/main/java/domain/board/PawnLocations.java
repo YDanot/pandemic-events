@@ -1,5 +1,6 @@
-package domain.actions.basics;
+package domain.board;
 
+import domain.actions.basics.ForbiddenMoveException;
 import domain.game.Player;
 import domain.game.Players;
 import domain.network.CityName;

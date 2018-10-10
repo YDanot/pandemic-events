@@ -1,7 +1,7 @@
 package domain.game;
 
 import com.google.common.collect.Lists;
-import domain.actions.basics.PawnLocations;
+import domain.board.PawnLocations;
 import domain.cube.CubeBank;
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;

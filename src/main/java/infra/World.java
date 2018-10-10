@@ -1,6 +1,6 @@
 package infra;
 
-import domain.actions.basics.PawnLocations;
+import domain.board.PawnLocations;
 import domain.cube.CubeBank;
 import domain.epidemic.Epidemic;
 import domain.game.Game;
