@@ -19,7 +19,7 @@ public class TreatmentSteps {
     @When("^(.*) is treated in (.*)$")
     public void isTreatedIn(Disease disease, CityName cityName) throws Throwable {
         Player anyPlayer = World.game.players.get().iterator().next();
-        World.game.locations.move(anyPlayer.role(), cityName);
+        World.board.locations.move(anyPlayer.role(), cityName);
         anyPlayer.act(new TreatmentOf(disease));
     }
 

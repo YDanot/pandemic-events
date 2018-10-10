@@ -16,13 +16,13 @@ public class CharterFly implements BasicAction {
 
     @Override
     public void accept(Player player) {
-        PlayerCard playerCard = PlayerCard.valueOf(World.game.locations.locationsOf(player.role()).name());
+        PlayerCard playerCard = PlayerCard.valueOf(World.board.locations.locationsOf(player.role()).name());
         PlayerHand playerHand = World.game.playerHands.handOf(player);
         if (playerHand.contains(playerCard)) {
-            World.game.locations.move(player.role(), destination);
+            World.board.locations.move(player.role(), destination);
             playerHand.discard(playerCard);
         } else {
-            throw new ForbiddenMove(World.game.locations.locationsOf(player.role()), destination);
+            throw new ForbiddenMove(World.board.locations.locationsOf(player.role()), destination);
         }
     }
 }

@@ -18,7 +18,7 @@ public class Dealer {
     }
 
     private void dealOneCardTo(Players players) {
-        players.get().forEach(player -> World.game.playerHands.deal(player, World.game.playerCardsPiles.draw()));
+        players.get().forEach(player -> World.game.playerHands.deal(player, World.board.playerCardsPiles.draw()));
     }
 
 

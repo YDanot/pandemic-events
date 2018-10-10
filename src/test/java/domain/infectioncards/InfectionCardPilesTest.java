@@ -19,18 +19,18 @@ public class InfectionCardPilesTest {
 
     @Test
     public void discardPile_should_be_empty_when_game_starts() throws Exception {
-        Assertions.assertThat(World.game.infectionCardsPiles.discardPile()).isEmpty();
+        Assertions.assertThat(World.board.infectionCardsPiles.discardPile()).isEmpty();
     }
 
     @Test
     public void a_card_is_discard_after_being_drawn() throws Exception {
-        InfectionCard draw = World.game.infectionCardsPiles.draw();
-        Assertions.assertThat(World.game.infectionCardsPiles.discardPile()).containsOnly(draw);
+        InfectionCard draw = World.board.infectionCardsPiles.draw();
+        Assertions.assertThat(World.board.infectionCardsPiles.discardPile()).containsOnly(draw);
     }
 
     @Test
     public void drawPile_should_be_full_when_game_starts() throws Exception {
-        Assertions.assertThat(World.game.infectionCardsPiles.drawPile()).hasSize(48);
+        Assertions.assertThat(World.board.infectionCardsPiles.drawPile()).hasSize(48);
     }
 
 }

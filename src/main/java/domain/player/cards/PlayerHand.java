@@ -34,7 +34,7 @@ public class PlayerHand {
     }
 
     public void discard(PlayerCard playerCard) {
-        World.game.playerCardsPiles.addToDiscard(playerCard);
+        World.board.playerCardsPiles.addToDiscard(playerCard);
         playerCards.get(playerCard.color()).remove(playerCard);
     }
 

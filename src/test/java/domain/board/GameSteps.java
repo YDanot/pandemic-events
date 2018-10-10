@@ -27,7 +27,6 @@ import run.AsyncAssertions;
 
 import java.util.concurrent.TimeUnit;
 
-import static domain.network.CityName.ATLANTA;
 import static domain.role.Role.MEDIC;
 import static domain.role.Role.SCIENTIST;
 
@@ -51,7 +50,7 @@ public class GameSteps {
 
     @Given("^a minimalist game$")
     public void a_minimalist_game() throws Throwable {
-        citySteps.the_occident_sub_network();
+        Network network = citySteps.the_occident_sub_network();
 
         InfectionCardsPiles infectionCardsPiles = new InfectionCardsPiles();
         infectionCardsPiles.drawPile().clear();
@@ -78,20 +77,14 @@ public class GameSteps {
         PawnLocations pawnLocations = new PawnLocations(CityName.PARIS, players);
         ResearchStations researchStations = new ResearchStations(CityName.PARIS);
 
-        World.create(new Game(World.game.network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), pawnLocations, researchStations, infectionCardsPiles, new InfectionRateTrack(), playerCardsPiles,
-                players, Game.Level.INTRODUCTION));
+        Board board = new Board(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), infectionCardsPiles, new InfectionRateTrack(), pawnLocations, researchStations, playerCardsPiles);
+        World.create(board, new Game(players, Game.Level.INTRODUCTION));
     }
 
     @Given("^a standard game$")
     public void aStandardGame() throws Throwable {
-        Network network = citySteps.standard_network();
-
         Players players = Players.of(Player.as(SCIENTIST), Player.as(MEDIC));
-
-        PawnLocations pawnLocations = new PawnLocations(ATLANTA, players);
-        ResearchStations researchStations = new ResearchStations(ATLANTA);
-        World.create(new Game(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), pawnLocations, researchStations, new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
-                players, Game.Level.INTRODUCTION));
+        World.create(Board.standard(players), new Game(players, Game.Level.INTRODUCTION));
     }
 
     @And("^Level is (.*)")
@@ -111,6 +104,6 @@ public class GameSteps {
 
     @When("^we put initial disease cubes on the board$")
     public void wePutInitialDiseaseCubesOnTheBoard() throws Throwable {
-        new GameStarter(World.game).putInitialDiseaseCubesOnTheBoard();
+        new GameStarter(World.board, World.game.players, level).putInitialDiseaseCubesOnTheBoard();
     }
 }

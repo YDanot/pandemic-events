@@ -8,9 +8,9 @@ public class Treatment implements TreatmentListener {
 
     @Override
     public void onTreatment(TreatmentEvent treatmentEvent) {
-        City city = World.game.network.get(treatmentEvent.cityName);
+        City city = World.board.network.get(treatmentEvent.cityName);
         Disease disease = treatmentEvent.disease;
-        if (World.game.cureMarkerArea.hasBeenCured(disease)) {
+        if (World.board.cureMarkerArea.hasBeenCured(disease)) {
             while (!city.isHealthyFor(disease)) {
                 treat(city, disease);
             }
@@ -21,7 +21,7 @@ public class Treatment implements TreatmentListener {
 
     private void treat(City city, Disease disease) {
         city.treat(disease);
-        World.game.cubeBank.putBackCube(disease);
+        World.board.cubeBank.putBackCube(disease);
     }
 
 }

@@ -14,9 +14,9 @@ public class ShuttleFly implements BasicAction {
 
     @Override
     public void accept(Player player) {
-        CityName from = World.game.locations.locationsOf(player.role());
-        if (World.game.researchStations.builtOn(from) && World.game.researchStations.builtOn(destination)) {
-            World.game.locations.move(player.role(), destination);
+        CityName from = World.board.locations.locationsOf(player.role());
+        if (World.board.researchStations.builtOn(from) && World.board.researchStations.builtOn(destination)) {
+            World.board.locations.move(player.role(), destination);
         } else {
             throw new ForbiddenMove(from, destination);
         }

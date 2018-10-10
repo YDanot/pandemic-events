@@ -15,17 +15,17 @@ public class InfectionCardsSteps {
     @When("^(.*) infection cards is drawn$")
     public void infectionCardsIsDrawn(InfectionCard infectionCard) throws Throwable {
         putAtTopOfDeck(infectionCard);
-        World.game.infectionCardsPiles.draw();
+        World.board.infectionCardsPiles.draw();
     }
 
     void putAtTopOfDeck(InfectionCard infectionCard) {
-        Stack<InfectionCard> infectionCardDeck = World.game.infectionCardsPiles.drawPile();
+        Stack<InfectionCard> infectionCardDeck = World.board.infectionCardsPiles.drawPile();
         infectionCardDeck.remove(infectionCard);
         infectionCardDeck.push(infectionCard);
     }
 
     private void putAtBottomOfDeck(InfectionCard infectionCard) {
-        Stack<InfectionCard> infectionCardDeck = World.game.infectionCardsPiles.drawPile();
+        Stack<InfectionCard> infectionCardDeck = World.board.infectionCardsPiles.drawPile();
         infectionCardDeck.remove(infectionCard);
         infectionCardDeck.insertElementAt(infectionCard, infectionCardDeck.size());
     }
@@ -39,13 +39,13 @@ public class InfectionCardsSteps {
     public void theInfectionDiscardPileIsParisAlgiersNew_York(List<InfectionCard> infectionCardList) throws Throwable {
         for (InfectionCard infectionCard : infectionCardList) {
             putAtTopOfDeck(infectionCard);
-            World.game.infectionCardsPiles.draw();
+            World.board.infectionCardsPiles.draw();
         }
     }
 
     @And("^Infection draw pile should contains at least (.*)$")
     public void infectionDrawPileShouldContainsAtLeast(List<InfectionCard> cards) throws Throwable {
-        Assertions.assertThat(World.game.infectionCardsPiles.drawPile()).containsAll(cards);
+        Assertions.assertThat(World.board.infectionCardsPiles.drawPile()).containsAll(cards);
     }
 
     @And("^Infection draw pile starts with (.*)$")

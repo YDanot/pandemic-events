@@ -7,6 +7,6 @@ public class BuildAResearchStation implements RevisedAction {
 
     @Override
     public void accept(Player player) {
-        World.game.researchStations.buildOn(World.game.locations.locationsOf(player.role()));
+        World.board.researchStations.buildOn(World.board.locations.locationsOf(player.role()));
     }
 }

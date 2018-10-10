@@ -20,11 +20,11 @@ public class Epidemic implements EpidemicListener {
     }
 
     private void increaseInfectionRate() {
-        World.game.infectionRateTrack.moveUp();
+        World.board.infectionRateTrack.moveUp();
     }
 
     private void infectLastDrawCardThreeTimes() {
-        InfectionCard infectionCard = World.game.infectionCardsPiles.drawBottom();
+        InfectionCard infectionCard = World.board.infectionCardsPiles.drawBottom();
         CityName cityName = CityName.valueOf(infectionCard.name());
         TurnId turnId = new TurnId();
         infect(infectionCard, cityName, turnId);
@@ -34,7 +34,7 @@ public class Epidemic implements EpidemicListener {
 
     private void infect(InfectionCard infectionCard, CityName cityName, TurnId turnId) {
         World.eventBus.publish(new InfectionEvent(infectionCard.disease(), cityName, turnId,
-                World.game.network.get(cityName).infectionLevelFor(infectionCard.disease())));
+                World.board.network.get(cityName).infectionLevelFor(infectionCard.disease())));
     }
 
     private void intensifyInfections() {
@@ -42,13 +42,13 @@ public class Epidemic implements EpidemicListener {
     }
 
     private void placeOnTopOfDrawPile(List<InfectionCard> discardPile) {
-        Stack<InfectionCard> drawPile = World.game.infectionCardsPiles.drawPile();
+        Stack<InfectionCard> drawPile = World.board.infectionCardsPiles.drawPile();
         discardPile.forEach(drawPile::push);
         discardPile.clear();
     }
 
     private List<InfectionCard> shuffleDiscardPile() {
-        List<InfectionCard> discardPile = World.game.infectionCardsPiles.discardPile();
+        List<InfectionCard> discardPile = World.board.infectionCardsPiles.discardPile();
         Collections.shuffle(discardPile);
         return discardPile;
     }

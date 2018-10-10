@@ -5,6 +5,8 @@ import java.util.stream.Stream;
 
 public class Network {
 
+    public static final Network STANDARD = NetworkSupplier.standard();
+
     private final List<Link> links = new ArrayList<>();
     private final Map<CityName, City> cityMap = new HashMap<>();
 

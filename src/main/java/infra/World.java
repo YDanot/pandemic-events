@@ -1,5 +1,6 @@
 package infra;
 
+import domain.board.Board;
 import domain.board.PawnLocations;
 import domain.cube.CubeBank;
 import domain.epidemic.Epidemic;
@@ -25,29 +26,31 @@ public class World {
 
     public static EventBus eventBus;
     public static Game game;
+    public static Board board;
 
     public static void create() {
         Players players = Players.of(Player.as(Role.SCIENTIST), Player.as(Role.MEDIC));
-        create(new Game(new Network(), new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new PawnLocations(CityName.PARIS, players), new ResearchStations(CityName.PARIS), new InfectionCardsPiles(), new InfectionRateTrack(), new PlayerCardsPiles(),
-                players, Game.Level.INTRODUCTION));
+        Board board = new Board(new Network(), new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new InfectionCardsPiles(), new InfectionRateTrack(), new PawnLocations(CityName.PARIS, players), new ResearchStations(CityName.PARIS), new PlayerCardsPiles());
+        create(board, new Game(players, Game.Level.INTRODUCTION));
     }
 
-    public static void create(Game game) {
+    public static void create(Board board, Game game) {
         World.game = game;
+        World.board = board;
         eventBus = new SyncEventBus();
         eventBus.listenEpidemic(new Epidemic());
-        eventBus.listenTakeCube(World.game.cubeBank);
+        eventBus.listenTakeCube(World.board.cubeBank);
         eventBus.listenNoAvailableCubeLeft(World.game);
         eventBus.listenAllDiseasesCured(World.game);
         eventBus.listenMax(World.game);
-        eventBus.listenEradication(World.game.cureMarkerArea);
+        eventBus.listenEradication(World.board.cureMarkerArea);
         eventBus.listenInfectionCardDrawn(new Infector());
         eventBus.listenInfection(new CityInfector());
         eventBus.listenInfection(new OutbreakDetector());
         eventBus.listenOutbreak(new OutbreakPropagator());
-        eventBus.listenOutbreak(World.game.outbreakCounter);
+        eventBus.listenOutbreak(World.board.outbreakCounter);
         eventBus.listenTreatment(new Treatment());
-        eventBus.listenCureDiscovering(World.game.cureMarkerArea);
+        eventBus.listenCureDiscovering(World.board.cureMarkerArea);
     }
 
 }

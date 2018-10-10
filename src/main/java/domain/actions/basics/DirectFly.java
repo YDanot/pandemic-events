@@ -19,10 +19,10 @@ public class DirectFly implements BasicAction {
         PlayerCard playerCard = PlayerCard.valueOf(destination.name());
         PlayerHand playerHand = World.game.playerHands.handOf(player);
         if (playerHand.contains(playerCard)) {
-            World.game.locations.move(player.role(), destination);
+            World.board.locations.move(player.role(), destination);
             playerHand.discard(playerCard);
         } else {
-            throw new ForbiddenMove(World.game.locations.locationsOf(player.role()), destination);
+            throw new ForbiddenMove(World.board.locations.locationsOf(player.role()), destination);
         }
     }
 }

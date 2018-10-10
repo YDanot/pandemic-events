@@ -17,8 +17,8 @@ public class ShareKnowledge implements RevisedAction {
     }
 
     private boolean isNotInPlaceWithReceiver(Player doer) {
-        CityName doerLocation = World.game.locations.locationsOf(doer.role());
-        CityName receiverLocation = World.game.locations.locationsOf(receiver.role());
+        CityName doerLocation = World.board.locations.locationsOf(doer.role());
+        CityName receiverLocation = World.board.locations.locationsOf(receiver.role());
         CityName place = CityName.valueOf(playerCard.name());
         return !receiverLocation.equals(place) && doerLocation.equals(place);
     }

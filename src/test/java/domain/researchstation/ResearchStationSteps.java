@@ -20,7 +20,7 @@ public class ResearchStationSteps {
     public void heShouldBeAbleToBuildAResearchStation(Role role) throws Throwable {
         build(role);
         AsyncAssertions.isTrueWithin(() ->
-                        World.game.researchStations.builtOn(World.game.locations.locationsOf(role)),
+                        World.board.researchStations.builtOn(World.board.locations.locationsOf(role)),
                 1, TimeUnit.SECONDS);
     }
 
@@ -28,7 +28,7 @@ public class ResearchStationSteps {
     public void aResearchStationHasBeenBuiltOnAlgiers(List<CityName> locations) throws Throwable {
         locations.forEach(l -> {
             try {
-                World.game.researchStations.buildOn(l);
+                World.board.researchStations.buildOn(l);
             } catch (ResearchStationException ignored) {
             }
         });

@@ -12,7 +12,7 @@ public class Infector implements InfectionCardDrawnListener {
     public void onInfectionCardDrawn(InfectionCardDrawnEvent infectionCardDrawnEvent) {
         CityName cityName = getCityName(infectionCardDrawnEvent.card().name());
         Disease disease = infectionCardDrawnEvent.card().disease();
-        InfectionEvent infectionEvent = new InfectionEvent(disease, cityName, new TurnId(), World.game.network.get(cityName).infectionLevelFor(disease));
+        InfectionEvent infectionEvent = new InfectionEvent(disease, cityName, new TurnId(), World.board.network.get(cityName).infectionLevelFor(disease));
         World.eventBus.publish(infectionEvent);
     }
 

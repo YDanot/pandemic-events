@@ -18,7 +18,7 @@ public class BasicActionsSteps {
 
     @And("^(.*) is located at (.*)")
     public void isLocatedAt(Role role, CityName cityName) throws Throwable {
-        World.game.locations.move(role, cityName);
+        World.board.locations.move(role, cityName);
     }
 
     @Then("^(.*) should be able to drive to (.*)$")
@@ -68,11 +68,11 @@ public class BasicActionsSteps {
     }
 
     private void roundTrip(Role role, BiConsumer<Role, CityName> conveyance, CityName destination) {
-        CityName from = World.game.locations.locationsOf(role);
+        CityName from = World.board.locations.locationsOf(role);
         conveyance.accept(role, destination);
-        Assertions.assertThat(World.game.locations.locationsOf(role).equals(destination)).isTrue();
+        Assertions.assertThat(World.board.locations.locationsOf(role).equals(destination)).isTrue();
         conveyance.accept(role, from);
-        Assertions.assertThat(World.game.locations.locationsOf(role).equals(from)).isTrue();
+        Assertions.assertThat(World.board.locations.locationsOf(role).equals(from)).isTrue();
     }
 
     @When("^(.*) direct flies to (.*)$")
@@ -82,7 +82,7 @@ public class BasicActionsSteps {
 
     @Then("^(.*) should be located at (.*)$")
     public void shouldBeLocatedAt(Role role, CityName cityName) throws Throwable {
-        Assertions.assertThat(World.game.locations.locationsOf(role)).isEqualTo(cityName);
+        Assertions.assertThat(World.board.locations.locationsOf(role)).isEqualTo(cityName);
     }
 
     @When("^(.*) charter flies to (.*)$")

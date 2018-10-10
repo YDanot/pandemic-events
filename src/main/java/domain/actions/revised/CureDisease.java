@@ -33,6 +33,6 @@ public class CureDisease implements RevisedAction {
     }
 
     private boolean noResearchStationBuiltOnLocationOf(Player player) {
-        return !World.game.researchStations.builtOn(World.game.locations.locationsOf(player.role()));
+        return !World.board.researchStations.builtOn(World.board.locations.locationsOf(player.role()));
     }
 }

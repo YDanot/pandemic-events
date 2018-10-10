@@ -20,14 +20,14 @@ public class PlayerCardsSteps {
 
     @Then("^Player draw pile should contains cities (.*) in any order$")
     public void playerDrawPileShouldContains(List<PlayerCard> cards) throws Throwable {
-        Assertions.assertThat(World.game.playerCardsPiles.drawPile()).containsAll(cards);
+        Assertions.assertThat(World.board.playerCardsPiles.drawPile()).containsAll(cards);
     }
 
     @And("^Player draw pile is (.*)$")
     public void playerDrawPileIs(List<PlayerCard> cards) throws Throwable {
-        World.game.playerCardsPiles.drawPile().clear();
+        World.board.playerCardsPiles.drawPile().clear();
         Collections.reverse(cards);
-        cards.forEach(c -> World.game.playerCardsPiles.drawPile().add(c));
+        cards.forEach(c -> World.board.playerCardsPiles.drawPile().add(c));
     }
 
     @Then("^a player should have (.*) in his hand$")
@@ -55,12 +55,12 @@ public class PlayerCardsSteps {
 
     @And("^Player draw pile should not contains Epidemic cards$")
     public void playerDrawPileShouldNotContainsEpidemicCards() throws Throwable {
-        Assertions.assertThat(World.game.playerCardsPiles.drawPile().contains(PlayerCard.EPIDEMIC)).isFalse();
+        Assertions.assertThat(World.board.playerCardsPiles.drawPile().contains(PlayerCard.EPIDEMIC)).isFalse();
     }
 
     @Then("^Player draw pile should contains (\\d+) Epidemic cards$")
     public void playerDrawPileShouldContainsEpidemicCards(int nbEpidemic) throws Throwable {
-        Assertions.assertThat(World.game.playerCardsPiles.drawPile().stream()
+        Assertions.assertThat(World.board.playerCardsPiles.drawPile().stream()
                 .filter(c -> c.equals(PlayerCard.EPIDEMIC)).count()).isEqualTo(nbEpidemic);
     }
 
@@ -71,25 +71,25 @@ public class PlayerCardsSteps {
     }
 
     private void putAtTopOfDeck(PlayerCard playerCard) {
-        Stack<PlayerCard> infectionCardDeck = World.game.playerCardsPiles.drawPile();
+        Stack<PlayerCard> infectionCardDeck = World.board.playerCardsPiles.drawPile();
         infectionCardDeck.remove(playerCard);
         infectionCardDeck.push(playerCard);
     }
 
     @And("^Player draw pile should not contains cities (.*)$")
     public void playerDrawPileShouldNotContains(List<PlayerCard> playerCards) throws Throwable {
-        Assertions.assertThat(World.game.playerCardsPiles.drawPile()).doesNotContainAnyElementsOf(playerCards);
+        Assertions.assertThat(World.board.playerCardsPiles.drawPile()).doesNotContainAnyElementsOf(playerCards);
     }
 
     @When("^we add Epidemic cards to draw Pile$")
     public void weAddEpidemicCardsToDrawPile() throws Throwable {
-        World.game.playerCardsPiles.addEpidemicCardsToDrawPile(World.game.level.nbEpidemicCard);
+        World.board.playerCardsPiles.addEpidemicCardsToDrawPile(World.game.level.nbEpidemicCard);
     }
 
 
     @And("^we should have one epidemic card on each 1/(\\d+) of player card pile$")
     public void weShouldHaveOneEpidemicCardOnEachOfPlayerCardPile(int nbParts) throws Throwable {
-        Collection<List<PlayerCard>> partitioned = partitioned(World.game.playerCardsPiles.drawPile(), nbParts);
+        Collection<List<PlayerCard>> partitioned = partitioned(World.board.playerCardsPiles.drawPile(), nbParts);
         Assertions.assertThat(partitioned).allMatch(p -> p.contains(PlayerCard.EPIDEMIC));
     }
 
@@ -108,7 +108,7 @@ public class PlayerCardsSteps {
         playerCards.forEach(
                 p -> {
                     this.putAtTopOfDeck(p);
-                    playerHand.deal(World.game.playerCardsPiles.draw());
+                    playerHand.deal(World.board.playerCardsPiles.draw());
                 });
     }
 
@@ -120,6 +120,6 @@ public class PlayerCardsSteps {
 
     @And("^the player discard pile should contains (.*)")
     public void thePlayerDiscardPileShouldContains(List<PlayerCard> playerCards) throws Throwable {
-        Assertions.assertThat(World.game.playerCardsPiles.discardPile()).containsAll(playerCards);
+        Assertions.assertThat(World.board.playerCardsPiles.discardPile()).containsAll(playerCards);
     }
 }

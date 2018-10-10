@@ -17,7 +17,7 @@ public class EpidemicSteps {
 
     @Then("^top cards of the Infection Draw Pile should be (.*)$")
     public void topCardsOfTheInfectionDrawPileShouldBeParisAlgiersNew_York(List<InfectionCard> infectionCardList) throws Throwable {
-        Stack<InfectionCard> drawPile = World.game.infectionCardsPiles.drawPile();
+        Stack<InfectionCard> drawPile = World.board.infectionCardsPiles.drawPile();
         for (int i = 0; i < infectionCardList.size(); i++) {
             Assertions.assertThat(drawPile.pop()).isIn(infectionCardList);
         }

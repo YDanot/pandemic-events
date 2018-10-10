@@ -15,7 +15,7 @@ public class DiseaseSteps {
     @Then("^There should be (\\d+) (blue|black|red|yellow) cubes available$")
     public void thereShouldBeCubes(int cubeNumber, Disease disease) throws Throwable {
         boolean validated = AsyncAssertions.isTrueWithin(() ->
-                        World.game.cubeBank.getRemainingCubes(disease).equals(cubeNumber),
+                        World.board.cubeBank.getRemainingCubes(disease).equals(cubeNumber),
                 1, TimeUnit.SECONDS);
         Assertions.assertThat(validated).as("bank " + disease + " cube number").isTrue();
     }
@@ -24,7 +24,7 @@ public class DiseaseSteps {
     @And("^(\\d+) (blue|black|red|yellow) cubes has been taken from bank$")
     public void blueCubesHasBeenTakenFromBank(int cubeTaken, Disease disease) throws Throwable {
         for (int i = 0; i < cubeTaken; i++) {
-            World.game.cubeBank.takeCube(disease);
+            World.board.cubeBank.takeCube(disease);
         }
     }
 }
