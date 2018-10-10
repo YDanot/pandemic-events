@@ -30,7 +30,6 @@ public class Player {
         }
         subHand.cards().forEach(playerHand::discard);
         World.eventBus.publish(new CureDiscoveringEvent(disease));
-
     }
 
     private boolean countDiseaseCardLowerThanFive(Disease disease, SubHand subHand) {

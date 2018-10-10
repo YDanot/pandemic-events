@@ -5,6 +5,7 @@ import domain.infection.Disease;
 import java.util.List;
 
 public class SubHand {
+
     private final List<PlayerCard> cards;
 
     SubHand(List<PlayerCard> cards) {

@@ -49,4 +49,7 @@ public class PlayerHand {
         return new SubHand(cards);
     }
 
+    public void pull(PlayerCard playerCard) {
+        playerCards.get(playerCard.color()).remove(playerCard);
+    }
 }
