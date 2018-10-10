@@ -16,7 +16,7 @@ public class ResearchStations {
         Arrays.stream(locations).limit(6).forEach(this.locations::add);
     }
 
-    void buildOn(CityName location) throws ResearchStationException {
+    public void buildOn(CityName location) throws ResearchStationException {
         if (builtOn(location)) {
             throw new OnlyOneResearchStationException();
         } else if (locations.size() == 6) {

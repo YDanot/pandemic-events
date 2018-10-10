@@ -2,6 +2,8 @@ package domain.researchstation;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import domain.actions.revised.BuildAResearchStation;
+import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
@@ -16,9 +18,9 @@ public class ResearchStationSteps {
 
     @Then("^(.*) should be able to build a research station$")
     public void heShouldBeAbleToBuildAResearchStation(Role role) throws Throwable {
-        CityName location = build(role);
+        build(role);
         AsyncAssertions.isTrueWithin(() ->
-                        World.game.researchStations.builtOn(location),
+                        World.game.researchStations.builtOn(World.game.locations.locationsOf(role)),
                 1, TimeUnit.SECONDS);
     }
 
@@ -37,9 +39,7 @@ public class ResearchStationSteps {
         Assertions.assertThatExceptionOfType(Exception.class).isThrownBy(() -> build(role));
     }
 
-    private CityName build(Role role) throws ResearchStationException {
-        CityName location = World.game.locations.locationsOf(role);
-        World.game.researchStations.buildOn(location);
-        return location;
+    private void build(Role role) throws ResearchStationException {
+        Player.as(role).act(new BuildAResearchStation());
     }
 }
