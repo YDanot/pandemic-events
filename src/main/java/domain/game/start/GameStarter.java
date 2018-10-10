@@ -5,10 +5,14 @@ import domain.game.Game;
 import domain.game.Players;
 import domain.infection.cards.InfectionCard;
 import domain.network.CityName;
+import domain.player.cards.PlayerCard;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class GameStarter {
 
-    private final Dealer dealer;
     private final Board board;
     private final Players players;
     private Game.Level level;
@@ -17,11 +21,10 @@ public class GameStarter {
         this.board = board;
         this.players = players;
         this.level = level;
-        this.dealer = new Dealer();
     }
 
     public void deal() {
-        dealer.deal(players);
+        new Dealer().deal(players);
     }
 
     public void putInitialDiseaseCubesOnTheBoard() {
@@ -40,6 +43,38 @@ public class GameStarter {
     }
 
     public void addEpidemicCardsToDrawPile() {
-        board.playerCardsPiles.addEpidemicCardsToDrawPile(level.nbEpidemicCard);
+        divideDrawPileIntoEqualParts(level.nbEpidemicCard).forEach(this::addRandomlyAnEpidemicCard);
+    }
+
+    private void addRandomlyAnEpidemicCard(List<PlayerCard> deck) {
+        deck.add(new Random().nextInt(deck.size()), PlayerCard.EPIDEMIC);
+        putBackIntoDrawPile(deck);
+    }
+
+    private void putBackIntoDrawPile(List<PlayerCard> partition) {
+        board.playerCardsPiles.drawPile().addAll(partition);
+    }
+
+    private List<List<PlayerCard>> divideDrawPileIntoEqualParts(int nbEpidemicCards) {
+        List<List<PlayerCard>> lists = splitInto(board.playerCardsPiles.drawPile(), nbEpidemicCards, new ArrayList<>());
+        board.playerCardsPiles.drawPile().clear();
+        return lists;
+    }
+
+    private List<List<PlayerCard>> splitInto(List<PlayerCard> list, int numberOfParts, List<List<PlayerCard>> result) {
+        if (numberOfParts == 0) {
+            return result;
+        }
+        int ceil = (int) Math.ceil(((double) list.size()) / numberOfParts);
+        result.add(new ArrayList<>(list.subList(0, ceil)));
+        return splitInto(new ArrayList<>(list.subList(ceil, list.size())), numberOfParts - 1, result);
+    }
+
+    public void start(CityName researchStationLocation, CityName pawnLocation) {
+        deal();
+        addEpidemicCardsToDrawPile();
+        putInitialDiseaseCubesOnTheBoard();
+        board.researchStations.buildOn(researchStationLocation);
+        players.get().forEach((p) -> board.locations.move(p.role(), pawnLocation));
     }
 }

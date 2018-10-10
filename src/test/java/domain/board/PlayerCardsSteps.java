@@ -2,7 +2,6 @@ package domain.board;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 import domain.game.Player;
 import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
@@ -80,12 +79,6 @@ public class PlayerCardsSteps {
     public void playerDrawPileShouldNotContains(List<PlayerCard> playerCards) throws Throwable {
         Assertions.assertThat(World.board.playerCardsPiles.drawPile()).doesNotContainAnyElementsOf(playerCards);
     }
-
-    @When("^we add Epidemic cards to draw Pile$")
-    public void weAddEpidemicCardsToDrawPile() throws Throwable {
-        World.board.playerCardsPiles.addEpidemicCardsToDrawPile(World.game.level.nbEpidemicCard);
-    }
-
 
     @And("^we should have one epidemic card on each 1/(\\d+) of player card pile$")
     public void weShouldHaveOneEpidemicCardOnEachOfPlayerCardPile(int nbParts) throws Throwable {

@@ -6,7 +6,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import domain.cube.CubeBank;
-import domain.game.Game;
 import domain.game.Players;
 import domain.infection.Disease;
 import domain.infection.InfectionLevel;
@@ -56,7 +55,7 @@ public class CitySteps {
         occidentSubNetworkUsed = true;
 
         Board board = new Board(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new InfectionCardsPiles(), new InfectionRateTrack(), Mockito.any(PawnLocations.class), new ResearchStations(), new PlayerCardsPiles());
-        World.create(board, new Game(Mockito.any(Players.class), Game.Level.INTRODUCTION));
+        World.create(board, Mockito.any(Players.class));
         return network;
     }
 

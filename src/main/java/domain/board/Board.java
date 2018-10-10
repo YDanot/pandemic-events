@@ -1,11 +1,9 @@
 package domain.board;
 
 import domain.cube.CubeBank;
-import domain.game.Players;
 import domain.infection.cards.InfectionCardsPiles;
 import domain.infection.outbreak.OutbreakCounter;
 import domain.infection.rate.InfectionRateTrack;
-import domain.network.CityName;
 import domain.network.Network;
 import domain.player.cards.PlayerCardsPiles;
 import domain.researchstation.ResearchStations;
@@ -36,16 +34,16 @@ public class Board {
         this.playerCardsPiles = playerCardsPiles;
     }
 
-    public static Board standard(Players players) {
+    public static Board standard() {
         return new Board(
-                Network.STANDARD,
+                Network.standard(),
                 new CubeBank(),
                 new OutbreakCounter(),
                 new CureMarkerArea(),
                 new InfectionCardsPiles(),
                 new InfectionRateTrack(),
-                new PawnLocations(CityName.ATLANTA, players),
-                new ResearchStations(CityName.ATLANTA),
+                new PawnLocations(),
+                new ResearchStations(),
                 new PlayerCardsPiles());
     }
 }

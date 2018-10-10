@@ -5,10 +5,12 @@ import java.util.stream.Stream;
 
 public class Network {
 
-    public static final Network STANDARD = NetworkSupplier.standard();
-
     private final List<Link> links = new ArrayList<>();
     private final Map<CityName, City> cityMap = new HashMap<>();
+
+    public static Network standard() {
+        return NetworkSupplier.standard();
+    }
 
     public void addLink(CityName cityName1, CityName cityName2) {
         links.add(new Link(cityName1, cityName2));

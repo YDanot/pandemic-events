@@ -9,7 +9,6 @@ import domain.game.Game;
 import domain.game.GameState;
 import domain.game.Player;
 import domain.game.Players;
-import domain.game.start.Dealer;
 import domain.game.start.GameStarter;
 import domain.infection.cards.InfectionCard;
 import domain.infection.cards.InfectionCardsPiles;
@@ -78,13 +77,22 @@ public class GameSteps {
         ResearchStations researchStations = new ResearchStations(CityName.PARIS);
 
         Board board = new Board(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), infectionCardsPiles, new InfectionRateTrack(), pawnLocations, researchStations, playerCardsPiles);
-        World.create(board, new Game(players, Game.Level.INTRODUCTION));
+        World.create(board, players);
+    }
+
+    @Given("^a starting standard game$")
+    public void aStartingStandardGame() throws Throwable {
+        Players players = Players.of(Player.as(SCIENTIST), Player.as(MEDIC));
+        Board standard = Board.standard();
+        World.create(standard, players);
     }
 
     @Given("^a standard game$")
     public void aStandardGame() throws Throwable {
         Players players = Players.of(Player.as(SCIENTIST), Player.as(MEDIC));
-        World.create(Board.standard(players), new Game(players, Game.Level.INTRODUCTION));
+        Board standard = Board.standard();
+        World.create(standard, players);
+        new GameStarter(World.board, World.game.players, Game.Level.INTRODUCTION).start(CityName.ATLANTA, CityName.ATLANTA);
     }
 
     @And("^Level is (.*)")
@@ -94,16 +102,25 @@ public class GameSteps {
 
     @And("^cards has been dealt$")
     public void cardsHasBeenDealt() throws Throwable {
-        new Dealer().deal(World.game.players);
+        starter().deal();
     }
 
     @When("^we deal cards$")
     public void deal() throws Throwable {
-        new Dealer().deal(World.game.players);
+        starter().deal();
     }
 
     @When("^we put initial disease cubes on the board$")
     public void wePutInitialDiseaseCubesOnTheBoard() throws Throwable {
-        new GameStarter(World.board, World.game.players, level).putInitialDiseaseCubesOnTheBoard();
+        starter().putInitialDiseaseCubesOnTheBoard();
+    }
+
+    @When("^we add Epidemic cards to draw Pile$")
+    public void weAddEpidemicCardsToDrawPile() throws Throwable {
+        starter().addEpidemicCardsToDrawPile();
+    }
+
+    private GameStarter starter() {
+        return new GameStarter(World.board, World.game.players, level);
     }
 }

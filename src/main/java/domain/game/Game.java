@@ -12,13 +12,11 @@ import domain.treatment.cure.AllDiseasesCuredListener;
 public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListener, MaxOutbreakNumberReachedListener {
 
     public final Players players;
-    public final Level level;
     public final PlayerHands playerHands;
     public GameState gameState = GameState.AVAILABLE;
 
-    public Game(Players players, Level level) {
+    public Game(Players players) {
         this.players = players;
-        this.level = level;
         if (players != null)
             this.playerHands = PlayerHands.build(players.get());
         else

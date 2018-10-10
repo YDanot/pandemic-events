@@ -33,7 +33,7 @@ Feature: start a game
   c) Draw 3 final cards and do the same as above, but add 1 cube to each city
 
   Scenario: Put the initial Disease cubes on the board
-    Given a standard game
+    Given a starting standard game
     And Infection draw pile starts with Paris,Bogota,Osaka,Moscow,Milan,Manila,Algiers,Istanbul,Jakarta
     When we put initial disease cubes on the board
     Then Blue infection level of Paris should be 3
@@ -48,7 +48,7 @@ Feature: start a game
     And the infection discard pile is Paris,Bogota,Osaka,Moscow,Milan,Manila,Algiers,Istanbul,Jakarta
 
   Scenario: dealing player cards
-    Given a standard game
+    Given a starting standard game
     And Player draw pile starts with Paris,London,New_York,Essen,Milan,Madrid,Algiers,Jakarta
     And players are Medic, Scientist
     When we deal cards
@@ -57,7 +57,7 @@ Feature: start a game
     And Player draw pile should not contains cities Paris,London,New_York,Essen,Milan,Madrid,Algiers,Jakarta
 
   Scenario: epidemic cards should be added into Player pile by dividing it by 4 for introduction game
-    Given a standard game
+    Given a starting standard game
     And Level is Introduction
     And cards has been dealt
     When we add Epidemic cards to draw Pile

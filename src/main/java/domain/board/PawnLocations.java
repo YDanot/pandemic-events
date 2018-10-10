@@ -12,6 +12,9 @@ public class PawnLocations {
 
     private final Map<Role, CityName> locations = new HashMap<>();
 
+    PawnLocations() {
+    }
+
     public PawnLocations(CityName cityName, Players players) {
         this(cityName, players.get());
     }

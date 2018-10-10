@@ -31,11 +31,11 @@ public class World {
     public static void create() {
         Players players = Players.of(Player.as(Role.SCIENTIST), Player.as(Role.MEDIC));
         Board board = new Board(new Network(), new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new InfectionCardsPiles(), new InfectionRateTrack(), new PawnLocations(CityName.PARIS, players), new ResearchStations(CityName.PARIS), new PlayerCardsPiles());
-        create(board, new Game(players, Game.Level.INTRODUCTION));
+        create(board, players);
     }
 
-    public static void create(Board board, Game game) {
-        World.game = game;
+    public static void create(Board board, Players players) {
+        World.game = new Game(players);
         World.board = board;
         eventBus = new SyncEventBus();
         eventBus.listenEpidemic(new Epidemic());
