@@ -3,6 +3,7 @@ package domain.game.start;
 import domain.board.Board;
 import domain.game.Game;
 import domain.game.Players;
+import domain.game.TurnId;
 import domain.infection.cards.InfectionCard;
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;
@@ -24,7 +25,7 @@ public class GameStarter {
     }
 
     public void deal() {
-        new Dealer().deal(players);
+        new Dealer().deal(players, new TurnId());
     }
 
     public void putInitialDiseaseCubesOnTheBoard() {

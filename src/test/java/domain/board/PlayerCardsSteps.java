@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import domain.game.Player;
+import domain.game.TurnId;
 import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
 import domain.player.cards.PlayerHands;
@@ -102,7 +103,7 @@ public class PlayerCardsSteps {
         playerCards.forEach(
                 p -> {
                     this.putAtTopOfDeck(p);
-                    playerHand.deal(World.board.playerCardsPiles.draw());
+                    playerHand.deal(World.board.playerCardsPiles.draw(new TurnId()));
                 });
     }
 
@@ -119,6 +120,6 @@ public class PlayerCardsSteps {
 
     @When("^a player draws a card$")
     public void aPlayerDrawsACard() throws Throwable {
-        World.board.playerCardsPiles.draw();
+        World.board.playerCardsPiles.draw(new TurnId());
     }
 }

@@ -20,6 +20,12 @@ Feature: Dynamics
     And Scientist has driven to New_York
     Then Scientist should be able to take an action
 
+  Scenario: passing action phase
+    Given a standard game
+    And Scientist has driven to Washington
+    When Scientist pass his turn
+    Then Scientist should not be able to take an action
+
   Scenario: fifth action in a turn
     Given a standard game
     And Scientist has taken 4 actions
@@ -55,6 +61,8 @@ Feature: Dynamics
 
   Scenario: infector phase
     Given a standard game
+    And Scientist has taken 4 actions
+    And Scientist has drawn 2 cards
     And Infection draw pile starts with Jakarta,Lagos
     When infector plays
     Then infection should occurs on Jakarta

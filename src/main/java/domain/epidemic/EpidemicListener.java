@@ -2,5 +2,5 @@ package domain.epidemic;
 
 public interface EpidemicListener {
 
-    void onEpidemic();
+    void onEpidemic(EpidemicEvent epidemicEvent);
 }

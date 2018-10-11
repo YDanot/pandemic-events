@@ -13,9 +13,9 @@ import java.util.Stack;
 public class Epidemic implements EpidemicListener {
 
     @Override
-    public void onEpidemic() {
+    public void onEpidemic(EpidemicEvent epidemicEvent) {
         increaseInfectionRate();
-        infectLastDrawCardThreeTimes();
+        infectLastDrawCardThreeTimes(epidemicEvent.turnId());
         intensifyInfections();
     }
 
@@ -23,10 +23,9 @@ public class Epidemic implements EpidemicListener {
         World.board.infectionRateTrack.moveUp();
     }
 
-    private void infectLastDrawCardThreeTimes() {
+    private void infectLastDrawCardThreeTimes(TurnId turnId) {
         InfectionCard infectionCard = World.board.infectionCardsPiles.drawBottom();
         CityName cityName = CityName.valueOf(infectionCard.name());
-        TurnId turnId = new TurnId();
         infect(infectionCard, cityName, turnId);
         infect(infectionCard, cityName, turnId);
         infect(infectionCard, cityName, turnId);

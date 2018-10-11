@@ -1,24 +1,25 @@
 package domain.game.start;
 
 import domain.game.Players;
+import domain.game.TurnId;
 import infra.World;
 
 public class Dealer {
 
-    public void deal(Players players) {
-        deal(players, computeNbCardsToDeal(players));
+    public void deal(Players players, TurnId turnId) {
+        deal(players, computeNbCardsToDeal(players), turnId);
     }
 
-    private void deal(Players players, int nbCardByPlayer) {
+    private void deal(Players players, int nbCardByPlayer, TurnId turnId) {
         int turn = 0;
         do {
-            dealOneCardTo(players);
+            dealOneCardTo(players, turnId);
             turn++;
         } while (turn < nbCardByPlayer);
     }
 
-    private void dealOneCardTo(Players players) {
-        players.get().forEach(player -> World.game.playerHands.deal(player, World.board.playerCardsPiles.draw()));
+    private void dealOneCardTo(Players players, TurnId turnId) {
+        players.get().forEach(player -> World.game.playerHands.deal(player, World.board.playerCardsPiles.draw(turnId)));
     }
 
 

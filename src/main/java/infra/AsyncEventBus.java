@@ -169,7 +169,7 @@ public class AsyncEventBus implements EventBus {
     @Override
     public void publish(EpidemicEvent epidemicEvent) {
         epidemicEvents.add(epidemicEvent);
-        CompletableFuture.runAsync(() -> epidemicListeners.forEach(EpidemicListener::onEpidemic));
+        CompletableFuture.runAsync(() -> epidemicListeners.forEach((l) -> l.onEpidemic(epidemicEvent)));
     }
 
     @Override

@@ -11,6 +11,7 @@ public class Turn {
     private int actionCounter = 4;
     private int nbPlayerCardToDraw = 2;
     private int nbInfectionCardToDraw = World.board.infectionRateTrack.current();
+    private boolean actionPhasePassed = false;
 
     Turn(Player player) {
         this.turnId = new TurnId();
@@ -26,8 +27,15 @@ public class Turn {
         actionCounter--;
     }
 
+    public void pass() {
+        actionPhasePassed = true;
+    }
+
     public void drawAPlayerCard() {
-        PlayerCard draw = World.board.playerCardsPiles.draw();
+        if (!takingActionPhaseDone()) {
+            throw new IllegalStateException();
+        }
+        PlayerCard draw = World.board.playerCardsPiles.draw(id());
         if (draw.equals(PlayerCard.EPIDEMIC)) {
             World.board.playerCardsPiles.discard(draw);
         } else {
@@ -37,6 +45,9 @@ public class Turn {
     }
 
     public void infectorPhase() {
+        if (!drawingPhaseDone()) {
+            throw new IllegalStateException();
+        }
         while (nbInfectionCardToDraw > 0) {
             World.board.infectionCardsPiles.draw();
             nbInfectionCardToDraw--;
@@ -44,7 +55,7 @@ public class Turn {
     }
 
     public boolean takingActionPhaseDone() {
-        return actionCounter == 0;
+        return actionCounter == 0 || actionPhasePassed;
     }
 
     public boolean drawingPhaseDone() {
@@ -58,4 +69,6 @@ public class Turn {
     public boolean isOver() {
         return infectorPhaseDone() && takingActionPhaseDone() && drawingPhaseDone();
     }
+
+
 }

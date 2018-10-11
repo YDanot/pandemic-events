@@ -140,7 +140,7 @@ public class SyncEventBus implements EventBus {
     @Override
     public void publish(EpidemicEvent epidemicEvent) {
         epidemicEvents.add(epidemicEvent);
-        epidemicListeners.forEach(EpidemicListener::onEpidemic);
+        epidemicListeners.forEach(l -> l.onEpidemic(epidemicEvent));
     }
 
     @Override

@@ -154,7 +154,7 @@ public class GameSteps {
         currentTurn.drawAPlayerCard();
     }
 
-    @And("^Scientist has drawn 2 cards$")
+    @And("^(?:Scientist|Medic) has drawn 2 cards$")
     public void scientistHasDrawnCards() throws Throwable {
         currentTurn.drawAPlayerCard();
         currentTurn.drawAPlayerCard();
@@ -175,7 +175,7 @@ public class GameSteps {
         Assertions.assertThat(currentTurn.drawingPhaseDone()).isFalse();
     }
 
-    @And("^Scientist has taken 4 actions$")
+    @And("^(?:Scientist|Medic) has taken 4 actions$")
     public void scientistHasTakenActions() throws Throwable {
         currentTurn.take(new DriveOrFerry(CityName.WASHINGTON));
         currentTurn.take(new DriveOrFerry(CityName.MONTREAL));
@@ -186,5 +186,10 @@ public class GameSteps {
     @Then("^infection should occurs on (.*)")
     public void infectionShouldOccursOnJakarta(CityName cityName) throws Throwable {
         Assertions.assertThat(World.eventBus.getInfectionEvents().stream().anyMatch((e) -> e.cityName.equals(cityName) && e.turnId.equals(currentTurn.id())));
+    }
+
+    @When("^(?:Scientist|Medic) pass his turn$")
+    public void scientistPassHisTurn() throws Throwable {
+        currentTurn.pass();
     }
 }

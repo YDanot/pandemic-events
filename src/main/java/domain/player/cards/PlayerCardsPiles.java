@@ -2,6 +2,7 @@ package domain.player.cards;
 
 
 import domain.epidemic.EpidemicEvent;
+import domain.game.TurnId;
 import infra.World;
 
 import java.util.*;
@@ -20,10 +21,10 @@ public class PlayerCardsPiles {
         this.discard = new ArrayList<>();
     }
 
-    public PlayerCard draw() {
+    public PlayerCard draw(TurnId turnId) {
         PlayerCard card = this.draw.remove(draw.size() - 1);
         if (card.equals(PlayerCard.EPIDEMIC)) {
-            World.eventBus.publish(new EpidemicEvent());
+            World.eventBus.publish(new EpidemicEvent(turnId));
         }
         return card;
     }
