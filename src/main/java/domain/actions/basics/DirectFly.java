@@ -15,7 +15,7 @@ public class DirectFly implements BasicAction {
     }
 
     @Override
-    public void accept(Player player) {
+    public void act(Player player) {
         PlayerCard playerCard = PlayerCard.valueOf(destination.name());
         PlayerHand playerHand = World.game.playerHands.handOf(player);
         if (playerHand.contains(playerCard)) {

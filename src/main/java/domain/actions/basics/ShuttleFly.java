@@ -13,7 +13,7 @@ public class ShuttleFly implements BasicAction {
     }
 
     @Override
-    public void accept(Player player) {
+    public void act(Player player) {
         CityName from = World.board.locations.locationsOf(player.role());
         if (World.board.researchStations.builtOn(from) && World.board.researchStations.builtOn(destination)) {
             World.board.locations.move(player.role(), destination);

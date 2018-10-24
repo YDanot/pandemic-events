@@ -2,7 +2,6 @@ package domain.actions;
 
 import domain.game.Player;
 
-import java.util.function.Consumer;
-
-public interface Action extends Consumer<Player> {
+public interface Action {
+    void act(Player p);
 }

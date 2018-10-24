@@ -15,7 +15,7 @@ public class CharterFly implements BasicAction {
     }
 
     @Override
-    public void accept(Player player) {
+    public void act(Player player) {
         PlayerCard playerCard = PlayerCard.valueOf(World.board.locations.locationsOf(player.role()).name());
         PlayerHand playerHand = World.game.playerHands.handOf(player);
         if (playerHand.contains(playerCard)) {

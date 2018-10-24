@@ -20,7 +20,7 @@ public class Player {
     }
 
     public void take(Action action) {
-        action.accept(this);
+        action.act(this);
     }
 
     @Override

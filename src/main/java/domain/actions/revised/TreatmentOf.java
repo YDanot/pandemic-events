@@ -17,7 +17,7 @@ public class TreatmentOf implements RevisedAction {
 
 
     @Override
-    public void accept(Player player) {
+    public void act(Player player) {
         CityName cityName = World.board.locations.locationsOf(player.role());
 
         if (World.board.network.get(cityName).infectionLevelFor(disease).isZero()) {

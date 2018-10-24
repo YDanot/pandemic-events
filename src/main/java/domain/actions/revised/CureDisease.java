@@ -18,7 +18,7 @@ public class CureDisease implements RevisedAction {
     }
 
     @Override
-    public void accept(Player player) {
+    public void act(Player player) {
         PlayerHand playerHand = World.game.playerHands.handOf(player);
         if (noResearchStationBuiltOnLocationOf(player) || countDiseaseCardLowerThanFive(disease, subHand)) {
             throw new IllegalArgumentException("You cannot cure " + disease + " disease");

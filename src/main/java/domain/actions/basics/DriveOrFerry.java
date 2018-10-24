@@ -13,7 +13,7 @@ public class DriveOrFerry implements BasicAction {
     }
 
     @Override
-    public void accept(Player player) {
+    public void act(Player player) {
         CityName from = World.board.locations.locationsOf(player.role());
         if (World.board.network.areLinked(from, destination)) {
             World.board.locations.move(player.role(), destination);

@@ -6,7 +6,7 @@ import infra.World;
 public class BuildAResearchStation implements RevisedAction {
 
     @Override
-    public void accept(Player player) {
+    public void act(Player player) {
         World.board.researchStations.buildOn(World.board.locations.locationsOf(player.role()));
     }
 }

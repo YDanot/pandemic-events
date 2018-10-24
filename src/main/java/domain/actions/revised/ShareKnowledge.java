@@ -28,7 +28,7 @@ public class ShareKnowledge implements RevisedAction {
     }
 
     @Override
-    public void accept(Player player) {
+    public void act(Player player) {
         if (doerDoesNotHaveSharingCardInHand(player) || isNotInPlaceWithReceiver(player)) {
             throw new ActionImpossible();
         }
