@@ -1,9 +1,29 @@
 package domain.actions.role;
 
 import domain.actions.Action;
+import domain.actions.ActionImpossible;
+import domain.game.Player;
 import domain.role.Role;
 
-public interface RoleAction extends Action {
+public abstract class RoleAction extends Action {
 
-    Role role();
+    private final Role role;
+
+    RoleAction(Role role) {
+        this.role = role;
+    }
+
+    private Role role() {
+        return role;
+    }
+
+    @Override
+    public void act(Player p) {
+        if (!p.role().equals(role())) {
+            throw new ActionImpossible(this.getClass().getSimpleName() + " cannot be performed by " + p.role());
+        }
+        specialAct(p);
+    }
+
+    abstract void specialAct(Player p);
 }

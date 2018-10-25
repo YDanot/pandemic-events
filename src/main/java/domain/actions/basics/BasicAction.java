@@ -2,5 +2,6 @@ package domain.actions.basics;
 
 import domain.actions.Action;
 
-public interface BasicAction extends Action {
+abstract class BasicAction extends Action {
+
 }

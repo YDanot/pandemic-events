@@ -4,7 +4,7 @@ import domain.game.Player;
 import domain.network.CityName;
 import infra.World;
 
-public class DriveOrFerry implements BasicAction {
+public class DriveOrFerry extends BasicAction {
 
     private CityName destination;
 
@@ -18,7 +18,7 @@ public class DriveOrFerry implements BasicAction {
         if (World.board.network.areLinked(from, destination)) {
             World.board.locations.move(player.role(), destination);
         } else {
-            throw new ForbiddenMove(from, destination);
+            throw new ForbiddenMove(player.role(), destination);
         }
     }
 

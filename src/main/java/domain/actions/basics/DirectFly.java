@@ -6,7 +6,7 @@ import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
 import infra.World;
 
-public class DirectFly implements BasicAction {
+public class DirectFly extends BasicAction {
 
     private CityName destination;
 
@@ -16,13 +16,16 @@ public class DirectFly implements BasicAction {
 
     @Override
     public void act(Player player) {
+        fly(player, World.game.playerHands.handOf(player));
+    }
+
+    public void fly(Player player, PlayerHand playerHand) {
         PlayerCard playerCard = PlayerCard.valueOf(destination.name());
-        PlayerHand playerHand = World.game.playerHands.handOf(player);
         if (playerHand.contains(playerCard)) {
             World.board.locations.move(player.role(), destination);
             playerHand.discard(playerCard);
         } else {
-            throw new ForbiddenMove(World.board.locations.locationsOf(player.role()), destination);
+            throw new ForbiddenMove(player.role(), destination);
         }
     }
 }

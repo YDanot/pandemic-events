@@ -7,7 +7,7 @@ import domain.player.cards.SubHand;
 import domain.treatment.cure.CureDiscoveringEvent;
 import infra.World;
 
-public class CureDisease implements RevisedAction {
+public class CureDisease extends RevisedAction {
 
     private final Disease disease;
     private final SubHand subHand;

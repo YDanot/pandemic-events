@@ -51,13 +51,32 @@ public class BasicActionsSteps {
         Assertions.assertThatExceptionOfType(ForbiddenMove.class).isThrownBy(() -> Player.as(role).take(new CharterFly(cityName)));
     }
 
+    @When("^(.*) direct flies to (.*)$")
+    public void scientistDirectFlightToNew_York(Role role, CityName cityName) throws Throwable {
+        Assertions.assertThat(World.game.isTurnOf(role)).isTrue();
+        Player.as(role).take(new DirectFly(cityName));
+    }
+
+    @When("^(.*) charter flies to (.*)$")
+    public void charterTo(Role role, CityName cityName) throws Throwable {
+        Assertions.assertThat(World.game.isTurnOf(role)).isTrue();
+        Player.as(role).take(new CharterFly(cityName));
+    }
+
     private void drive(Role role, List<CityName> destinations) {
-        BiConsumer<Role, CityName> drive = (Role r, CityName d) -> Player.as(r).take(new DriveOrFerry(d));
+        BiConsumer<Role, CityName> drive = (r, d) -> {
+            Assertions.assertThat(World.game.isTurnOf(r)).isTrue();
+            Player.as(r).take(new DriveOrFerry(d));
+        };
         trip(role, destinations, drive);
     }
 
     private void shuttle(Role role, List<CityName> destinations) {
-        BiConsumer<Role, CityName> shuttleFlight = (r, d) -> Player.as(r).take(new ShuttleFly(d));
+
+        BiConsumer<Role, CityName> shuttleFlight = (r, d) -> {
+            Assertions.assertThat(World.game.isTurnOf(r)).isTrue();
+            Player.as(r).take(new ShuttleFly(d));
+        };
         trip(role, destinations, shuttleFlight);
     }
 
@@ -75,19 +94,9 @@ public class BasicActionsSteps {
         Assertions.assertThat(World.board.locations.locationsOf(role).equals(from)).isTrue();
     }
 
-    @When("^(.*) direct flies to (.*)$")
-    public void scientistDirectFlightToNew_York(Role role, CityName cityName) throws Throwable {
-        Player.as(role).take(new DirectFly(cityName));
-    }
-
     @Then("^(.*) should be located at (.*)$")
     public void shouldBeLocatedAt(Role role, CityName cityName) throws Throwable {
         Assertions.assertThat(World.board.locations.locationsOf(role)).isEqualTo(cityName);
-    }
-
-    @When("^(.*) charter flies to (.*)$")
-    public void charterTo(Role role, CityName cityName) throws Throwable {
-        Player.as(role).take(new CharterFly(cityName));
     }
 
 }

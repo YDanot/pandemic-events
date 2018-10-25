@@ -109,8 +109,10 @@ public class PlayerCardsSteps {
 
     @And("^(.*) hand should be (.*)$")
     public void handShouldBe(Role role, List<PlayerCard> playerCards) throws Throwable {
-        playerCards.forEach(playerCard ->
-                Assertions.assertThat(World.game.playerHands.handOf(Player.as(role)).contains(playerCard)).isTrue());
+        PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
+        playerCards.forEach(playerCard -> Assertions.assertThat(playerHand.contains(playerCard))
+                .as(role + " hand " + playerHand + " should contains " + playerCard)
+                .isTrue());
     }
 
     @And("^the player discard pile should contains (.*)")

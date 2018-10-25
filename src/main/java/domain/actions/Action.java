@@ -2,7 +2,7 @@ package domain.actions;
 
 import domain.game.Player;
 
-public interface Action {
+public abstract class Action {
 
-    void act(Player p);
+    public abstract void act(Player p);
 }

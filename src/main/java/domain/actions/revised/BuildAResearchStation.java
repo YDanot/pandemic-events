@@ -3,7 +3,7 @@ package domain.actions.revised;
 import domain.game.Player;
 import infra.World;
 
-public class BuildAResearchStation implements RevisedAction {
+public class BuildAResearchStation extends RevisedAction {
 
     @Override
     public void act(Player player) {

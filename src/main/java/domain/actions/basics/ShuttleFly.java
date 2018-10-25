@@ -4,7 +4,7 @@ import domain.game.Player;
 import domain.network.CityName;
 import infra.World;
 
-public class ShuttleFly implements BasicAction {
+public class ShuttleFly extends BasicAction {
 
     private CityName destination;
 
@@ -18,7 +18,7 @@ public class ShuttleFly implements BasicAction {
         if (World.board.researchStations.builtOn(from) && World.board.researchStations.builtOn(destination)) {
             World.board.locations.move(player.role(), destination);
         } else {
-            throw new ForbiddenMove(from, destination);
+            throw new ForbiddenMove(player.role(), destination);
         }
     }
 

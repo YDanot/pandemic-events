@@ -6,8 +6,8 @@ import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
 import infra.World;
 
-public class CharterFly implements BasicAction {
-
+public class CharterFly extends BasicAction {
+    
     private CityName destination;
 
     public CharterFly(CityName destination) {
@@ -16,13 +16,16 @@ public class CharterFly implements BasicAction {
 
     @Override
     public void act(Player player) {
-        PlayerCard playerCard = PlayerCard.valueOf(World.board.locations.locationsOf(player.role()).name());
-        PlayerHand playerHand = World.game.playerHands.handOf(player);
+        fly(player, World.game.playerHands.handOf(player));
+    }
+
+    public void fly(Player actor, PlayerHand playerHand) {
+        PlayerCard playerCard = PlayerCard.valueOf(World.board.locations.locationsOf(actor.role()).name());
         if (playerHand.contains(playerCard)) {
-            World.board.locations.move(player.role(), destination);
+            World.board.locations.move(actor.role(), destination);
             playerHand.discard(playerCard);
         } else {
-            throw new ForbiddenMove(World.board.locations.locationsOf(player.role()), destination);
+            throw new ForbiddenMove(actor.role(), destination);
         }
     }
 }

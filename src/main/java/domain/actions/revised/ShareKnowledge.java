@@ -6,7 +6,7 @@ import domain.network.CityName;
 import domain.player.cards.PlayerCard;
 import infra.World;
 
-public class ShareKnowledge implements RevisedAction {
+public class ShareKnowledge extends RevisedAction {
 
     private final Player receiver;
     private final PlayerCard playerCard;

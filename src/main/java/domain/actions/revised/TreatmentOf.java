@@ -7,7 +7,7 @@ import domain.network.CityName;
 import domain.treatment.TreatmentEvent;
 import infra.World;
 
-public class TreatmentOf implements RevisedAction {
+public class TreatmentOf extends RevisedAction {
 
     private Disease disease;
 

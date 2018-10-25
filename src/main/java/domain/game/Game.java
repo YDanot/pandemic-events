@@ -5,6 +5,7 @@ import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.player.cards.PlayerHands;
+import domain.role.Role;
 import domain.treatment.cure.AllDiseaseCuredEvent;
 import domain.treatment.cure.AllDiseasesCuredListener;
 
@@ -36,6 +37,10 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
     @Override
     public void onMaxOutbreakNumberReached() {
         gameState = GameState.LOST;
+    }
+
+    public boolean isTurnOf(Role role) {
+        return players.currentTurn().player().role() == role;
     }
 
     public enum Level {
