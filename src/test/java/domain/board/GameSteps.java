@@ -135,61 +135,61 @@ public class GameSteps {
 
     @And("^(?:Scientist|Medic) has driven to (.*)")
     public void scientistHasDrivenFromAtlantaToWashington(CityName destination) throws Throwable {
-        currentTurn.take(new DriveOrFerry(destination));
+        currentTurn.gameplay().take(new DriveOrFerry(destination));
     }
 
     @Then("^(Scientist|Medic) should be able to take an action$")
     public void scientistShouldBeAbleToTakeAnAction(Role role) throws Throwable {
-        assertThat(currentTurn.player().equals(Player.as(role)) || !currentTurn.takingActionPhaseDone()).isTrue();
+        assertThat(currentTurn.player().equals(Player.as(role)) || !currentTurn.gameplay().takingActionPhaseDone()).isTrue();
     }
 
     @Then("^(Scientist|Medic) should not be able to take an action$")
     public void scientistShouldNotBeAbleToTakeAnAction(Role role) throws Throwable {
-        assertThat(!currentTurn.player().equals(Player.as(role)) || currentTurn.takingActionPhaseDone()).isTrue();
+        assertThat(!currentTurn.player().equals(Player.as(role)) || currentTurn.gameplay().takingActionPhaseDone()).isTrue();
     }
 
     @When("^(?:Scientist|Medic) draws a card$")
     public void scientistDrawsACard() throws Throwable {
-        currentTurn.drawAPlayerCard();
+        currentTurn.gameplay().drawAPlayerCard();
     }
 
     @Then("^(?:Scientist|Medic) should not be able to draw (?:another|a) card$")
     public void shouldBeAbleToDrawAnOtherCard() throws Throwable {
-        assertThat(currentTurn.drawingPhaseDone()).isTrue();
+        assertThat(currentTurn.gameplay().drawingPhaseDone()).isTrue();
     }
 
     @And("^(?:Scientist|Medic) has drawn a card$")
     public void scientistHasDrawnACard() throws Throwable {
-        currentTurn.drawAPlayerCard();
+        currentTurn.gameplay().drawAPlayerCard();
     }
 
     @And("^(?:Scientist|Medic) has drawn 2 cards$")
     public void scientistHasDrawnCards() throws Throwable {
-        currentTurn.drawAPlayerCard();
-        currentTurn.drawAPlayerCard();
+        currentTurn.gameplay().drawAPlayerCard();
+        currentTurn.gameplay().drawAPlayerCard();
     }
 
     @When("^infector plays$")
     public void infectorPlays() throws Throwable {
-        currentTurn.infectorPhase();
+        currentTurn.gameplay().infectorPhase();
     }
 
     @Then("^Turn should be over$")
     public void turnShouldBeOver() throws Throwable {
-        assertThat(currentTurn.isOver()).isTrue();
+        assertThat(currentTurn.gameplay().isOver()).isTrue();
     }
 
     @Then("^drawing phase should not be over$")
     public void drawingPhaseShouldNotBeOver() throws Throwable {
-        assertThat(currentTurn.drawingPhaseDone()).isFalse();
+        assertThat(currentTurn.gameplay().drawingPhaseDone()).isFalse();
     }
 
     @And("^(?:Scientist|Medic) has taken 4 actions$")
     public void scientistHasTakenActions() throws Throwable {
-        currentTurn.take(new DriveOrFerry(CityName.WASHINGTON));
-        currentTurn.take(new DriveOrFerry(CityName.MONTREAL));
-        currentTurn.take(new DriveOrFerry(CityName.NEW_YORK));
-        currentTurn.take(new DriveOrFerry(CityName.LONDON));
+        currentTurn.gameplay().take(new DriveOrFerry(CityName.WASHINGTON));
+        currentTurn.gameplay().take(new DriveOrFerry(CityName.MONTREAL));
+        currentTurn.gameplay().take(new DriveOrFerry(CityName.NEW_YORK));
+        currentTurn.gameplay().take(new DriveOrFerry(CityName.LONDON));
     }
 
     @Then("^infection should occurs on (.*)")
@@ -199,7 +199,7 @@ public class GameSteps {
 
     @When("^(?:Scientist|Medic) pass his turn$")
     public void scientistPassHisTurn() throws Throwable {
-        currentTurn.pass();
+        currentTurn.gameplay().pass();
     }
 
     private Board standardBoard() {

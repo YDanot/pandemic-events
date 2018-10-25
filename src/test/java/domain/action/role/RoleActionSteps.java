@@ -13,32 +13,31 @@ public class RoleActionSteps {
 
     @When("^He joins (.*) and (.*)$")
     public void dispatcherJoinMedicAndScientist(Role joined, Role joiner) throws Throwable {
-        World.game.players.currentTurn().take(new JoinPawns(joiner, joined));
+        World.game.players.currentTurn().gameplay().take(new JoinPawns(joiner, joined));
     }
 
     @Then("^he should not be able to joins (.*) and (.*)$")
     public void heShouldNotBeAbleToJoinsDispatcherAndScientist(Role joined, Role joiner) throws Throwable {
-        Assertions.assertThatExceptionOfType(ActionImpossible.class).isThrownBy(() ->
-                World.game.players.currentTurn().take(new JoinPawns(joiner, joined)));
+        Assertions.assertThatExceptionOfType(ActionImpossible.class).isThrownBy(() -> World.game.players.currentTurn().gameplay().take(new JoinPawns(joiner, joined)));
     }
 
     @Then("^he should be able to make (.*) drive to (.*)$")
     public void heShouldBeAbleToMakeSomeoneDriveToSomewhere(Role role, CityName cityName) throws Throwable {
-        World.game.players.currentTurn().take(new MakesDrive(role, cityName));
+        World.game.players.currentTurn().gameplay().take(new MakesDrive(role, cityName));
     }
 
     @When("^he makes (.*) direct fly to (.*)$")
     public void heMakesScientistDirectFlightToBaghdad(Role role, CityName cityName) throws Throwable {
-        World.game.players.currentTurn().take(new MakesDirectFly(role, cityName));
+        World.game.players.currentTurn().gameplay().take(new MakesDirectFly(role, cityName));
     }
 
     @When("^he makes (.*) charter fly to (.*)$")
     public void heMakesScientistCharterFlightToSydney(Role role, CityName cityName) throws Throwable {
-        World.game.players.currentTurn().take(new MakesCharterFly(role, cityName));
+        World.game.players.currentTurn().gameplay().take(new MakesCharterFly(role, cityName));
     }
 
     @When("^he makes (.*) shuttle fly to (.*)$")
     public void heMakesScientistShuttleFlyToAtlanta(Role role, CityName cityName) throws Throwable {
-        World.game.players.currentTurn().take(new MakesShuttleFly(role, cityName));
+        World.game.players.currentTurn().gameplay().take(new MakesShuttleFly(role, cityName));
     }
 }
