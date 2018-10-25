@@ -1,15 +1,16 @@
 package domain.game;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
 import java.util.stream.Stream;
 
 public class Players {
 
-    private final List<Player> players;
+    private final Queue<Player> players;
 
     private Players(Player... players) {
-        this.players = new ArrayList<>();
+        this.players = new ArrayDeque<>();
 
         Stream.of(players).forEach(this.players::add);
         if (this.players.size() < 2 || this.players.size() > 4) {
@@ -30,8 +31,7 @@ public class Players {
     }
 
     public Turn turn() {
-        Player next = players.iterator().next();
-        players.remove(next);
+        Player next = players.poll();
         players.add(next);
         return new Turn(next);
     }
