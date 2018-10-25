@@ -11,8 +11,8 @@ import domain.treatment.cure.AllDiseasesCuredListener;
 
 public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListener, MaxOutbreakNumberReachedListener {
 
-    public final Players players;
     public final PlayerHands playerHands;
+    public Players players;
     public GameState gameState = GameState.AVAILABLE;
 
     public Game(Players players) {

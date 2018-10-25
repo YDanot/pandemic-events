@@ -1,9 +1,6 @@
 package domain.board;
 
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import cucumber.api.java.en.*;
 import domain.actions.basics.DriveOrFerry;
 import domain.cube.CubeBank;
 import domain.game.*;
@@ -85,21 +82,26 @@ public class GameSteps {
 
     @Given("^a starting standard game$")
     public void aStartingStandardGame() throws Throwable {
-        Players players = Players.of(Player.as(SCIENTIST), Player.as(MEDIC));
+        setupGame(Players.of(Player.as(SCIENTIST), Player.as(MEDIC)));
+    }
+
+    private void setupGame(Players players) throws Throwable {
         Board standard = standardBoard();
         World.create(standard, players);
+        levelIs(Game.Level.INTRODUCTION);
     }
 
     @Given("^a standard game$")
     public void aStandardGame() throws Throwable {
-        Players players = Players.of(Player.as(SCIENTIST), Player.as(MEDIC));
-        Board standard = standardBoard();
-        World.create(standard, players);
-        Game.Level level = Game.Level.INTRODUCTION;
-        levelIs(level);
+        aStartingStandardGame();
+        start();
+    }
+
+    @Given("^the game has been started$")
+    public void start() {
         new GameStarter(World.board, World.game.players, level)
                 .start(CityName.ATLANTA, CityName.ATLANTA);
-        currentTurn = World.game.players.turn();
+        currentTurn = World.game.players.newTurn();
     }
 
     @And("^Level is (.*)")
@@ -136,14 +138,14 @@ public class GameSteps {
         currentTurn.take(new DriveOrFerry(destination));
     }
 
-    @Then("^(?:Scientist|Medic) should be able to take an action$")
-    public void scientistShouldBeAbleToTakeAnAction() throws Throwable {
-        assertThat(currentTurn.takingActionPhaseDone()).isFalse();
+    @Then("^(Scientist|Medic) should be able to take an action$")
+    public void scientistShouldBeAbleToTakeAnAction(Role role) throws Throwable {
+        assertThat(currentTurn.player().equals(Player.as(role)) || !currentTurn.takingActionPhaseDone()).isTrue();
     }
 
-    @Then("^(?:Scientist|Medic) should not be able to take an action$")
-    public void scientistShouldNotBeAbleToTakeAnAction() throws Throwable {
-        assertThat(currentTurn.takingActionPhaseDone()).isTrue();
+    @Then("^(Scientist|Medic) should not be able to take an action$")
+    public void scientistShouldNotBeAbleToTakeAnAction(Role role) throws Throwable {
+        assertThat(!currentTurn.player().equals(Player.as(role)) || currentTurn.takingActionPhaseDone()).isTrue();
     }
 
     @When("^(?:Scientist|Medic) draws a card$")
@@ -237,4 +239,21 @@ public class GameSteps {
         assertThat(currentTurn.player()).isEqualTo(Player.as(expectedRole));
     }
 
+    @But("^(.*) plays instead of (.*)$")
+    public void dispatcherPlaysInsteadOfScientist(Role player, Role oldPlayer) throws Throwable {
+        setupGame(Players.of(Player.as(SCIENTIST), Player.as(MEDIC)));
+    }
+
+    @But("^(.*) are playing$")
+    public void scientistDispatcherArePlaying(List<Role> roles) throws Throwable {
+        setupGame(new Players(roles.stream().map(Player::as).collect(toList())));
+        start();
+    }
+
+    @And("^it is the turn of (.*)$")
+    public void itIsTheTurnOfDispatcher(Role role) throws Throwable {
+        while (!currentTurn.player().role().equals(role)) {
+            currentTurn = World.game.players.newTurn();
+        }
+    }
 }

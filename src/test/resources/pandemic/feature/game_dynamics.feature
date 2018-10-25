@@ -67,3 +67,8 @@ Feature: Dynamics
     When infector plays
     Then infection should occurs on Jakarta
     And infection should occurs on Lagos
+
+  Scenario: a player should not be able to play when it is not his turn
+    Given a standard game
+    Then Medic should not be able to take an action
+    And Scientist should be able to take an action
