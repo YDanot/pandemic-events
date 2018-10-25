@@ -63,4 +63,3 @@ Feature: start a game
     When we add Epidemic cards to draw Pile
     Then Player draw pile should contains 4 Epidemic cards
     And we should have one epidemic card on each 1/4 of player card pile
-

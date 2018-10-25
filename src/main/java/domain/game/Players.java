@@ -2,6 +2,7 @@ package domain.game;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.stream.Stream;
 
@@ -26,7 +27,7 @@ public class Players {
         return players.size();
     }
 
-    public Iterable<Player> get() {
+    public List<Player> get() {
         return new ArrayList<>(players);
     }
 

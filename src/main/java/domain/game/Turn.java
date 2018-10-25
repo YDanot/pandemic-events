@@ -71,4 +71,7 @@ public class Turn {
     }
 
 
+    public Player player() {
+        return player;
+    }
 }

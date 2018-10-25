@@ -1,7 +1,7 @@
 package domain.network;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class Network {
 
@@ -20,10 +20,10 @@ public class Network {
         return cityMap.put(name, new City());
     }
 
-    public Stream<CityName> citiesLinkedTo(CityName cityName){
+    public List<CityName> citiesLinkedTo(CityName cityName) {
         return links.stream()
                 .filter(l -> l.contains(cityName))
-                .map(l -> l.other(cityName).orElseThrow(SingleCityInLinkException::new));
+                .map(l -> l.other(cityName).orElseThrow(SingleCityInLinkException::new)).collect(Collectors.toList());
     }
 
     public boolean areLinked(CityName cityName, CityName cityName2) {

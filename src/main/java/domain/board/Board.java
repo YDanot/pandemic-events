@@ -34,16 +34,4 @@ public class Board {
         this.playerCardsPiles = playerCardsPiles;
     }
 
-    public static Board standard() {
-        return new Board(
-                Network.standard(),
-                new CubeBank(),
-                new OutbreakCounter(),
-                new CureMarkerArea(),
-                new InfectionCardsPiles(),
-                new InfectionRateTrack(),
-                new PawnLocations(),
-                new ResearchStations(),
-                new PlayerCardsPiles());
-    }
 }

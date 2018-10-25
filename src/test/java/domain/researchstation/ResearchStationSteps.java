@@ -42,4 +42,14 @@ public class ResearchStationSteps {
     private void build(Role role) throws ResearchStationException {
         Player.as(role).take(new BuildAResearchStation());
     }
+
+    @Then("^a research station should have been built on (.*)$")
+    public void aResearchStationShouldHaveBeenBuiltOnAtlanta(List<CityName> locations) throws Throwable {
+        locations.forEach(l -> {
+            try {
+                Assertions.assertThat(World.board.researchStations.builtOn(l)).isTrue();
+            } catch (ResearchStationException ignored) {
+            }
+        });
+    }
 }

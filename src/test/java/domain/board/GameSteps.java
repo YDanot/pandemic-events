@@ -17,15 +17,19 @@ import domain.network.Network;
 import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerCardsPiles;
 import domain.researchstation.ResearchStations;
+import domain.role.Role;
 import domain.treatment.cure.CureMarkerArea;
 import infra.World;
-import org.assertj.core.api.Assertions;
 import run.AsyncAssertions;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static domain.role.Role.MEDIC;
 import static domain.role.Role.SCIENTIST;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class GameSteps {
@@ -43,7 +47,7 @@ public class GameSteps {
         boolean validated = AsyncAssertions.isTrueWithin(() ->
                         World.game.gameState == gameState,
                 1, TimeUnit.SECONDS);
-        Assertions.assertThat(validated).as("game state should be " + gameState).isTrue();
+        assertThat(validated).as("game state should be " + gameState).isTrue();
     }
 
     @Given("^a minimalist game$")
@@ -82,21 +86,24 @@ public class GameSteps {
     @Given("^a starting standard game$")
     public void aStartingStandardGame() throws Throwable {
         Players players = Players.of(Player.as(SCIENTIST), Player.as(MEDIC));
-        Board standard = Board.standard();
+        Board standard = standardBoard();
         World.create(standard, players);
     }
 
     @Given("^a standard game$")
     public void aStandardGame() throws Throwable {
         Players players = Players.of(Player.as(SCIENTIST), Player.as(MEDIC));
-        Board standard = Board.standard();
+        Board standard = standardBoard();
         World.create(standard, players);
-        new GameStarter(World.board, World.game.players, Game.Level.INTRODUCTION).start(CityName.ATLANTA, CityName.ATLANTA);
+        Game.Level level = Game.Level.INTRODUCTION;
+        levelIs(level);
+        new GameStarter(World.board, World.game.players, level)
+                .start(CityName.ATLANTA, CityName.ATLANTA);
         currentTurn = World.game.players.turn();
     }
 
     @And("^Level is (.*)")
-    public void levelIsIntroduction(Game.Level level) throws Throwable {
+    public void levelIs(Game.Level level) throws Throwable {
         this.level = level;
     }
 
@@ -131,12 +138,12 @@ public class GameSteps {
 
     @Then("^(?:Scientist|Medic) should be able to take an action$")
     public void scientistShouldBeAbleToTakeAnAction() throws Throwable {
-        Assertions.assertThat(currentTurn.takingActionPhaseDone()).isFalse();
+        assertThat(currentTurn.takingActionPhaseDone()).isFalse();
     }
 
     @Then("^(?:Scientist|Medic) should not be able to take an action$")
     public void scientistShouldNotBeAbleToTakeAnAction() throws Throwable {
-        Assertions.assertThat(currentTurn.takingActionPhaseDone()).isTrue();
+        assertThat(currentTurn.takingActionPhaseDone()).isTrue();
     }
 
     @When("^(?:Scientist|Medic) draws a card$")
@@ -146,7 +153,7 @@ public class GameSteps {
 
     @Then("^(?:Scientist|Medic) should not be able to draw (?:another|a) card$")
     public void shouldBeAbleToDrawAnOtherCard() throws Throwable {
-        Assertions.assertThat(currentTurn.drawingPhaseDone()).isTrue();
+        assertThat(currentTurn.drawingPhaseDone()).isTrue();
     }
 
     @And("^(?:Scientist|Medic) has drawn a card$")
@@ -167,12 +174,12 @@ public class GameSteps {
 
     @Then("^Turn should be over$")
     public void turnShouldBeOver() throws Throwable {
-        Assertions.assertThat(currentTurn.isOver()).isTrue();
+        assertThat(currentTurn.isOver()).isTrue();
     }
 
     @Then("^drawing phase should not be over$")
     public void drawingPhaseShouldNotBeOver() throws Throwable {
-        Assertions.assertThat(currentTurn.drawingPhaseDone()).isFalse();
+        assertThat(currentTurn.drawingPhaseDone()).isFalse();
     }
 
     @And("^(?:Scientist|Medic) has taken 4 actions$")
@@ -185,11 +192,49 @@ public class GameSteps {
 
     @Then("^infection should occurs on (.*)")
     public void infectionShouldOccursOnJakarta(CityName cityName) throws Throwable {
-        Assertions.assertThat(World.eventBus.getInfectionEvents().stream().anyMatch((e) -> e.cityName.equals(cityName) && e.turnId.equals(currentTurn.id())));
+        assertThat(World.eventBus.getInfectionEvents().stream().anyMatch((e) -> e.cityName.equals(cityName) && e.turnId.equals(currentTurn.id())));
     }
 
     @When("^(?:Scientist|Medic) pass his turn$")
     public void scientistPassHisTurn() throws Throwable {
         currentTurn.pass();
     }
+
+    private Board standardBoard() {
+        return new Board(
+                citySteps.theStandardNetwork(),
+                new CubeBank(),
+                new OutbreakCounter(),
+                new CureMarkerArea(),
+                new InfectionCardsPiles(),
+                new InfectionRateTrack(),
+                new PawnLocations(),
+                new ResearchStations(),
+                new PlayerCardsPiles());
+    }
+
+    @And("^Players should be (.*)$")
+    public void playersShouldBe(List<Role> expectedRoles) throws Throwable {
+        List<Role> roles = World.game.players.get().stream().map(Player::role).collect(toList());
+        Collections.sort(roles);
+        Collections.sort(expectedRoles);
+        assertThat(expectedRoles).containsExactlyElementsOf(roles);
+    }
+
+    @And("^Game level should be (.*)$")
+    public void gameLevelShouldBe(Game.Level level) throws Throwable {
+        assertThat(this.level).isEqualTo(level);
+    }
+
+    @And("^Players should start in (.*)$")
+    public void playersShouldStartInAtlanta(CityName expectedStartingCity) throws Throwable {
+        World.game.players.get().stream().map(Player::role)
+                .forEach((r) -> assertThat(World.board.locations.locationsOf(r)).isEqualTo(expectedStartingCity));
+    }
+
+    @And("^it should be the turn of (.*)$")
+    public void itShouldBeTheTurnOfScientist(Role expectedRole) throws Throwable {
+        assertThat(currentTurn.player()).isEqualTo(Player.as(expectedRole));
+    }
+
 }

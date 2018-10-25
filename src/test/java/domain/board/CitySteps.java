@@ -22,9 +22,9 @@ import org.assertj.core.api.Assertions;
 import org.mockito.Mockito;
 import run.AsyncAssertions;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 import static domain.infection.InfectionLevel.from;
 import static domain.network.CityName.*;
@@ -33,10 +33,21 @@ import static domain.network.CityName.*;
 public class CitySteps {
 
     private boolean occidentSubNetworkUsed;
+    private boolean standardNetworkUsed;
 
     @After
     public void tearDown() {
         occidentSubNetworkUsed = false;
+        standardNetworkUsed = false;
+    }
+
+    @Given("^the standard network$")
+    public Network theStandardNetwork() {
+        Network network = Network.standard();
+        standardNetworkUsed = true;
+        Board board = new Board(network, new CubeBank(), new OutbreakCounter(), new CureMarkerArea(), new InfectionCardsPiles(), new InfectionRateTrack(), Mockito.any(PawnLocations.class), new ResearchStations(), new PlayerCardsPiles());
+        World.create(board, Mockito.any(Players.class));
+        return network;
     }
 
     @Given("^the occident initial sub-network$")
@@ -86,10 +97,14 @@ public class CitySteps {
 
     @And("^(.*) should be linked to (.*).$")
     public void cityShouldBeLinkedToLinkedCities(CityName cityName, List<CityName> linkedCities) throws Throwable {
-        Assertions.assertThat(citiesLinkedTo(cityName).allMatch(linkedCities::contains)).isTrue();
+        List<CityName> citiesLinkedTo = citiesLinkedTo(cityName);
+        Collections.sort(citiesLinkedTo);
+        Collections.sort(linkedCities);
+        Assertions.assertThat(citiesLinkedTo).containsExactlyElementsOf(linkedCities);
+
     }
 
-    private Stream<CityName> citiesLinkedTo(CityName cityName) {
+    private List<CityName> citiesLinkedTo(CityName cityName) {
         return getNetwork().citiesLinkedTo(cityName);
     }
 
@@ -100,6 +115,11 @@ public class CitySteps {
     @Then("^occident initial sub-network should be used$")
     public void occidentInitialSubNetworkShouldBeUsed() throws Throwable {
         Assertions.assertThat(occidentSubNetworkUsed).isTrue();
+    }
+
+    @Then("^the standard network should be used$")
+    public void theStandardNetworkShouldBeUsed() throws Throwable {
+        Assertions.assertThat(standardNetworkUsed).isTrue();
     }
 
     private static class CityInfectionLevel {
