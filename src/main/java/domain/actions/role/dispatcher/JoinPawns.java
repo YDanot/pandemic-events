@@ -1,4 +1,4 @@
-package domain.actions.role;
+package domain.actions.role.dispatcher;
 
 import domain.game.Player;
 import domain.network.CityName;
@@ -10,7 +10,8 @@ public class JoinPawns extends DispatcherAction {
     private final Role joiner;
     private final Role joined;
 
-    public JoinPawns(Role joiner, Role joined) {
+    public JoinPawns(Agreement agreement, Role joiner, Role joined) {
+        super(agreement);
         this.joiner = joiner;
         this.joined = joined;
     }

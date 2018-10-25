@@ -1,4 +1,4 @@
-package domain.actions.role;
+package domain.actions.role.dispatcher;
 
 import domain.actions.basics.DriveOrFerry;
 import domain.game.Player;
@@ -10,7 +10,8 @@ public class MakesDrive extends DispatcherAction {
     private final CityName destination;
     private Role role;
 
-    public MakesDrive(Role role, CityName destination) {
+    public MakesDrive(Agreement agreement, Role role, CityName destination) {
+        super(agreement);
         this.role = role;
         this.destination = destination;
     }

@@ -9,7 +9,7 @@ public abstract class RoleAction extends Action {
 
     private final Role role;
 
-    RoleAction(Role role) {
+    public RoleAction(Role role) {
         this.role = role;
     }
 
@@ -25,5 +25,5 @@ public abstract class RoleAction extends Action {
         specialAct(p);
     }
 
-    abstract void specialAct(Player p);
+    protected abstract void specialAct(Player p);
 }

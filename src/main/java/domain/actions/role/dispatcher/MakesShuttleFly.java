@@ -1,4 +1,4 @@
-package domain.actions.role;
+package domain.actions.role.dispatcher;
 
 import domain.actions.basics.ShuttleFly;
 import domain.game.Player;
@@ -10,7 +10,8 @@ public class MakesShuttleFly extends DispatcherAction {
     private final Role actor;
     private final CityName destination;
 
-    public MakesShuttleFly(Role actor, CityName destination) {
+    public MakesShuttleFly(Agreement agreement, Role actor, CityName destination) {
+        super(agreement);
         this.actor = actor;
         this.destination = destination;
     }

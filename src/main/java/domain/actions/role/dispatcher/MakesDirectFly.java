@@ -1,4 +1,4 @@
-package domain.actions.role;
+package domain.actions.role.dispatcher;
 
 import domain.actions.basics.DirectFly;
 import domain.game.Player;
@@ -11,7 +11,8 @@ public class MakesDirectFly extends DispatcherAction {
     private final CityName destination;
     private Role pawn;
 
-    public MakesDirectFly(Role pawn, CityName destination) {
+    public MakesDirectFly(Agreement agreement, Role pawn, CityName destination) {
+        super(agreement);
         this.pawn = pawn;
         this.destination = destination;
     }
