@@ -11,25 +11,25 @@ public class GamePlaySteps {
 
     @Then("^possible driving destination of (?:.*) should be (.*)$")
     public void drive(List<CityName> expected) throws Throwable {
-        List<CityName> actual = World.game.possibleActions().moves().drivingDestinations();
+        List<CityName> actual = World.game.possibleActions().movements().drivingDestinations();
         hasSameElements(actual, expected);
     }
 
     @Then("^possible shuttle destination of (?:.*) should be (.*)$")
     public void shuttle(List<CityName> expected) throws Throwable {
-        List<CityName> actual = new ArrayList<>(World.game.possibleActions().moves().shuttleDestinations());
+        List<CityName> actual = new ArrayList<>(World.game.possibleActions().movements().shuttleDestinations());
         hasSameElements(actual, expected);
     }
 
     @Then("^possible direct flight destination of (?:.*) should be (.*)$")
     public void direct(List<CityName> expected) throws Throwable {
-        List<CityName> actual = World.game.possibleActions().moves().directFlightDestinations();
+        List<CityName> actual = World.game.possibleActions().movements().directFlightDestinations();
         hasSameElements(actual, expected);
     }
 
     @Then("^possible charter flight destination of (?:.*) should be all cities$")
     public void charter() throws Throwable {
-        List<CityName> actual = World.game.possibleActions().moves().charterFlightDestinations();
+        List<CityName> actual = World.game.possibleActions().movements().charterFlightDestinations();
         List<CityName> expected = new ArrayList<>(Arrays.asList(CityName.values()));
         expected.remove(World.board.locations.locationsOf(World.game.players.currentTurn().player().role()));
         hasSameElements(actual, expected);
@@ -43,7 +43,7 @@ public class GamePlaySteps {
 
     @Then("^possible movement of (?:.*) should be (.*)$")
     public void movements(List<CityName> expected) throws Throwable {
-        Set<CityName> destinations = World.game.possibleActions().moves().destinations();
+        Set<CityName> destinations = World.game.possibleActions().movements().destinations();
         hasSameElements(new ArrayList<>(destinations), expected);
     }
 }

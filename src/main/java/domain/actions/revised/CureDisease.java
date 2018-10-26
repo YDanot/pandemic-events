@@ -22,7 +22,7 @@ public class CureDisease extends RevisedAction {
         PlayerHand playerHand = World.game.playerHands.handOf(player);
         Curability curability = new Curability(disease, subHand, World.board.locations.locationsOf(player.role()));
         if (!curability.curable()) {
-            throw new IllegalArgumentException("You cannot curable " + disease + " disease");
+            throw new IllegalArgumentException("You cannot cure " + disease + " disease");
         }
 
         subHand.cards().forEach(playerHand::discard);

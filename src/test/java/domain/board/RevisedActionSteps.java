@@ -8,6 +8,7 @@ import domain.game.Player;
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;
 import domain.role.Role;
+import infra.World;
 import org.assertj.core.api.Assertions;
 
 public class RevisedActionSteps {
@@ -22,5 +23,10 @@ public class RevisedActionSteps {
         Assertions.assertThatExceptionOfType(ActionImpossible.class).isThrownBy(
                 () -> Player.as(doer).take(new ShareKnowledge(Player.as(receiver), PlayerCard.valueOf(cityName.name())))
         );
+    }
+
+    @Then("^(?:.*) should be able to share knowledge$")
+    public void medicShouldBeAbleToShareParis() throws Throwable {
+        Assertions.assertThat(World.game.possibleActions().share()).isTrue();
     }
 }

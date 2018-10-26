@@ -30,3 +30,11 @@ Feature: sharing knowledge
     And Medic hand is Paris,New_York
     And Scientist hand is Essen,Algiers
     Then Medic should not be able to share Paris with Scientist
+
+  Scenario: shareability
+    Given a minimalist game
+    And Medic is located at Paris
+    And Scientist is located at Paris
+    And Medic hand contains Paris
+    And it is the turn of Medic
+    Then Medic should be able to share knowledge

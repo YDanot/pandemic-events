@@ -53,6 +53,6 @@ public class CureSteps {
 
     @Then("^(?:.*) should be able to cure (Blue|Black|Red|Yellow) Disease$")
     public void medicShouldBeAbleToCureBlueDisease(Disease disease) throws Throwable {
-        Assertions.assertThat(World.game.possibleActions().curable()).contains(disease);
+        Assertions.assertThat(World.game.possibleActions().cure()).contains(disease);
     }
 }

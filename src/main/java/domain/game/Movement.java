@@ -12,25 +12,25 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-public class MoveTo extends PossibleAction {
+public class Movement extends PossibleAction {
 
     private final List<CityName> drivingDestinations;
     private final Set<CityName> shuttleDestinations;
     private final List<CityName> directFlightDestinations;
     private final List<CityName> charterFlightDestinations;
 
-    private MoveTo(List<CityName> drivingDestinations,
-                   Set<CityName> shuttleDestinations,
-                   List<CityName> directFlightDestinations,
-                   List<CityName> charterFlightDestinations) {
+    private Movement(List<CityName> drivingDestinations,
+                     Set<CityName> shuttleDestinations,
+                     List<CityName> directFlightDestinations,
+                     List<CityName> charterFlightDestinations) {
         this.drivingDestinations = drivingDestinations;
         this.shuttleDestinations = shuttleDestinations;
         this.directFlightDestinations = directFlightDestinations;
         this.charterFlightDestinations = charterFlightDestinations;
     }
 
-    static MoveTo computePossibleDestinations(CityName locationsOfCurrentPlayer, PlayerHand currentPlayerHand) {
-        return new MoveTo(
+    static Movement computePossibleDestinations(CityName locationsOfCurrentPlayer, PlayerHand currentPlayerHand) {
+        return new Movement(
                 computeDrivingDestinations(locationsOfCurrentPlayer),
                 computeShuttleDestinations(locationsOfCurrentPlayer),
                 computeDirectFlightDestinations(locationsOfCurrentPlayer, currentPlayerHand),

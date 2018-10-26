@@ -1,6 +1,7 @@
 package domain.game;
 
 import domain.actions.revised.Curability;
+import domain.actions.revised.KnowledgeSharability;
 import domain.infection.Disease;
 import domain.network.CityName;
 import domain.player.cards.PlayerHand;
@@ -27,20 +28,22 @@ public class PossibleActions {
         currentPlayerHand = null;
     }
 
-    private MoveTo moves(CityName locationsOfCurrentPlayer, PlayerHand currentPlayerHand) {
-        return MoveTo.computePossibleDestinations(locationsOfCurrentPlayer, currentPlayerHand);
-    }
-
-    public MoveTo moves() {
-        return MoveTo.computePossibleDestinations(locationsOfCurrentPlayer, currentPlayerHand);
+    public Movement movements() {
+        return Movement.computePossibleDestinations(locationsOfCurrentPlayer, currentPlayerHand);
     }
 
     public boolean buildAResearchStation() {
         return World.board.researchStations.buildableIn(locationsOfCurrentPlayer);
     }
 
-    public List<Disease> curable() {
-        return Arrays.stream(Disease.values()).filter(d ->
-                new Curability(d, currentPlayerHand, locationsOfCurrentPlayer).curable()).collect(Collectors.toList());
+    public List<Disease> cure() {
+        return Arrays.stream(Disease.values()).filter(disease ->
+                new Curability(disease, currentPlayerHand, locationsOfCurrentPlayer).curable()).collect(Collectors.toList());
+    }
+
+    public boolean share() {
+        return World.game.players.get().stream().anyMatch(p ->
+                new KnowledgeSharability(locationsOfCurrentPlayer, World.board.locations.locationsOf(p.role()), currentPlayerHand).sharable()
+        );
     }
 }
