@@ -18,11 +18,6 @@ public class ResearchStations {
     }
 
     public void buildOn(CityName location) throws ResearchStationException {
-        if (builtOn(location)) {
-            throw new OnlyOneResearchStationException();
-        } else if (locations.size() == NUMBER_OF_STATIONS) {
-            throw new NoMoreResearchStationAvailableException();
-        }
         locations.add(location);
     }
 
@@ -31,7 +26,7 @@ public class ResearchStations {
     }
 
     private boolean stationAvailable() {
-        return locations.size() != NUMBER_OF_STATIONS;
+        return locations.size() <= NUMBER_OF_STATIONS;
     }
 
     public boolean buildableIn(CityName location) {

@@ -22,6 +22,13 @@ Feature: Research Station
     And it is the turn of Medic
     Then Medic should be able to build a research station
 
+  Scenario: A player can build a research station
+    Given a standard game
+    And Medic is located at Algiers
+    And Medic hand is Lima,Paris
+    And it is the turn of Medic
+    Then Medic should not be able to build a research station
+
   Scenario: A player cannot build 2 research stations on the same city
     Given a standard game
     And Medic is located at Algiers

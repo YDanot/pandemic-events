@@ -32,7 +32,7 @@ public class ResearchStationSteps {
 
     @Then("^(.*) should not be able to build a research station$")
     public void medicShouldNotBeAbleToBuildAResearchStation(Role role) throws Throwable {
-        Assertions.assertThatExceptionOfType(Exception.class).isThrownBy(() -> build(role));
+        Assertions.assertThat(World.game.possibleActions().buildAResearchStation()).isFalse();
     }
 
     private void build(Role role) throws ResearchStationException {

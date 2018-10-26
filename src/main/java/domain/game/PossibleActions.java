@@ -5,6 +5,7 @@ import domain.actions.revised.KnowledgeSharability;
 import domain.actions.revised.Treatability;
 import domain.infection.Disease;
 import domain.network.CityName;
+import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
 import domain.role.Role;
 import infra.World;
@@ -38,7 +39,9 @@ public class PossibleActions {
     }
 
     public boolean buildAResearchStation() {
-        return World.board.researchStations.buildableIn(locationsOfCurrentPlayer);
+        return currentPlayerHand != null && locationsOfCurrentPlayer != null &&
+                currentPlayerHand.contains(PlayerCard.valueOf(locationsOfCurrentPlayer.name())) &&
+                World.board.researchStations.buildableIn(locationsOfCurrentPlayer);
     }
 
     public List<Disease> cure() {
