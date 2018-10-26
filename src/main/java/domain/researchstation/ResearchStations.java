@@ -9,17 +9,18 @@ import java.util.Set;
 
 public class ResearchStations {
 
-    private final Set<CityName> locations;
+    private static final int NUMBER_OF_STATIONS = 6;
+    public final Set<CityName> locations;
 
     public ResearchStations(CityName... locations) {
-        this.locations = new HashSet<>(6);
-        Arrays.stream(locations).limit(6).forEach(this.locations::add);
+        this.locations = new HashSet<>(NUMBER_OF_STATIONS);
+        Arrays.stream(locations).limit(NUMBER_OF_STATIONS).forEach(this.locations::add);
     }
 
     public void buildOn(CityName location) throws ResearchStationException {
         if (builtOn(location)) {
             throw new OnlyOneResearchStationException();
-        } else if (locations.size() == 6) {
+        } else if (locations.size() == NUMBER_OF_STATIONS) {
             throw new NoMoreResearchStationAvailableException();
         }
         locations.add(location);
@@ -27,5 +28,13 @@ public class ResearchStations {
 
     public boolean builtOn(CityName location) {
         return locations.contains(location);
+    }
+
+    private boolean stationAvailable() {
+        return locations.size() != NUMBER_OF_STATIONS;
+    }
+
+    public boolean buildableIn(CityName location) {
+        return stationAvailable() && !builtOn(location);
     }
 }

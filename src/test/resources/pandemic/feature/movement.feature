@@ -72,5 +72,40 @@ Feature: Basics Action
     And Scientist hand is Paris,Algiers
     Then Scientist should not be able to charter flight to New_York
 
+  Scenario: possible driving destination
+    Given a standard game
+    And it is the turn of Medic
+    And Medic is located at Paris
+    Then possible driving destination of Medic should be London, Essen, Milan, Algiers, Madrid
+
+  Scenario: possible shuttle destination
+    Given a standard game
+    And it is the turn of Medic
+    And Medic is located at Paris
+    And a research station has been built on Paris,Lima
+    Then possible shuttle destination of Medic should be Lima, Atlanta
+
+  Scenario: possible charter destination
+    Given a standard game
+    And it is the turn of Medic
+    And Medic is located at Paris
+    And Medic hand contains Paris
+    Then possible charter flight destination of Medic should be all cities
+
+  Scenario: possible direct flight destination
+    Given a standard game
+    And it is the turn of Medic
+    And Medic is located at Paris
+    And Medic hand is Lima,Bogota,Sydney
+    Then possible direct flight destination of Medic should be Lima,Bogota,Sydney
+
+  Scenario: possible direct flight destination
+    Given a standard game
+    And it is the turn of Medic
+    And Medic is located at Paris
+    And Medic hand is Lima,Bogota,Sydney
+    And a research station has been built on Paris,Lagos
+    Then possible movement of Dispatcher should be Lima, Bogota, Sydney, London, Essen, Milan, Algiers, Madrid, Atlanta, Lagos
+
  #A player may also elect to pass (and do nothing) for an action.
  #The Dispatcher may move other player’s pawns on his turn (using any of the available Basic actions) as if they were his own pawn. He may also spend an action to move a pawn to any city that contains another pawn. He may only move other players’ pawns if they permit him to do so. Note: For the Charter Flight action, the Dispatcher must play the card corresponding to the current location of the pawn he wishes to move.

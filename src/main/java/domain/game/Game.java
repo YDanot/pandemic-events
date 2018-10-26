@@ -8,6 +8,7 @@ import domain.player.cards.PlayerHands;
 import domain.role.Role;
 import domain.treatment.cure.AllDiseaseCuredEvent;
 import domain.treatment.cure.AllDiseasesCuredListener;
+import infra.World;
 
 
 public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListener, MaxOutbreakNumberReachedListener {
@@ -43,6 +44,13 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
         return players.currentTurn().player().role() == role;
     }
 
+    public PossibleActions possibleActions() {
+        if (players.currentTurn().gameplay().takingActionPhaseDone()) {
+            return PossibleActions.NONE;
+        }
+        return new PossibleActions(World.board.locations.locationsOf(players.currentTurn().player().role()), World.game.playerHands.handOf(players.currentTurn().player()));
+    }
+
     public enum Level {
         INTRODUCTION(4),
         NORMAL(5),
@@ -54,5 +62,6 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
             this.nbEpidemicCard = nbEpidemicCard;
         }
     }
+
 
 }

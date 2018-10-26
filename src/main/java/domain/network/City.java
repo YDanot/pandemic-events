@@ -27,11 +27,16 @@ public class City {
     public void treat(Disease disease) {
         infections.put(disease, infectionLevelFor(disease).decrease());
     }
+
     public InfectionLevel infectionLevelFor(Disease disease) {
         return infections.get(disease);
     }
 
     public boolean isHealthyFor(Disease disease) {
         return infectionLevelFor(disease).isZero();
+    }
+
+    public boolean isInfected() {
+        return infections.values().stream().anyMatch((i) -> !i.isZero());
     }
 }

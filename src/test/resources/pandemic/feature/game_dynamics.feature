@@ -44,11 +44,12 @@ Feature: Dynamics
     When Scientist draws a card
     Then Scientist should not be able to draw another card
 
-
   Scenario: limit the hand to 7 cards
     Given a standard game
     And Scientist has taken 4 actions
     And Scientist hand is Jakarta,Lagos,Washington,Moscow,Paris,London
+    And Medic hand is Bogota
+    And Player draw pile starts with Lima,Sydney
     And Scientist has drawn 2 cards
     Then drawing phase should not be over
 
@@ -72,3 +73,15 @@ Feature: Dynamics
     Given a standard game
     Then Medic should not be able to take an action
     And Scientist should be able to take an action
+
+  #  Scenario: possible action of Dispatcher
+  #    Given a standard game
+  #    But Dispatcher, Medic are playing
+  #    And it is the turn of Dispatcher
+  #    And Medic agreed to be moved by Dispatcher
+  #    And Dispatcher is located at Paris
+  #    And Medic is located at Paris
+  #    And a research station has been built on Paris
+  #    And Dispatcher hand is Paris,Lima
+  #    And Paris has already been infected by Blue 2 times
+  #    Then possible actions of Dispatcher should be drive,charter,direct,shuttle,build,cure,treat

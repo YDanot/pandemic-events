@@ -10,16 +10,16 @@ import java.util.stream.Collectors;
 
 public class PlayerHand {
 
-    private final Map<PlayerCardColor, List<PlayerCard>> playerCards = new HashMap<>();
+    private final Map<PlayerCardColor, List<PlayerCard>> hands = new HashMap<>();
 
     public void deal(PlayerCard playerCard) {
 
-        List<PlayerCard> cards = playerCards.computeIfAbsent(playerCard.color(), k -> new ArrayList<>());
+        List<PlayerCard> cards = hands.computeIfAbsent(playerCard.color(), k -> new ArrayList<>());
         cards.add(playerCard);
     }
 
     public List<PlayerCard> get() {
-        return playerCards.values().stream()
+        return hands.values().stream()
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
@@ -35,7 +35,7 @@ public class PlayerHand {
 
     public void discard(PlayerCard playerCard) {
         World.board.playerCardsPiles.discard(playerCard);
-        playerCards.get(playerCard.color()).remove(playerCard);
+        hands.get(playerCard.color()).remove(playerCard);
     }
 
     private boolean containsAll(List<PlayerCard> discard) {
@@ -50,6 +50,10 @@ public class PlayerHand {
     }
 
     public void pull(PlayerCard playerCard) {
-        playerCards.get(playerCard.color()).remove(playerCard);
+        hands.get(playerCard.color()).remove(playerCard);
+    }
+
+    public boolean has5CardsOfTheSameColor() {
+        return hands.values().stream().anyMatch((l) -> l.size() == 5);
     }
 }

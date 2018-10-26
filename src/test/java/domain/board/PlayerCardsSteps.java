@@ -72,9 +72,22 @@ public class PlayerCardsSteps {
     }
 
     private void putAtTopOfDeck(PlayerCard playerCard) {
-        Stack<PlayerCard> infectionCardDeck = World.board.playerCardsPiles.drawPile();
-        infectionCardDeck.remove(playerCard);
-        infectionCardDeck.push(playerCard);
+        Stack<PlayerCard> playerCardStack = World.board.playerCardsPiles.drawPile();
+        if (playerCardStack.remove(playerCard)) {
+            playerCardStack.push(playerCard);
+        } else {
+            World.game.players.get().forEach(p -> {
+                PlayerHand playerHand = World.game.playerHands.handOf(p);
+                if (playerHand.contains(playerCard)) {
+                    playerHand.discard(playerCard);
+                    World.board.playerCardsPiles.discardPile().remove(playerCard);
+                    playerCardStack.push(playerCard);
+                }
+            });
+            if (playerCard.equals(PlayerCard.EPIDEMIC)) {
+                playerCardStack.push(playerCard);
+            }
+        }
     }
 
     @And("^Player draw pile should not contains cities (.*)$")
@@ -102,7 +115,20 @@ public class PlayerCardsSteps {
         PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
         playerCards.forEach(
                 p -> {
-                    this.putAtTopOfDeck(p);
+                    putAtTopOfDeck(p);
+                    playerHand.deal(World.board.playerCardsPiles.draw(new TurnId()));
+                });
+        playerHand.get().stream().filter(c -> !playerCards.contains(c)).forEach(
+                playerHand::discard
+        );
+    }
+
+    @And("^(.*) hand contains (.*)$")
+    public void handContains(Role role, List<PlayerCard> playerCards) throws Throwable {
+        PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
+        playerCards.forEach(
+                p -> {
+                    putAtTopOfDeck(p);
                     playerHand.deal(World.board.playerCardsPiles.draw(new TurnId()));
                 });
     }

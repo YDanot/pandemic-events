@@ -10,7 +10,7 @@ import domain.role.Role;
 import infra.World;
 import org.assertj.core.api.Assertions;
 
-public class RoleActionSteps {
+public class DispatcherActionSteps {
 
     @When("^He joins (.*) and (.*)$")
     public void dispatcherJoinMedicAndScientist(Role joined, Role joiner) throws Throwable {

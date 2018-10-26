@@ -20,7 +20,8 @@ public class CharterFly extends BasicAction {
     }
 
     public void fly(Player actor, PlayerHand playerHand) {
-        PlayerCard playerCard = PlayerCard.valueOf(World.board.locations.locationsOf(actor.role()).name());
+        CityName locationsOfactor = World.board.locations.locationsOf(actor.role());
+        PlayerCard playerCard = PlayerCard.valueOf(locationsOfactor.name());
         if (playerHand.contains(playerCard)) {
             World.board.locations.move(actor.role(), destination);
             playerHand.discard(playerCard);
