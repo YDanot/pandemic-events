@@ -2,6 +2,7 @@ package domain.treatment;
 
 import domain.infection.Disease;
 import domain.network.City;
+import domain.role.Role;
 import infra.World;
 
 public class Treatment implements TreatmentListener {
@@ -10,7 +11,7 @@ public class Treatment implements TreatmentListener {
     public void onTreatment(TreatmentEvent treatmentEvent) {
         City city = World.board.network.get(treatmentEvent.cityName);
         Disease disease = treatmentEvent.disease;
-        if (World.board.cureMarkerArea.hasBeenCured(disease)) {
+        if (World.board.cureMarkerArea.hasBeenCured(disease) || World.game.players.currentTurn().player().role().equals(Role.MEDIC)) {
             while (!city.isHealthyFor(disease)) {
                 treat(city, disease);
             }
