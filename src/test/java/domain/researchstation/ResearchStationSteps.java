@@ -2,26 +2,22 @@ package domain.researchstation;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import domain.actions.revised.BuildAResearchStation;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
 import org.assertj.core.api.Assertions;
-import run.AsyncAssertions;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class ResearchStationSteps {
 
     @Then("^(.*) should be able to build a research station$")
     public void heShouldBeAbleToBuildAResearchStation(Role role) throws Throwable {
-        build(role);
-        AsyncAssertions.isTrueWithin(() ->
-                        World.board.researchStations.builtOn(World.board.locations.locationsOf(role)),
-                1, TimeUnit.SECONDS);
+        Assertions.assertThat(World.game.possibleActions().buildAResearchStation()).isTrue();
     }
 
     @And("^a research station has been built on (.*)")
@@ -51,5 +47,10 @@ public class ResearchStationSteps {
             } catch (ResearchStationException ignored) {
             }
         });
+    }
+
+    @When("^(?:Medic|Scientist) build a research station$")
+    public void medicBuildAResearchStation() throws Throwable {
+        build(World.game.players.currentTurn().player().role());
     }
 }

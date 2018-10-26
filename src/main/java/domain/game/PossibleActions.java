@@ -2,19 +2,23 @@ package domain.game;
 
 import domain.network.CityName;
 import domain.player.cards.PlayerHand;
+import infra.World;
 
 public class PossibleActions {
 
     static PossibleActions NONE = new PossibleActions();
 
-    private final MoveTo moveTo;
+    private final CityName locationsOfCurrentPlayer;
+    private final PlayerHand currentPlayerHand;
 
     PossibleActions(CityName locationsOfCurrentPlayer, PlayerHand currentPlayerHand) {
-        this.moveTo = moves(locationsOfCurrentPlayer, currentPlayerHand);
+        this.locationsOfCurrentPlayer = locationsOfCurrentPlayer;
+        this.currentPlayerHand = currentPlayerHand;
     }
 
     private PossibleActions() {
-        moveTo = null;
+        locationsOfCurrentPlayer = null;
+        currentPlayerHand = null;
     }
 
     private MoveTo moves(CityName locationsOfCurrentPlayer, PlayerHand currentPlayerHand) {
@@ -22,21 +26,11 @@ public class PossibleActions {
     }
 
     public MoveTo moves() {
-        return moveTo;
+        return MoveTo.computePossibleDestinations(locationsOfCurrentPlayer, currentPlayerHand);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PossibleActions)) return false;
-
-        PossibleActions that = (PossibleActions) o;
-
-        return moveTo != null ? moveTo.equals(that.moveTo) : that.moveTo == null;
+    public boolean buildAResearchStation() {
+        return World.board.researchStations.buildableIn(locationsOfCurrentPlayer);
     }
 
-    @Override
-    public int hashCode() {
-        return moveTo != null ? moveTo.hashCode() : 0;
-    }
 }
