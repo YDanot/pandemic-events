@@ -20,7 +20,7 @@ public class TreatmentOf extends RevisedAction {
     public void act(Player player) {
         CityName cityName = World.board.locations.locationsOf(player.role());
 
-        if (World.board.network.get(cityName).infectionLevelFor(disease).isZero()) {
+        if (!new Treatability(cityName, disease).treatable()) {
             throw new ActionImpossible();
         }
 

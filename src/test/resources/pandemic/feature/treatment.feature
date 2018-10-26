@@ -26,3 +26,10 @@ Feature: Treatment
     And Scientist is located at New_York
     Then Scientist should not be able to treat Blue
     Then Blue infection level of Paris should stay at 2
+
+  Scenario: Treatability of an infected city
+    Given a standard game
+    And Paris has already been infected by Blue 2 times
+    And Scientist is located at Paris
+    And it is the turn of Scientist
+    Then Scientist should be able to treat Blue disease

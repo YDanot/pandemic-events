@@ -32,7 +32,7 @@ Feature: sharing knowledge
     Then Medic should not be able to share Paris with Scientist
 
   Scenario: shareability
-    Given a minimalist game
+    Given a standard game
     And Medic is located at Paris
     And Scientist is located at Paris
     And Medic hand contains Paris

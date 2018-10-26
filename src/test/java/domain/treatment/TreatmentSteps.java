@@ -37,5 +37,10 @@ public class TreatmentSteps {
     public void scientistShouldNotBeAbleToTreatBlue(Role role, Disease disease) throws Throwable {
         Assertions.assertThatExceptionOfType(ActionImpossible.class).isThrownBy(() -> Player.as(role).take(new TreatmentOf(disease)));
     }
+
+    @Then("^(?:.*) should be able to treat (Blue|Black|Red|Yellow) disease$")
+    public void scientistShouldBeAbleToTreatBlueDisease(Disease disease) throws Throwable {
+        Assertions.assertThat(World.game.possibleActions().treatment()).contains(disease);
+    }
 }
 

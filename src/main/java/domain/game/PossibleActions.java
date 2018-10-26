@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.actions.revised.Curability;
 import domain.actions.revised.KnowledgeSharability;
+import domain.actions.revised.Treatability;
 import domain.infection.Disease;
 import domain.network.CityName;
 import domain.player.cards.PlayerHand;
@@ -45,5 +46,10 @@ public class PossibleActions {
         return World.game.players.get().stream().anyMatch(p ->
                 new KnowledgeSharability(locationsOfCurrentPlayer, World.board.locations.locationsOf(p.role()), currentPlayerHand).sharable()
         );
+    }
+
+    public List<Disease> treatment() {
+        return Arrays.stream(Disease.values()).filter(disease ->
+                new Treatability(locationsOfCurrentPlayer, disease).treatable()).collect(Collectors.toList());
     }
 }
