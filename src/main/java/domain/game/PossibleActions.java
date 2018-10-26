@@ -6,6 +6,7 @@ import domain.actions.revised.Treatability;
 import domain.infection.Disease;
 import domain.network.CityName;
 import domain.player.cards.PlayerHand;
+import domain.role.Role;
 import infra.World;
 
 import java.util.Arrays;
@@ -18,15 +19,18 @@ public class PossibleActions {
 
     private final CityName locationsOfCurrentPlayer;
     private final PlayerHand currentPlayerHand;
+    private final Role role;
 
-    PossibleActions(CityName locationsOfCurrentPlayer, PlayerHand currentPlayerHand) {
+    PossibleActions(CityName locationsOfCurrentPlayer, PlayerHand currentPlayerHand, Role role) {
         this.locationsOfCurrentPlayer = locationsOfCurrentPlayer;
         this.currentPlayerHand = currentPlayerHand;
+        this.role = role;
     }
 
     private PossibleActions() {
         locationsOfCurrentPlayer = null;
         currentPlayerHand = null;
+        role = null;
     }
 
     public Movement movements() {
@@ -39,7 +43,7 @@ public class PossibleActions {
 
     public List<Disease> cure() {
         return Arrays.stream(Disease.values()).filter(disease ->
-                new Curability(disease, currentPlayerHand, locationsOfCurrentPlayer).curable()).collect(Collectors.toList());
+                new Curability(disease, currentPlayerHand, locationsOfCurrentPlayer, role).curable()).collect(Collectors.toList());
     }
 
     public boolean share() {

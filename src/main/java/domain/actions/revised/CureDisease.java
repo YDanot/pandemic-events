@@ -20,7 +20,7 @@ public class CureDisease extends RevisedAction {
     @Override
     public void act(Player player) {
         PlayerHand playerHand = World.game.playerHands.handOf(player);
-        Curability curability = new Curability(disease, subHand, World.board.locations.locationsOf(player.role()));
+        Curability curability = new Curability(disease, subHand, World.board.locations.locationsOf(player.role()), player.role());
         if (!curability.curable()) {
             throw new IllegalArgumentException("You cannot cure " + disease + " disease");
         }

@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
+import domain.network.CityName;
+import domain.player.cards.PlayerHand;
 import domain.player.cards.PlayerHands;
 import domain.role.Role;
 import domain.treatment.cure.AllDiseaseCuredEvent;
@@ -48,7 +50,10 @@ public class Game implements NoAvailableCubeLeftListener, AllDiseasesCuredListen
         if (players.currentTurn().gameplay().takingActionPhaseDone()) {
             return PossibleActions.NONE;
         }
-        return new PossibleActions(World.board.locations.locationsOf(players.currentTurn().player().role()), World.game.playerHands.handOf(players.currentTurn().player()));
+        CityName locationsOfCurrentPlayer = World.board.locations.locationsOf(players.currentTurn().player().role());
+        PlayerHand currentPlayerHand = World.game.playerHands.handOf(players.currentTurn().player());
+        Role role = players.currentTurn().player().role();
+        return new PossibleActions(locationsOfCurrentPlayer, currentPlayerHand, role);
     }
 
     public enum Level {

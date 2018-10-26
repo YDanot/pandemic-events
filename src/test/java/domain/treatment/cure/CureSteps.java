@@ -55,4 +55,9 @@ public class CureSteps {
     public void medicShouldBeAbleToCureBlueDisease(Disease disease) throws Throwable {
         Assertions.assertThat(World.game.possibleActions().cure()).contains(disease);
     }
+
+    @Then("^(Blue|Black|Red|Yellow) should have been cured$")
+    public void blueShouldHaveBeenCured(Disease disease) throws Throwable {
+        Assertions.assertThat(World.board.cureMarkerArea.hasBeenCured(disease));
+    }
 }
