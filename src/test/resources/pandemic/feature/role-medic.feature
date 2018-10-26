@@ -14,3 +14,12 @@ Feature: Medic Role handling
     And Paris has already been infected by Blue 3 times
     When Medic treats Blue
     Then Blue infection level of Paris should be 0
+
+  Scenario: automatically removes all cubes when disease cured
+    Given a standard game
+    And it is the turn of Medic
+    And Medic is located at Essen
+    And Paris has already been infected by Blue 3 times
+    And Blue has been cured
+    When Medic drives to Paris
+    Then Blue infection level of Paris should be 0

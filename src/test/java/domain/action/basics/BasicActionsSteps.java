@@ -10,6 +10,7 @@ import domain.role.Role;
 import infra.World;
 import org.assertj.core.api.Assertions;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -19,6 +20,11 @@ public class BasicActionsSteps {
     @And("^(.*) is located at (.*)")
     public void isLocatedAt(Role role, CityName cityName) throws Throwable {
         World.board.locations.move(role, cityName);
+    }
+
+    @When("^(.*) drives to (.*)$")
+    public void drivesTo(Role role, CityName cityName) throws Throwable {
+        drive(role, Collections.singletonList(cityName));
     }
 
     @Then("^(.*) should be able to drive to (.*)$")

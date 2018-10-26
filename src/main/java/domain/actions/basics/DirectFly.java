@@ -6,16 +6,14 @@ import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
 import infra.World;
 
-public class DirectFly extends BasicAction {
-
-    private CityName destination;
+public class DirectFly extends MovementAction {
 
     public DirectFly(CityName destination) {
-        this.destination = destination;
+        super(destination);
     }
 
     @Override
-    public void act(Player player) {
+    public void move(Player player) {
         fly(player, World.game.playerHands.handOf(player));
     }
 
