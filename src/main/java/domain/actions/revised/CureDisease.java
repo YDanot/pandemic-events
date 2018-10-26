@@ -20,19 +20,14 @@ public class CureDisease extends RevisedAction {
     @Override
     public void act(Player player) {
         PlayerHand playerHand = World.game.playerHands.handOf(player);
-        if (noResearchStationBuiltOnLocationOf(player) || countDiseaseCardLowerThanFive(disease, subHand)) {
-            throw new IllegalArgumentException("You cannot cure " + disease + " disease");
+        Curability curability = new Curability(disease, subHand, World.board.locations.locationsOf(player.role()));
+        if (!curability.curable()) {
+            throw new IllegalArgumentException("You cannot curable " + disease + " disease");
         }
 
         subHand.cards().forEach(playerHand::discard);
         World.eventBus.publish(new CureDiscoveringEvent(disease));
     }
 
-    private boolean countDiseaseCardLowerThanFive(Disease disease, SubHand subHand) {
-        return subHand.countDiseaseCard(disease) < 5;
-    }
 
-    private boolean noResearchStationBuiltOnLocationOf(Player player) {
-        return !World.board.researchStations.builtOn(World.board.locations.locationsOf(player.role()));
-    }
 }

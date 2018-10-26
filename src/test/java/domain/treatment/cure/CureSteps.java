@@ -50,4 +50,9 @@ public class CureSteps {
         PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
         Player.as(role).take(new CureDisease(disease, playerHand.subHand(playerHand.get())));
     }
+
+    @Then("^(?:.*) should be able to cure (Blue|Black|Red|Yellow) Disease$")
+    public void medicShouldBeAbleToCureBlueDisease(Disease disease) throws Throwable {
+        Assertions.assertThat(World.game.possibleActions().curable()).contains(disease);
+    }
 }

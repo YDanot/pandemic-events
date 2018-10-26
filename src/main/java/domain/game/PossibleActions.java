@@ -1,8 +1,14 @@
 package domain.game;
 
+import domain.actions.revised.Curability;
+import domain.infection.Disease;
 import domain.network.CityName;
 import domain.player.cards.PlayerHand;
 import infra.World;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PossibleActions {
 
@@ -33,4 +39,8 @@ public class PossibleActions {
         return World.board.researchStations.buildableIn(locationsOfCurrentPlayer);
     }
 
+    public List<Disease> curable() {
+        return Arrays.stream(Disease.values()).filter(d ->
+                new Curability(d, currentPlayerHand, locationsOfCurrentPlayer).curable()).collect(Collectors.toList());
+    }
 }

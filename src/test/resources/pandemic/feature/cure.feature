@@ -44,4 +44,11 @@ Feature: Discover a cure
     And MEDIC hand is Essen,Paris,New_York,London,Washington,Algiers
     And MEDIC is located at Jakarta
     Then MEDIC should not be able to cure Blue disease
-    
+
+
+  Scenario: possibility to discover a cure
+    Given a standard game
+    And MEDIC hand is Essen,Paris,New_York,London,Washington,Algiers
+    And MEDIC is located at Atlanta
+    And it is the turn of MEDIC
+    Then MEDIC should be able to cure Blue Disease
