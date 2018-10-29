@@ -36,8 +36,6 @@ Feature: Research Station
     And a research station has been built on Algiers
     Then Medic should not be able to build a research station
 
-    #TODO If all 6 research stations have been built, take a research station from anywhere on the board.
-
   Scenario: There are only 6 stations
     Given a standard game
     And a research station has been built on Paris,London,Essen,Milan,Madrid,Algiers
