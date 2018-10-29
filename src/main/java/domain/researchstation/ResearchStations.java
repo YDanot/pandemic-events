@@ -32,4 +32,9 @@ public class ResearchStations {
     public boolean buildableIn(CityName location) {
         return stationAvailable() && !builtOn(location);
     }
+
+    public void move(CityName from, CityName to) {
+        locations.remove(from);
+        buildOn(to);
+    }
 }

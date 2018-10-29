@@ -4,7 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import domain.actions.revised.BuildAResearchStation;
-import domain.game.Player;
+import domain.actions.revised.MoveAResearchStation;
 import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
@@ -35,11 +35,7 @@ public class ResearchStationSteps {
         Assertions.assertThat(World.game.possibleActions().buildAResearchStation()).isFalse();
     }
 
-    private void build(Role role) throws ResearchStationException {
-        Player.as(role).take(new BuildAResearchStation());
-    }
-
-    @Then("^a research station should have been built on (.*)$")
+    @Then("^a research station should (?:have been built|be) on (.*)$")
     public void aResearchStationShouldHaveBeenBuiltOnAtlanta(List<CityName> locations) throws Throwable {
         locations.forEach(l -> {
             try {
@@ -50,12 +46,22 @@ public class ResearchStationSteps {
     }
 
     @When("^(?:Medic|Scientist) build a research station$")
-    public void medicBuildAResearchStation() throws Throwable {
-        build(World.game.players.currentTurn().player().role());
+    public void build() throws Throwable {
+        World.game.players.currentTurn().player().take(new BuildAResearchStation());
     }
 
     @Then("^(?:Medic|Scientist) should be able to move a research station$")
     public void medicShouldBeAbleToMoveAResearchStation() throws Throwable {
         Assertions.assertThat(World.game.possibleActions().moveAResearchStation()).isNotEmpty();
+    }
+
+    @When("^(?:Medic|Scientist) move a research station from (.*)$")
+    public void move(CityName cityName) throws Throwable {
+        World.game.players.currentTurn().player().take(new MoveAResearchStation(cityName));
+    }
+
+    @And("^(.*) should not have research station anymore$")
+    public void madridShouldNotHaveResearchStationAnymore(CityName cityName) throws Throwable {
+        Assertions.assertThat(World.board.researchStations.builtOn(cityName)).isFalse();
     }
 }
