@@ -10,7 +10,9 @@ import domain.player.cards.PlayerHand;
 import domain.role.Role;
 import infra.World;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,5 +60,13 @@ public class PossibleActions {
     public List<Disease> treatment() {
         return Arrays.stream(Disease.values()).filter(disease ->
                 new Treatability(locationsOfCurrentPlayer, disease).treatable()).collect(Collectors.toList());
+    }
+
+    public List<CityName> moveAResearchStation() {
+        if (currentPlayerHand != null && locationsOfCurrentPlayer != null &&
+                currentPlayerHand.contains(PlayerCard.valueOf(locationsOfCurrentPlayer.name()))) {
+            return new ArrayList<>(World.board.researchStations.locations);
+        }
+        return Collections.emptyList();
     }
 }

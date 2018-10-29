@@ -53,4 +53,9 @@ public class ResearchStationSteps {
     public void medicBuildAResearchStation() throws Throwable {
         build(World.game.players.currentTurn().player().role());
     }
+
+    @Then("^(?:Medic|Scientist) should be able to move a research station$")
+    public void medicShouldBeAbleToMoveAResearchStation() throws Throwable {
+        Assertions.assertThat(World.game.possibleActions().moveAResearchStation()).isNotEmpty();
+    }
 }
