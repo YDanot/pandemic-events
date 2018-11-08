@@ -36,21 +36,14 @@ Feature: Research Station
     And a research station has been built on Algiers
     Then Medic should not be able to build a research station
 
-  Scenario: There are only 6 stations
-    Given a standard game
-    And a research station has been built on Paris,London,Essen,Milan,Madrid,Algiers
-    And Medic is located at New_york
-    And Medic hand is New_york
-    And it is the turn of Medic
-    Then Medic should not be able to build a research station
-
   Scenario: There are only 6 stations, move a research station instead of building it
     Given a standard game
     And a research station has been built on Paris,London,Essen,Milan,Madrid,Algiers
     And Medic is located at New_york
     And Medic hand contains New_york
     And it is the turn of Medic
-    Then Medic should be able to move a research station
+    Then Medic should not be able to build a research station
+    But Medic should be able to move a research station
 
   Scenario: move a research station
     Given a standard game
