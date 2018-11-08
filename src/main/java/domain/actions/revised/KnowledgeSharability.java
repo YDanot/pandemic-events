@@ -3,14 +3,17 @@ package domain.actions.revised;
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
+import domain.role.Role;
 
 public class KnowledgeSharability {
 
     private final CityName actorLocation;
     private final CityName receiverLocation;
     private final PlayerHand actorHand;
+    private final Role actor;
 
-    public KnowledgeSharability(CityName actorLocation, CityName receiverLocation, PlayerHand actorHand) {
+    public KnowledgeSharability(Role actor, CityName actorLocation, CityName receiverLocation, PlayerHand actorHand) {
+        this.actor = actor;
         this.actorLocation = actorLocation;
         this.receiverLocation = receiverLocation;
         this.actorHand = actorHand;
@@ -25,6 +28,6 @@ public class KnowledgeSharability {
     }
 
     public boolean sharable() {
-        return isInPlaceWithReceiver() && actorHasSharingCardInHand();
+        return isInPlaceWithReceiver() && actorHasSharingCardInHand() || actor.equals(Role.RESEARCHER);
     }
 }

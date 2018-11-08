@@ -53,7 +53,7 @@ public class PossibleActions {
 
     public boolean share() {
         return World.game.players.get().stream().anyMatch(p ->
-                new KnowledgeSharability(locationsOfCurrentPlayer, World.board.locations.locationsOf(p.role()), currentPlayerHand).sharable()
+                new KnowledgeSharability(role, locationsOfCurrentPlayer, World.board.locations.locationsOf(p.role()), currentPlayerHand).sharable()
         );
     }
 
@@ -68,5 +68,9 @@ public class PossibleActions {
             return new ArrayList<>(World.board.researchStations.locations);
         }
         return Collections.emptyList();
+    }
+
+    public boolean shareWithMe() {
+        return locationsOfCurrentPlayer != null && locationsOfCurrentPlayer.equals(World.board.locations.locationsOf(Role.RESEARCHER));
     }
 }

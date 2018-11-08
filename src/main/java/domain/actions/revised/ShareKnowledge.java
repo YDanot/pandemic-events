@@ -23,7 +23,7 @@ public class ShareKnowledge extends RevisedAction {
         CityName receiverLocation = World.board.locations.locationsOf(receiver.role());
         PlayerHand actorHand = World.game.playerHands.handOf(actor);
 
-        if (!new KnowledgeSharability(actorLocation, receiverLocation, actorHand).sharable()) {
+        if (!new KnowledgeSharability(actor.role(), actorLocation, receiverLocation, actorHand).sharable()) {
             throw new ActionImpossible();
         }
 
