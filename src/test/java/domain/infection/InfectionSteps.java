@@ -42,8 +42,13 @@ public class InfectionSteps {
 
     @And("^(.*) has already been infected by (Blue|Black|Red|Yellow) (\\d+) times?$")
     public void cityHasAlreadyBeenInfectedTimes(CityName cityName, Disease disease, int infectionTimes) throws Throwable {
+        City city = World.board.network.get(cityName);
+
+        while (!city.isHealthyFor(Disease.BLUE)) {
+            city.treat(disease);
+            World.board.cubeBank.putBackCube(Disease.BLUE);
+        }
         for (int i = 0; i < infectionTimes; i++) {
-            City city = World.board.network.get(cityName);
             World.eventBus.publish(new InfectionEvent(disease, cityName, currentTurnId, city.infectionLevelFor(disease)));
             if (World.eventBus instanceof AsyncEventBus) {
                 Thread.sleep(10);

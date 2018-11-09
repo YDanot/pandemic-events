@@ -1,12 +1,14 @@
 package domain.game.start;
 
 import domain.board.Board;
+import domain.cube.TakeCubeEvent;
 import domain.game.Game;
 import domain.game.Players;
 import domain.game.TurnId;
 import domain.infection.cards.InfectionCard;
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;
+import infra.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ public class GameStarter {
             InfectionCard draw = board.infectionCardsPiles.pop();
             for (int j = 0; j < nbCubes; j++) {
                 board.network.get(CityName.valueOf(draw.name())).putCube(draw.disease());
+                World.eventBus.publish(new TakeCubeEvent(draw.disease()));
             }
         }
     }

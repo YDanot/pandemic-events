@@ -18,14 +18,18 @@ Feature: Disease cubes
     Then game should be lost
 
   Scenario: Cube counter increment on treatment
-    Given a minimalist game
+    Given an empty standard game
     And Paris has already been infected by Blue 2 times
-    When Blue is treated in Paris
+    And Scientist is located at Paris
+    And it is the turn of Scientist
+    When Scientist treats Blue
     Then There should be 23 blue cubes available
 
   Scenario: Cube counter increment on full treatment
-    Given a minimalist game
+    Given an empty standard game
     And Paris has already been infected by Blue 3 times
     And Blue has been cured
-    When Blue is treated in Paris
+    And Scientist is located at Paris
+    And it is the turn of Scientist
+    When Scientist treats Blue
     Then There should be 24 blue cubes available

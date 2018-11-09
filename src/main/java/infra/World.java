@@ -20,7 +20,6 @@ import domain.network.Network;
 import domain.player.cards.PlayerCardsPiles;
 import domain.researchstation.ResearchStations;
 import domain.role.Role;
-import domain.treatment.Treatment;
 import domain.treatment.cure.CureMarkerArea;
 
 public class World {
@@ -50,7 +49,6 @@ public class World {
         eventBus.listenInfection(new OutbreakDetector());
         eventBus.listenOutbreak(new OutbreakPropagator());
         eventBus.listenOutbreak(World.board.outbreakCounter);
-        eventBus.listenTreatment(new Treatment());
         eventBus.listenCureDiscovering(World.board.cureMarkerArea);
         eventBus.listenMovement(new MedicActionOnMovement());
     }

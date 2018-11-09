@@ -80,7 +80,7 @@ public class GameSteps {
         World.create(board, players);
     }
 
-    @Given("^a starting standard game$")
+    @Given("^(?:a starting|an empty) standard game$")
     public void aStartingStandardGame() throws Throwable {
         setupGame(Players.of(Player.as(SCIENTIST), Player.as(MEDIC)));
     }
@@ -239,10 +239,6 @@ public class GameSteps {
         assertThat(currentTurn.player()).isEqualTo(Player.as(expectedRole));
     }
 
-    @But("^(.*) plays instead of (.*)$")
-    public void dispatcherPlaysInsteadOfScientist(Role player, Role oldPlayer) throws Throwable {
-        setupGame(Players.of(Player.as(SCIENTIST), Player.as(MEDIC)));
-    }
 
     @But("^(.*) are playing$")
     public void scientistDispatcherArePlaying(List<Role> roles) throws Throwable {
@@ -251,8 +247,8 @@ public class GameSteps {
     }
 
     @And("^it is the turn of (.*)$")
-    public void itIsTheTurnOfDispatcher(Role role) throws Throwable {
-        while (!currentTurn.player().role().equals(role)) {
+    public void itIsTheTurnOf(Role role) throws Throwable {
+        while (currentTurn == null || !currentTurn.player().role().equals(role)) {
             currentTurn = World.game.players.newTurn();
         }
     }

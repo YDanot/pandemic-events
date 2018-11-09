@@ -16,8 +16,6 @@ import domain.infection.outbreak.MaxOutbreakNumberReachedEvent;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.infection.outbreak.OutbreakEvent;
 import domain.infection.outbreak.OutbreakListener;
-import domain.treatment.TreatmentEvent;
-import domain.treatment.TreatmentListener;
 import domain.treatment.cure.*;
 
 import java.util.List;
@@ -29,8 +27,6 @@ public interface EventBus {
     void listenInfection(InfectionListener listener);
 
     void listenNoAvailableCubeLeft(NoAvailableCubeLeftListener listener);
-
-    void listenTreatment(TreatmentListener treatmentListener);
 
     void listenCureDiscovering(CureMarkerArea cureMarkerArea);
 
@@ -56,8 +52,6 @@ public interface EventBus {
     void publish(OutbreakEvent outbreakEvent);
 
     void publish(NoAvailableCubeLeftEvent noAvailableCubeLeftEvent);
-
-    void publish(TreatmentEvent treatmentEvent);
 
     void publish(CureDiscoveringEvent cureDiscoveringEvent);
 

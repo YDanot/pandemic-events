@@ -73,16 +73,14 @@ public class PlayerCardsSteps {
 
     private void putAtTopOfDeck(PlayerCard playerCard) {
         Stack<PlayerCard> playerCardStack = World.board.playerCardsPiles.drawPile();
-        if (playerCardStack.remove(playerCard)) {
+        if (playerCardStack.remove(playerCard) || World.board.playerCardsPiles.discardPile().remove(playerCard)) {
             playerCardStack.push(playerCard);
         } else {
-            World.game.players.get().forEach(p -> {
-                PlayerHand playerHand = World.game.playerHands.handOf(p);
-                if (playerHand.contains(playerCard)) {
-                    playerHand.discard(playerCard);
+            World.game.players.get().stream().map(p -> World.game.playerHands.handOf(p)).filter(h -> h.contains(playerCard)).forEach(
+                    playerHand -> {
+                        playerHand.discard(playerCard);
                     World.board.playerCardsPiles.discardPile().remove(playerCard);
                     playerCardStack.push(playerCard);
-                }
             });
             if (playerCard.equals(PlayerCard.EPIDEMIC)) {
                 playerCardStack.push(playerCard);
@@ -113,14 +111,15 @@ public class PlayerCardsSteps {
     @And("^(.*) hand is (.*)$")
     public void handIs(Role role, List<PlayerCard> playerCards) throws Throwable {
         PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
+        playerHand.get().stream().filter(c -> !playerCards.contains(c)).forEach(
+                playerHand::discard
+        );
         playerCards.forEach(
                 p -> {
                     putAtTopOfDeck(p);
                     playerHand.deal(World.board.playerCardsPiles.draw(new TurnId()));
                 });
-        playerHand.get().stream().filter(c -> !playerCards.contains(c)).forEach(
-                playerHand::discard
-        );
+
     }
 
     @And("^(.*) hand contains (.*)$")

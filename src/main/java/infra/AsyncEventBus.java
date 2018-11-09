@@ -17,8 +17,6 @@ import domain.infection.outbreak.MaxOutbreakNumberReachedEvent;
 import domain.infection.outbreak.MaxOutbreakNumberReachedListener;
 import domain.infection.outbreak.OutbreakEvent;
 import domain.infection.outbreak.OutbreakListener;
-import domain.treatment.TreatmentEvent;
-import domain.treatment.TreatmentListener;
 import domain.treatment.cure.*;
 
 import java.util.ArrayList;
@@ -33,7 +31,6 @@ public class AsyncEventBus implements EventBus {
     private final List<InfectionListener> infectionListeners = new ArrayList<>();
     private final List<OutbreakListener> outbreakListeners = new ArrayList<>();
     private final List<NoAvailableCubeLeftListener> noAvailableCubeLeftListeners = new ArrayList<>();
-    private final List<TreatmentListener> treatmentListeners = new ArrayList<>();
     private final List<CureDiscoveringListener> cureDiscoveringListeners = new ArrayList<>();
     private final List<AllDiseasesCuredListener> allDiseasesCuredListeners = new ArrayList<>();
     private final List<MaxOutbreakNumberReachedListener> maxOutbreakNumberReachedEventListeners = new ArrayList<>();
@@ -56,11 +53,6 @@ public class AsyncEventBus implements EventBus {
     @Override
     public void listenNoAvailableCubeLeft(NoAvailableCubeLeftListener listener) {
         noAvailableCubeLeftListeners.add(listener);
-    }
-
-    @Override
-    public void listenTreatment(TreatmentListener treatmentListener) {
-        treatmentListeners.add(treatmentListener);
     }
 
     @Override
@@ -132,11 +124,6 @@ public class AsyncEventBus implements EventBus {
     @Override
     public void publish(NoAvailableCubeLeftEvent noAvailableCubeLeftEvent) {
         CompletableFuture.runAsync(() -> noAvailableCubeLeftListeners.forEach(l -> l.onNoAvailableCubeLeft(noAvailableCubeLeftEvent)));
-    }
-
-    @Override
-    public void publish(TreatmentEvent treatmentEvent) {
-        CompletableFuture.runAsync(() -> treatmentListeners.forEach(l -> l.onTreatment(treatmentEvent)));
     }
 
     @Override

@@ -8,6 +8,9 @@ import domain.network.CityName;
 import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
 import domain.role.Role;
+import domain.treatment.BasicTreatment;
+import domain.treatment.FullTreatment;
+import domain.treatment.Treatment;
 import infra.World;
 
 import java.util.ArrayList;
@@ -57,9 +60,17 @@ public class PossibleActions {
         );
     }
 
-    public List<Disease> treatment() {
+    public List<Treatment> treatment() {
+
         return Arrays.stream(Disease.values()).filter(disease ->
-                new Treatability(locationsOfCurrentPlayer, disease).treatable()).collect(Collectors.toList());
+                new Treatability(locationsOfCurrentPlayer, disease).treatable())
+                .map((Disease d) -> {
+                    if (Role.MEDIC.equals(role) || World.board.cureMarkerArea.hasBeenCured(d)) {
+                        return new FullTreatment(d, locationsOfCurrentPlayer);
+                    }
+                    return new BasicTreatment(d, locationsOfCurrentPlayer);
+                })
+                .collect(Collectors.toList());
     }
 
     public List<CityName> moveAResearchStation() {
