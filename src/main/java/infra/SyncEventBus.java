@@ -1,6 +1,8 @@
 package infra;
 
 
+import domain.actions.basics.MovementEvent;
+import domain.actions.basics.MovementEventListener;
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.cube.TakeCubeEvent;
@@ -38,6 +40,7 @@ public class SyncEventBus implements EventBus {
     private final List<InfectionCardDrawnListener> infectionCardDrawnListeners = new ArrayList<>();
     private final List<TakeCubeEventListener> takeCubeListeners = new ArrayList<>();
     private final List<EpidemicListener> epidemicListeners = new ArrayList<>();
+    private final List<MovementEventListener> movementEventListeners = new ArrayList<>();
 
     public void listenOutbreak(OutbreakListener listener) {
         outbreakListeners.add(listener);
@@ -151,5 +154,15 @@ public class SyncEventBus implements EventBus {
     @Override
     public List<InfectionEvent> getInfectionEvents() {
         return infectionEvents;
+    }
+
+    @Override
+    public void publish(MovementEvent movementEvent) {
+        movementEventListeners.forEach(l -> l.onMovement(movementEvent));
+    }
+
+    @Override
+    public void listenMovement(MovementEventListener movementEventListener) {
+        movementEventListeners.add(movementEventListener);
     }
 }

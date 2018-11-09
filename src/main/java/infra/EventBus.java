@@ -1,5 +1,7 @@
 package infra;
 
+import domain.actions.basics.MovementEvent;
+import domain.actions.basics.MovementEventListener;
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.cube.TakeCubeEvent;
@@ -47,6 +49,8 @@ public interface EventBus {
 
     List<OutbreakEvent> getOutbreakEvents();
 
+    void listenMovement(MovementEventListener movementEventListener);
+
     void publish(InfectionEvent infectionEvent);
 
     void publish(OutbreakEvent outbreakEvent);
@@ -72,4 +76,6 @@ public interface EventBus {
     List<EpidemicEvent> getEpidemicEvents();
 
     List<InfectionEvent> getInfectionEvents();
+
+    void publish(MovementEvent movementEvent);
 }

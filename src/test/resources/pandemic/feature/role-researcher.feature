@@ -14,13 +14,6 @@ Feature: Researcher Role handling
     And it is the turn of Researcher
     Then Researcher should be able to share knowledge
 
-  Scenario: Researcher may give any City card from her hand to another player in the same city as her
-    Given a standard game
-    But Scientist, Researcher are playing
-    And Scientist is located at Paris
-    And Researcher is located at Paris
-    And it is the turn of Scientist
-    Then Scientist should be able to ask Researcher to share knowledge
 
   Scenario: Researcher's turn
     Given a standard game
@@ -33,6 +26,15 @@ Feature: Researcher Role handling
     When Researcher shares Baghdad with Scientist
     Then Scientist hand should be Essen,Algiers,Baghdad
     And Researcher hand should be New_York
+
+
+  Scenario: Researcher may give any City card from her hand to another player in the same city as her
+    Given a standard game
+    But Scientist, Researcher are playing
+    And Scientist is located at Paris
+    And Researcher is located at Paris
+    And it is the turn of Scientist
+    Then Scientist should be able to ask Researcher to share knowledge
 
   Scenario: other player's turn
     Given a standard game

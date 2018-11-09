@@ -1,5 +1,6 @@
 package infra;
 
+import domain.actions.role.MedicActionOnMovement;
 import domain.board.Board;
 import domain.board.PawnLocations;
 import domain.cube.CubeBank;
@@ -51,6 +52,7 @@ public class World {
         eventBus.listenOutbreak(World.board.outbreakCounter);
         eventBus.listenTreatment(new Treatment());
         eventBus.listenCureDiscovering(World.board.cureMarkerArea);
+        eventBus.listenMovement(new MedicActionOnMovement());
     }
 
 }
