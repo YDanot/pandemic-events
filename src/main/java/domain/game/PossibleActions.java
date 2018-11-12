@@ -1,8 +1,8 @@
 package domain.game;
 
-import domain.actions.revised.Curability;
-import domain.actions.revised.KnowledgeSharability;
-import domain.actions.revised.Treatability;
+import domain.actions.revised.curing.Curability;
+import domain.actions.revised.sharing.KnowledgeSharability;
+import domain.actions.revised.treatment.Treatability;
 import domain.infection.Disease;
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;

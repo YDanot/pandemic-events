@@ -1,5 +1,6 @@
-package domain.actions.revised;
+package domain.actions.revised.treatment;
 
+import domain.actions.revised.RevisedAction;
 import domain.game.Player;
 import domain.treatment.Treatment;
 

@@ -2,6 +2,6 @@ package domain.actions.revised;
 
 import domain.actions.Action;
 
-abstract class RevisedAction extends Action {
+public abstract class RevisedAction extends Action {
 
 }

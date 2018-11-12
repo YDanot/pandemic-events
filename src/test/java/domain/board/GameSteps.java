@@ -1,7 +1,7 @@
 package domain.board;
 
 import cucumber.api.java.en.*;
-import domain.actions.basics.DriveOrFerry;
+import domain.actions.movement.DriveOrFerry;
 import domain.cube.CubeBank;
 import domain.game.*;
 import domain.game.start.GameStarter;

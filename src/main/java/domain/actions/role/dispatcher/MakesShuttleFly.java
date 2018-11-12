@@ -1,6 +1,6 @@
 package domain.actions.role.dispatcher;
 
-import domain.actions.basics.ShuttleFly;
+import domain.actions.movement.ShuttleFly;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;

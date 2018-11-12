@@ -1,8 +1,8 @@
 package infra;
 
 
-import domain.actions.basics.MovementEvent;
-import domain.actions.basics.MovementEventListener;
+import domain.actions.movement.MovementEvent;
+import domain.actions.movement.MovementEventListener;
 import domain.cube.NoAvailableCubeLeftEvent;
 import domain.cube.NoAvailableCubeLeftListener;
 import domain.cube.TakeCubeEvent;

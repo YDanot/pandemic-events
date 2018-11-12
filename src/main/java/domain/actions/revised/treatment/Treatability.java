@@ -1,4 +1,4 @@
-package domain.actions.revised;
+package domain.actions.revised.treatment;
 
 import domain.infection.Disease;
 import domain.network.CityName;

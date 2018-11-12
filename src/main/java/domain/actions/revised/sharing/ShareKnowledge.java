@@ -1,6 +1,7 @@
-package domain.actions.revised;
+package domain.actions.revised.sharing;
 
 import domain.actions.ActionImpossible;
+import domain.actions.revised.RevisedAction;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;

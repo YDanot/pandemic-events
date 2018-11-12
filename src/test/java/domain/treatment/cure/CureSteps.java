@@ -3,7 +3,7 @@ package domain.treatment.cure;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domain.actions.revised.CureDisease;
+import domain.actions.revised.curing.CureDisease;
 import domain.game.Player;
 import domain.infection.Disease;
 import domain.player.cards.PlayerCard;

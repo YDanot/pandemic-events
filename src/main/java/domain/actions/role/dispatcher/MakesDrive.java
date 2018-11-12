@@ -1,6 +1,6 @@
 package domain.actions.role.dispatcher;
 
-import domain.actions.basics.DriveOrFerry;
+import domain.actions.movement.DriveOrFerry;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;

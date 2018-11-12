@@ -1,7 +1,7 @@
 package domain.actions.role;
 
-import domain.actions.basics.MovementEvent;
-import domain.actions.basics.MovementEventListener;
+import domain.actions.movement.MovementEvent;
+import domain.actions.movement.MovementEventListener;
 import domain.infection.Disease;
 import domain.treatment.FullTreatment;
 

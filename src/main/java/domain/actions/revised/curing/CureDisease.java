@@ -1,5 +1,6 @@
-package domain.actions.revised;
+package domain.actions.revised.curing;
 
+import domain.actions.revised.RevisedAction;
 import domain.game.Player;
 import domain.infection.Disease;
 import domain.player.cards.PlayerHand;
@@ -22,7 +23,7 @@ public class CureDisease extends RevisedAction {
         PlayerHand playerHand = World.game.playerHands.handOf(player);
         Curability curability = new Curability(disease, subHand, World.board.locations.locationsOf(player.role()), player.role());
         if (!curability.curable()) {
-            throw new IllegalArgumentException("You cannot cure " + disease + " disease");
+            throw new IllegalArgumentException("You cannot curing " + disease + " disease");
         }
 
         subHand.cards().forEach(playerHand::discard);

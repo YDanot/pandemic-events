@@ -1,4 +1,4 @@
-package domain.actions.basics;
+package domain.actions.movement;
 
 public interface MovementEventListener {
 

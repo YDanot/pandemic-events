@@ -1,5 +1,7 @@
-package domain.actions.revised;
+package domain.actions.revised.researchstation;
 
+import domain.actions.ActionImpossible;
+import domain.actions.revised.RevisedAction;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;
@@ -20,9 +22,15 @@ public class MoveAResearchStation extends RevisedAction {
         CityName location = World.board.locations.locationsOf(p.role());
         PlayerCard locationCard = PlayerCard.valueOf(location.name());
 
-        if (playerHand.contains(locationCard)) {
-            World.board.researchStations.move(from, location);
-            playerHand.discard(locationCard);
+        Buildability buildability = new Buildability(playerHand, location);
+
+        if (!buildability.buildable()) {
+            throw new ActionImpossible("You cannot move a research station in " + location);
         }
+
+        World.board.researchStations.move(from, location);
+        playerHand.discard(locationCard);
+
+
     }
 }

@@ -1,4 +1,4 @@
-package domain.actions.basics;
+package domain.actions.movement;
 
 import domain.game.Player;
 import domain.network.CityName;

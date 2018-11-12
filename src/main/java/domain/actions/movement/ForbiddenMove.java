@@ -1,4 +1,4 @@
-package domain.actions.basics;
+package domain.actions.movement;
 
 import domain.actions.ActionImpossible;
 import domain.network.CityName;

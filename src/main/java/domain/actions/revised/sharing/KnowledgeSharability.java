@@ -1,4 +1,4 @@
-package domain.actions.revised;
+package domain.actions.revised.sharing;
 
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;

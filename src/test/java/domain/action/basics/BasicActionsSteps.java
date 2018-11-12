@@ -3,7 +3,7 @@ package domain.action.basics;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domain.actions.basics.*;
+import domain.actions.movement.*;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;

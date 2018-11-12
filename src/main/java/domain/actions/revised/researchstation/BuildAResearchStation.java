@@ -1,5 +1,7 @@
-package domain.actions.revised;
+package domain.actions.revised.researchstation;
 
+import domain.actions.ActionImpossible;
+import domain.actions.revised.RevisedAction;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;
@@ -14,9 +16,13 @@ public class BuildAResearchStation extends RevisedAction {
         CityName location = World.board.locations.locationsOf(player.role());
         PlayerCard locationCard = PlayerCard.valueOf(location.name());
 
-        if (playerHand.contains(locationCard)) {
-            World.board.researchStations.buildOn(location);
-            playerHand.discard(locationCard);
+        Buildability buildability = new Buildability(playerHand, location);
+
+        if (!buildability.buildable()) {
+            throw new ActionImpossible("You cannot build a research station in " + location);
         }
+
+        World.board.researchStations.buildOn(location);
+        playerHand.discard(locationCard);
     }
 }

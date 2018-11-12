@@ -1,6 +1,6 @@
 package domain.actions.role.dispatcher;
 
-import domain.actions.basics.DirectFly;
+import domain.actions.movement.DirectFly;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;
