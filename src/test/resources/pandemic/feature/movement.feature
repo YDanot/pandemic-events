@@ -13,63 +13,72 @@ Feature: Basics Action
   Play the card corresponding to your pawn’s current location, and move to any city on the board. Discard the card to the Player Discard pile.
 
   Scenario: Drive (or Ferry) on an adjacent city
-    Given a minimalist game
+    Given a standard game
     And Scientist is located at Paris
+    And it is the turn of Scientist
     Then Scientist should be able to drive to London, Essen, Milan, Algiers, Madrid
 
   Scenario: Drive (or Ferry) on a non adjacent city
-    Given a minimalist game
+    Given a standard game
     And Scientist is located at New_york
+    And it is the turn of Scientist
     Then Scientist should not be able to drive to Algiers
 
 
   Scenario: Shuttle Flight with both research station on location and destination
-    Given a minimalist game
+    Given a standard game
     And a research station has been built on New_York, Essen
     And Scientist is located at New_York
+    And it is the turn of Scientist
     Then Scientist should be able to shuttle flight to Essen
 
   Scenario: Shuttle Flight without research stations on location
-    Given a minimalist game
+    Given a standard game
     And a research station has been built on New_York, Essen
     And Scientist is located at Algiers
+    And it is the turn of Scientist
     Then Scientist should not be able to shuttle flight to New_York
 
   Scenario: Shuttle Flight without research stations on destination
-    Given a minimalist game
+    Given a standard game
     And a research station has been built on Essen
     And Scientist is located at Essen
+    And it is the turn of Scientist
     Then Scientist should not be able to shuttle flight to New_York
 
 
   Scenario: Direct Flight
-    Given a minimalist game
+    Given a standard game
     And Scientist is located at Essen
     And Scientist hand is New_York,Algiers
     When Scientist direct flies to New_York
+    And it is the turn of Scientist
     Then Scientist should be located at New_York
     And Scientist hand should be Algiers
     And the player discard pile should contains New_York
 
   Scenario: Direct Flight impossible
-    Given a minimalist game
+    Given a standard game
     And Scientist is located at Essen
     And Scientist hand is Paris,Algiers
+    And it is the turn of Scientist
     Then Scientist should not be able to direct flight to New_York
 
   Scenario: Charter Flight
-    Given a minimalist game
+    Given a standard game
     And Scientist is located at Essen
     And Scientist hand is Essen,Algiers
     When Scientist charter flies to New_York
+    And it is the turn of Scientist
     Then Scientist should be located at New_York
     And Scientist hand should be Algiers
     And the player discard pile should contains Essen
 
   Scenario: Charter Flight impossible
-    Given a minimalist game
+    Given a standard game
     And Scientist is located at Essen
     And Scientist hand is Paris,Algiers
+    And it is the turn of Scientist
     Then Scientist should not be able to charter flight to New_York
 
   Scenario: possible driving destination

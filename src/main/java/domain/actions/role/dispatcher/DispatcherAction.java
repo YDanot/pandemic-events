@@ -5,6 +5,8 @@ import domain.actions.role.RoleAction;
 import domain.game.Player;
 import domain.role.Role;
 
+import java.util.Optional;
+
 public abstract class DispatcherAction extends RoleAction {
 
     private final Agreement agreement;
@@ -15,13 +17,15 @@ public abstract class DispatcherAction extends RoleAction {
     }
 
     @Override
-    public void act(Player p) {
+    public Optional<ActionImpossible> act(Player p) {
+        Optional<ActionImpossible> errors = Optional.empty();
         if (!agreement.agreed()) {
-            throw new ActionImpossible("you don't have agreement of the player that you try to make move");
+            errors = Optional.of(ActionImpossible.NO_AGREEMENT);
         }
         super.act(p);
+        return errors;
     }
 
     @Override
-    public abstract void specialAct(Player p);
+    public abstract Optional<ActionImpossible> specialAct(Player p);
 }

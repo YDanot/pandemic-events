@@ -1,9 +1,12 @@
 package domain.actions.role.dispatcher;
 
+import domain.actions.ActionImpossible;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
+
+import java.util.Optional;
 
 public class JoinPawns extends DispatcherAction {
 
@@ -17,9 +20,10 @@ public class JoinPawns extends DispatcherAction {
     }
 
     @Override
-    public void specialAct(Player p) {
+    public Optional<ActionImpossible> specialAct(Player p) {
         CityName destination = World.board.locations.locationsOf(joined);
         World.board.locations.move(joiner, destination);
+        return Optional.empty();
     }
 
 }

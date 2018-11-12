@@ -3,6 +3,7 @@ package domain.treatment.cure;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import domain.actions.ActionImpossible;
 import domain.actions.revised.curing.CureDisease;
 import domain.game.Player;
 import domain.infection.Disease;
@@ -14,6 +15,7 @@ import org.assertj.core.api.Assertions;
 import run.AsyncAssertions;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 
@@ -43,12 +45,12 @@ public class CureSteps {
 
     @Then("^(.*) should not be able to cure (Blue|Black|Red|Yellow) disease$")
     public void medicShouldNotBeAbleToCureBlueDisease(Role role, Disease disease) throws Throwable {
-        Assertions.assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> cure(role, disease));
+        Assertions.assertThat(cure(role, disease)).isPresent();
     }
 
-    private void cure(Role role, Disease disease) {
+    private Optional<ActionImpossible> cure(Role role, Disease disease) {
         PlayerHand playerHand = World.game.playerHands.handOf(Player.as(role));
-        Player.as(role).take(new CureDisease(disease, playerHand.subHand(playerHand.get())));
+        return Player.as(role).take(new CureDisease(disease, playerHand.subHand(playerHand.get())));
     }
 
     @Then("^(?:.*) should be able to cure (Blue|Black|Red|Yellow) Disease$")

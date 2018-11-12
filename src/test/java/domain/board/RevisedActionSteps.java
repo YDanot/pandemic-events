@@ -2,7 +2,6 @@ package domain.board;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domain.actions.ActionImpossible;
 import domain.actions.revised.sharing.ShareKnowledge;
 import domain.game.Player;
 import domain.network.CityName;
@@ -20,9 +19,7 @@ public class RevisedActionSteps {
 
     @Then("^(.*) should not be able to share (.*) with (.*)$")
     public void medicShouldNotBeAbleToShareParisWithScientist(Role doer, CityName cityName, Role receiver) throws Throwable {
-        Assertions.assertThatExceptionOfType(ActionImpossible.class).isThrownBy(
-                () -> Player.as(doer).take(new ShareKnowledge(Player.as(receiver), PlayerCard.valueOf(cityName.name())))
-        );
+        Assertions.assertThat(Player.as(doer).take(new ShareKnowledge(Player.as(receiver), PlayerCard.valueOf(cityName.name())))).isPresent();
     }
 
     @Then("^(?:.*) should be able to share knowledge$")

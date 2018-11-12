@@ -1,11 +1,14 @@
 package domain.actions.revised.curing;
 
+import domain.actions.ActionImpossible;
 import domain.infection.Disease;
 import domain.network.CityName;
 import domain.player.cards.PlayerHand;
 import domain.player.cards.SubHand;
 import domain.role.Role;
 import infra.World;
+
+import java.util.Optional;
 
 public class Curability {
 
@@ -28,8 +31,19 @@ public class Curability {
         this.role = role;
     }
 
-    public boolean curable() {
-        return hasEnoughCardOfDiseaseColorInHisHand() && researchStationBuiltOnLocationOf();
+    public Optional<ActionImpossible> curable() {
+        ActionImpossible cause = null;
+
+        if (!hasEnoughCardOfDiseaseColorInHisHand()) {
+            cause = ActionImpossible.CURE_HAS_NOT_ENOUGH_COLOR_CARD;
+        }
+
+        if (!researchStationBuiltOnLocationOf()) {
+            cause = ActionImpossible.CURE_NO_RESEARCH_STATION_BUILT;
+        }
+
+        return Optional.ofNullable(cause);
+
     }
 
     private boolean hasEnoughCardOfDiseaseColorInHisHand() {

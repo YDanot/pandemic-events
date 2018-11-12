@@ -1,12 +1,19 @@
 package domain.actions;
 
-public class ActionImpossible extends RuntimeException {
+public enum ActionImpossible {
 
-    public ActionImpossible(String message) {
-        super(message);
-    }
+    SHARE_KNOWLEDGE_ACTOR_DOES_NOT_HAVE_CARD_IN_HAND,
+    SHARE_KNOWLEDGE_ARE_NOT_IN_THE_SAME_PLACE,
 
-    public ActionImpossible() {
-        super();
-    }
+    BUILD_STATION_ACTOR_DOES_NOT_HAVE_CARD_IN_HAND,
+    BUILD_STATION_ALREADY_BUILT,
+
+    CURE_HAS_NOT_ENOUGH_COLOR_CARD,
+    CURE_NO_RESEARCH_STATION_BUILT,
+
+    TREATMENT_HEALTHY_CITY,
+
+    CHARTER_BUILD_STATION_ACTOR_DOES_NOT_HAVE_CARD_IN_HAND, DIRECTFLY_BUILD_STATION_ACTOR_DOES_NOT_HAVE_CARD_IN_HAND, DRIVE_CITIES_NOT_LINKED, SHUTTLE_NO_STATION_ON_CITIES, WRONG_ROLE, NO_AGREEMENT,
+
+
 }

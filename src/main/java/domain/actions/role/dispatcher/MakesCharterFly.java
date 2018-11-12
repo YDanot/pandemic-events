@@ -1,10 +1,13 @@
 package domain.actions.role.dispatcher;
 
+import domain.actions.ActionImpossible;
 import domain.actions.movement.CharterFly;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
+
+import java.util.Optional;
 
 public class MakesCharterFly extends DispatcherAction {
 
@@ -18,9 +21,9 @@ public class MakesCharterFly extends DispatcherAction {
     }
 
     @Override
-    public void specialAct(Player p) {
+    public Optional<ActionImpossible> specialAct(Player p) {
         CharterFly charter = new CharterFly(destination);
-        charter.fly(Player.as(pawn), World.game.playerHands.handOf(p));
+        return charter.fly(Player.as(pawn), World.game.playerHands.handOf(p));
     }
 
 }

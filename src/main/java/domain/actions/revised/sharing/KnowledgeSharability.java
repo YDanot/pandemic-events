@@ -1,9 +1,12 @@
 package domain.actions.revised.sharing;
 
+import domain.actions.ActionImpossible;
 import domain.network.CityName;
 import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
 import domain.role.Role;
+
+import java.util.Optional;
 
 public class KnowledgeSharability {
 
@@ -27,7 +30,15 @@ public class KnowledgeSharability {
         return actorHand.contains(PlayerCard.valueOf(actorLocation.name()));
     }
 
-    public boolean sharable() {
-        return isInPlaceWithReceiver() && actorHasSharingCardInHand() || actor.equals(Role.RESEARCHER);
+    public Optional<ActionImpossible> sharable() {
+        if (!isInPlaceWithReceiver()) {
+            return Optional.of(ActionImpossible.SHARE_KNOWLEDGE_ARE_NOT_IN_THE_SAME_PLACE);
+        }
+
+        if (!actorHasSharingCardInHand() && !actor.equals(Role.RESEARCHER)) {
+            return Optional.of(ActionImpossible.SHARE_KNOWLEDGE_ACTOR_DOES_NOT_HAVE_CARD_IN_HAND);
+        }
+
+        return Optional.empty();
     }
 }

@@ -1,8 +1,11 @@
 package domain.game;
 
 import domain.actions.Action;
+import domain.actions.ActionImpossible;
 import domain.player.cards.PlayerCard;
 import infra.World;
+
+import java.util.Optional;
 
 public class Gameplay {
 
@@ -16,9 +19,10 @@ public class Gameplay {
         this.turn = turn;
     }
 
-    public void take(Action action) {
-        turn.player().take(action);
+    public Optional<ActionImpossible> take(Action action) {
+        Optional<ActionImpossible> take = turn.player().take(action);
         actionCounter--;
+        return take;
     }
 
     public void pass() {

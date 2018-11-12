@@ -21,6 +21,11 @@ public class FullTreatment implements Treatment {
     }
 
     @Override
+    public CityName location() {
+        return cityName;
+    }
+
+    @Override
     public void treat() {
         City city = World.board.network.get(cityName);
         while (!city.isHealthyFor(disease)) {

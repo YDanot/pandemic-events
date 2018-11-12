@@ -1,7 +1,10 @@
 package domain.game;
 
 import domain.actions.Action;
+import domain.actions.ActionImpossible;
 import domain.role.Role;
+
+import java.util.Optional;
 
 public class Player {
 
@@ -19,8 +22,8 @@ public class Player {
         return role;
     }
 
-    public void take(Action action) {
-        action.act(this);
+    public Optional<ActionImpossible> take(Action action) {
+        return action.act(this);
     }
 
     @Override

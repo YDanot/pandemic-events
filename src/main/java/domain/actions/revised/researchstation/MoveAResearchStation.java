@@ -8,6 +8,8 @@ import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
 import infra.World;
 
+import java.util.Optional;
+
 public class MoveAResearchStation extends RevisedAction {
 
     private CityName from;
@@ -17,20 +19,21 @@ public class MoveAResearchStation extends RevisedAction {
     }
 
     @Override
-    public void act(Player p) {
+    public Optional<ActionImpossible> act(Player p) {
         PlayerHand playerHand = World.game.playerHands.handOf(p);
         CityName location = World.board.locations.locationsOf(p.role());
         PlayerCard locationCard = PlayerCard.valueOf(location.name());
 
         Buildability buildability = new Buildability(playerHand, location);
 
-        if (!buildability.buildable()) {
-            throw new ActionImpossible("You cannot move a research station in " + location);
+        Optional<ActionImpossible> buildable = buildability.buildable();
+
+        if (!buildable.isPresent()) {
+            World.board.researchStations.move(from, location);
+            playerHand.discard(locationCard);
         }
 
-        World.board.researchStations.move(from, location);
-        playerHand.discard(locationCard);
 
-
+        return buildable;
     }
 }

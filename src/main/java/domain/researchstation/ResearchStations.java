@@ -25,7 +25,7 @@ public class ResearchStations {
         return locations.contains(location);
     }
 
-    private boolean stationAvailable() {
+    public boolean stationAvailable() {
         return locations.size() <= NUMBER_OF_STATIONS;
     }
 

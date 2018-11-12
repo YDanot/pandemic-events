@@ -8,6 +8,8 @@ import domain.player.cards.PlayerCard;
 import domain.player.cards.PlayerHand;
 import infra.World;
 
+import java.util.Optional;
+
 public class ShareKnowledge extends RevisedAction {
 
     private final Player receiver;
@@ -19,16 +21,20 @@ public class ShareKnowledge extends RevisedAction {
     }
 
     @Override
-    public void act(Player actor) {
+    public Optional<ActionImpossible> act(Player actor) {
+
         CityName actorLocation = World.board.locations.locationsOf(actor.role());
         CityName receiverLocation = World.board.locations.locationsOf(receiver.role());
         PlayerHand actorHand = World.game.playerHands.handOf(actor);
 
-        if (!new KnowledgeSharability(actor.role(), actorLocation, receiverLocation, actorHand).sharable()) {
-            throw new ActionImpossible();
+        KnowledgeSharability knowledgeSharability = new KnowledgeSharability(actor.role(), actorLocation, receiverLocation, actorHand);
+        Optional<ActionImpossible> sharable = knowledgeSharability.sharable();
+
+        if (!sharable.isPresent()) {
+            actorHand.pull(playerCard);
+            World.game.playerHands.handOf(receiver).deal(playerCard);
         }
 
-        actorHand.pull(playerCard);
-        World.game.playerHands.handOf(receiver).deal(playerCard);
+        return sharable;
     }
 }

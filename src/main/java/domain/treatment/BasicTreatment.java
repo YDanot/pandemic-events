@@ -21,6 +21,11 @@ public class BasicTreatment implements Treatment {
     }
 
     @Override
+    public CityName location() {
+        return cityName;
+    }
+
+    @Override
     public void treat() {
         City city = World.board.network.get(cityName);
         city.treat(disease);

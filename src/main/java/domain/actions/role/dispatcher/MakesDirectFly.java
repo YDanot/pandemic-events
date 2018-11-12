@@ -1,10 +1,13 @@
 package domain.actions.role.dispatcher;
 
+import domain.actions.ActionImpossible;
 import domain.actions.movement.DirectFly;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;
 import infra.World;
+
+import java.util.Optional;
 
 public class MakesDirectFly extends DispatcherAction {
 
@@ -18,9 +21,9 @@ public class MakesDirectFly extends DispatcherAction {
     }
 
     @Override
-    public void specialAct(Player actor) {
+    public Optional<ActionImpossible> specialAct(Player actor) {
         DirectFly directFly = new DirectFly(destination);
-        directFly.fly(Player.as(pawn), World.game.playerHands.handOf(actor));
+        return directFly.fly(Player.as(pawn), World.game.playerHands.handOf(actor));
     }
 
 }

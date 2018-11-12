@@ -1,6 +1,8 @@
 package domain.game;
 
+import domain.actions.ActionImpossible;
 import domain.actions.revised.curing.Curability;
+import domain.actions.revised.researchstation.Buildability;
 import domain.actions.revised.sharing.KnowledgeSharability;
 import domain.actions.revised.treatment.Treatability;
 import domain.infection.Disease;
@@ -13,10 +15,7 @@ import domain.treatment.FullTreatment;
 import domain.treatment.Treatment;
 import infra.World;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PossibleActions {
@@ -44,26 +43,28 @@ public class PossibleActions {
     }
 
     public boolean buildAResearchStation() {
-        return currentPlayerHand != null && locationsOfCurrentPlayer != null &&
-                currentPlayerHand.contains(PlayerCard.valueOf(locationsOfCurrentPlayer.name())) &&
-                World.board.researchStations.buildableIn(locationsOfCurrentPlayer);
+        return World.board.researchStations.stationAvailable() &&
+                !new Buildability(currentPlayerHand, locationsOfCurrentPlayer).buildable().isPresent();
     }
 
     public List<Disease> cure() {
         return Arrays.stream(Disease.values()).filter(disease ->
-                new Curability(disease, currentPlayerHand, locationsOfCurrentPlayer, role).curable()).collect(Collectors.toList());
+                !new Curability(disease, currentPlayerHand, locationsOfCurrentPlayer, role).curable().isPresent()).collect(Collectors.toList());
     }
 
     public boolean share() {
-        return World.game.players.get().stream().anyMatch(p ->
-                new KnowledgeSharability(role, locationsOfCurrentPlayer, World.board.locations.locationsOf(p.role()), currentPlayerHand).sharable()
+        return World.game.players.get().stream().filter(p -> !p.role().equals(role)).anyMatch(p -> {
+                    Optional<ActionImpossible> sharable =
+                            new KnowledgeSharability(role, locationsOfCurrentPlayer, World.board.locations.locationsOf(p.role()), currentPlayerHand).sharable();
+                    return !sharable.isPresent();
+                }
         );
     }
 
     public List<Treatment> treatment() {
 
         return Arrays.stream(Disease.values()).filter(disease ->
-                new Treatability(locationsOfCurrentPlayer, disease).treatable())
+                !new Treatability(locationsOfCurrentPlayer, disease).treatable().isPresent())
                 .map((Disease d) -> {
                     if (Role.MEDIC.equals(role) || World.board.cureMarkerArea.hasBeenCured(d)) {
                         return new FullTreatment(d, locationsOfCurrentPlayer);

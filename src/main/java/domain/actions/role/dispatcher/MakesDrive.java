@@ -1,9 +1,12 @@
 package domain.actions.role.dispatcher;
 
+import domain.actions.ActionImpossible;
 import domain.actions.movement.DriveOrFerry;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;
+
+import java.util.Optional;
 
 public class MakesDrive extends DispatcherAction {
 
@@ -17,8 +20,8 @@ public class MakesDrive extends DispatcherAction {
     }
 
     @Override
-    public void specialAct(Player p) {
-        Player.as(role).take(new DriveOrFerry(destination));
+    public Optional<ActionImpossible> specialAct(Player p) {
+        return Player.as(role).take(new DriveOrFerry(destination));
     }
 
 }

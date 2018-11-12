@@ -1,8 +1,11 @@
 package domain.actions.revised.treatment;
 
+import domain.actions.ActionImpossible;
 import domain.infection.Disease;
 import domain.network.CityName;
 import infra.World;
+
+import java.util.Optional;
 
 public class Treatability {
 
@@ -14,7 +17,14 @@ public class Treatability {
         this.disease = disease;
     }
 
-    public boolean treatable() {
-        return !World.board.network.get(locationOfActor).infectionLevelFor(disease).isZero();
+    public Optional<ActionImpossible> treatable() {
+        ActionImpossible cause = null;
+
+        if (World.board.network.get(locationOfActor).isHealthyFor(disease)) {
+            cause = ActionImpossible.TREATMENT_HEALTHY_CITY;
+        }
+
+        return Optional.ofNullable(cause);
+
     }
 }

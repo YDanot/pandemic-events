@@ -5,6 +5,8 @@ import domain.actions.ActionImpossible;
 import domain.game.Player;
 import domain.role.Role;
 
+import java.util.Optional;
+
 public abstract class RoleAction extends Action {
 
     private final Role role;
@@ -18,12 +20,13 @@ public abstract class RoleAction extends Action {
     }
 
     @Override
-    public void act(Player p) {
+    public Optional<ActionImpossible> act(Player p) {
         if (!p.role().equals(role())) {
-            throw new ActionImpossible(this.getClass().getSimpleName() + " cannot be performed by " + p.role());
+            return Optional.of(ActionImpossible.WRONG_ROLE);
+
         }
-        specialAct(p);
+        return specialAct(p);
     }
 
-    protected abstract void specialAct(Player p);
+    protected abstract Optional<ActionImpossible> specialAct(Player p);
 }

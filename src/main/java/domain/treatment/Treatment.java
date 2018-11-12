@@ -1,6 +1,7 @@
 package domain.treatment;
 
 import domain.infection.Disease;
+import domain.network.CityName;
 
 public interface Treatment {
 
@@ -8,4 +9,5 @@ public interface Treatment {
 
     Disease disease();
 
+    CityName location();
 }

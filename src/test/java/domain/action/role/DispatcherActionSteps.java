@@ -3,7 +3,6 @@ package domain.action.role;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domain.actions.ActionImpossible;
 import domain.actions.role.dispatcher.*;
 import domain.network.CityName;
 import domain.role.Role;
@@ -19,8 +18,8 @@ public class DispatcherActionSteps {
 
     @Then("^he should not be able to joins (.*) and (.*)$")
     public void heShouldNotBeAbleToJoinsDispatcherAndScientist(Role joined, Role joiner) throws Throwable {
-        Assertions.assertThatExceptionOfType(ActionImpossible.class).isThrownBy(() ->
-                World.game.players.currentTurn().gameplay().take(new JoinPawns(agreementOf(joiner), joiner, joined)));
+        Assertions.assertThat(
+                World.game.players.currentTurn().gameplay().take(new JoinPawns(agreementOf(joiner), joiner, joined))).isPresent();
     }
 
     @Then("^he should be able to make (.*) drive to (.*)$")

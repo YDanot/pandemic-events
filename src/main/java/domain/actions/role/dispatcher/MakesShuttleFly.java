@@ -1,9 +1,12 @@
 package domain.actions.role.dispatcher;
 
+import domain.actions.ActionImpossible;
 import domain.actions.movement.ShuttleFly;
 import domain.game.Player;
 import domain.network.CityName;
 import domain.role.Role;
+
+import java.util.Optional;
 
 public class MakesShuttleFly extends DispatcherAction {
 
@@ -17,8 +20,8 @@ public class MakesShuttleFly extends DispatcherAction {
     }
 
     @Override
-    public void specialAct(Player p) {
-        Player.as(actor).take(new ShuttleFly(destination));
+    public Optional<ActionImpossible> specialAct(Player p) {
+        return Player.as(actor).take(new ShuttleFly(destination));
     }
 
 }
