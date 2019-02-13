@@ -12,6 +12,7 @@ Feature: Basics Action
   Charter Flight
   Play the card corresponding to your pawn’s current location, and move to any city on the board. Discard the card to the Player Discard pile.
 
+
   Scenario: Drive (or Ferry) on an adjacent city
     Given a standard game
     And Scientist is located at Paris
@@ -23,7 +24,6 @@ Feature: Basics Action
     And Scientist is located at New_york
     And it is the turn of Scientist
     Then Scientist should not be able to drive to Algiers
-
 
   Scenario: Shuttle Flight with both research station on location and destination
     Given a standard game

@@ -53,7 +53,4 @@ public class PlayerHand {
         hands.get(playerCard.color()).remove(playerCard);
     }
 
-    public boolean has5CardsOfTheSameColor() {
-        return hands.values().stream().anyMatch((l) -> l.size() == 5);
-    }
 }
